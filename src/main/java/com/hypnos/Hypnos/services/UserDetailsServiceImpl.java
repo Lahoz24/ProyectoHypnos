@@ -17,6 +17,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     private final UserDetailsRepository userDetailsRepository;
     private final PasswordEncoder passwordEncoder;
 
+    public User save(User user){
+        return userDetailsRepository.save(user);
+    }
     public UserDetailsServiceImpl(UserDetailsRepository userDetailsRepository, PasswordEncoder passwordEncoder) {
         this.userDetailsRepository = userDetailsRepository;
         this.passwordEncoder = passwordEncoder;
@@ -37,6 +40,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                         )
                 )
         );
+
+
     }
 }
 

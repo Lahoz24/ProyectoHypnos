@@ -1,17 +1,20 @@
 package com.hypnos.Hypnos.models.user;
 
+import com.hypnos.Hypnos.models.Comment;
+import com.hypnos.Hypnos.models.Publication;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Data
 @NoArgsConstructor
-@Table(name = "user_")
 public class User implements UserDetails {
 
     @Id
@@ -23,6 +26,8 @@ public class User implements UserDetails {
     private String email;
     private String password;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Publication> publications;
     public User(String email, String password){
         this.email = email;
         this.password = password;

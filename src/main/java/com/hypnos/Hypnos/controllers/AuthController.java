@@ -38,10 +38,10 @@ public class AuthController {
         );
     }
     @PostMapping("/signup")
-    public ResponseEntity<UserDetails> signup(@RequestBody SignupRequest signupRequest) {
+    public ResponseEntity<UserDetails> signup(@RequestBody SignupRequest user) {
         return ResponseEntity.ok(
 //                jwtService.createToken(authentication.getName())
-                userDetailsService.create(signupRequest) //pasar por mapper
+                userDetailsService.create(user) //pasar por mapper
         );
     }
 }

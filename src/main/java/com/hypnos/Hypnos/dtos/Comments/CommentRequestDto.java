@@ -1,0 +1,14 @@
+package com.hypnos.Hypnos.dtos.Comments;
+//Contiene los datos que el usuario envía al servidor como parte de una solicitud.
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
+import java.time.LocalDate;
+import java.util.UUID;
+
+@Data // Genera automáticamente los métodos getter, setter, equals, hashCode y toString.
+@AllArgsConstructor // Crea un constructor sin argumentos.
+public class CommentRequestDto {
+    private String text;
+}
