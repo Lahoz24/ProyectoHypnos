@@ -1,6 +1,8 @@
 package com.hypnos.Hypnos.dtos.Comments;
 //Contiene los datos que el usuario envía al servidor como parte de una solicitud.
 
+import com.hypnos.Hypnos.models.Publication;
+import com.hypnos.Hypnos.models.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -11,4 +13,6 @@ import java.util.UUID;
 @AllArgsConstructor // Crea un constructor sin argumentos.
 public class CommentRequestDto {
     private String text;
+    private User uuidUser;
+    private Publication uuidPublication;
 }

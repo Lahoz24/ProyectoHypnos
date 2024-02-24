@@ -2,9 +2,12 @@ package com.hypnos.Hypnos.services;
 
 import com.hypnos.Hypnos.models.Comment;
 import com.hypnos.Hypnos.models.Publication;
+import com.hypnos.Hypnos.models.PublicationLike;
 import com.hypnos.Hypnos.models.user.User;
+import com.hypnos.Hypnos.services.Like.LikeServiceImpl;
 import com.hypnos.Hypnos.services.Publication.PublicationServiceImpl;
 import jakarta.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -18,9 +21,11 @@ public class FakerDataService {
     private final UserDetailsServiceImpl userDetailsService;
     private final PublicationServiceImpl publicationService;
 
-    public FakerDataService(UserDetailsServiceImpl userDetailsService, PublicationServiceImpl publicationService) {
+    private LikeServiceImpl likeService;
+    public FakerDataService(UserDetailsServiceImpl userDetailsService, PublicationServiceImpl publicationService, LikeServiceImpl likeService) {
         this.userDetailsService = userDetailsService;
         this.publicationService = publicationService;
+        this.likeService = likeService;
     }
 
     Faker faker = new Faker(new Locale("es"));
@@ -72,8 +77,33 @@ public class FakerDataService {
         return comments;
     }
 
+    public void insertLikes(LikeServiceImpl likeService, int number){
+        if(number <= 0) return;
+        List<PublicationLike> likes = likeService.getAllLikes();
+
+        // Obtener una lista de todas las publicaciones existentes
+        List<Publication> publications = publicationService.getAllPublications();
+
+        // Crear el usuario predeterminado una vez
+        User defaultAdminUser = createDefaultAdminUser();
+
+        for (int i = 0; i < number; i++) {
+            // Seleccionar una publicación al azar
+            Publication randomPublication = publications.get(faker.number().numberBetween(0, publications.size()));
+
+            // Crear el like asociado a la publicación y al usuario predeterminado
+            PublicationLike like = new PublicationLike(
+                    UUID.randomUUID(),
+                    randomPublication.getUuid(), // Usar el UUID de la publicación seleccionada
+                    defaultAdminUser
+            );
+            likeService.addLike(like);
+        }
+    }
+
     @PostConstruct
     public void insertInitialPublications() {
         insertPublications(publicationService, 10); // Inserta 10 publicaciones al iniciar la aplicación
+        insertLikes(likeService, 5);
     }
 }

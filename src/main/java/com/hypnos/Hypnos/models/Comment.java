@@ -14,7 +14,6 @@ import java.util.UUID;
 @NoArgsConstructor // Crea un constructor sin argumentos.
 @AllArgsConstructor // Genera un constructor que acepta todos los campos de la clase como argumentos
 
-
 public class Comment {
     @Id // marcar un atributo como la clave primaria (En este caso el uuid)
     @Column(name = "id") // Nombre de la columna en la base de datos

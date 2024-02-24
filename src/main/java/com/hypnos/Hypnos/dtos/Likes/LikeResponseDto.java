@@ -9,9 +9,6 @@ import java.util.UUID;
 //Contiene los datos que el servidor envía de vuelta al usuario como resultado de una solicitud.
 public class LikeResponseDto {
     private UUID uuid;
-    private String text;
     private User uuidUser;
-    private Publication uuidPublication;
-    private List<LikeResponseDto> childComments; // Lista de comentarios secundarios
-    //  private List<Like> likes; // Lista de "me gusta" asociados a la publicación
+    private UUID uuidPublication;
 }
