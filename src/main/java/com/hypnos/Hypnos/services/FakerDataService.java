@@ -66,13 +66,17 @@ public class FakerDataService {
 
     public List<Comment> generateComments() {
         List<Comment> comments = new ArrayList<>();
-        for (int i = 0; i < 3; i++) {
-            Comment comment = new Comment();
-            comment.setUuid(UUID.randomUUID());
-            comment.setText(faker.lorem().sentence());
-            comment.setParentComment(null);
-            comment.setChildComments(null); // Inicializar una lista vacía de comentarios secundarios
-            comments.add(comment);
+        List<Publication> publications = publicationService.getAllPublications();
+        if (publications != null && !publications.isEmpty()) {
+            Publication randomPublication = publications.get(faker.number().numberBetween(0, publications.size()));
+            for (int i = 0; i < 3; i++) {
+                Comment comment = new Comment();
+                comment.setUuid(UUID.randomUUID());
+                comment.setText(faker.lorem().sentence());
+                comment.setParentComment(null);
+                comment.setPublication(randomPublication);
+                comments.add(comment);
+            }
         }
         return comments;
     }
@@ -80,21 +84,15 @@ public class FakerDataService {
     public void insertLikes(LikeServiceImpl likeService, int number){
         if(number <= 0) return;
         List<PublicationLike> likes = likeService.getAllLikes();
-
-        // Obtener una lista de todas las publicaciones existentes
         List<Publication> publications = publicationService.getAllPublications();
-
-        // Crear el usuario predeterminado una vez
         User defaultAdminUser = createDefaultAdminUser();
 
         for (int i = 0; i < number; i++) {
-            // Seleccionar una publicación al azar
+            // Seleccionar una publicación random
             Publication randomPublication = publications.get(faker.number().numberBetween(0, publications.size()));
-
-            // Crear el like asociado a la publicación y al usuario predeterminado
             PublicationLike like = new PublicationLike(
                     UUID.randomUUID(),
-                    randomPublication.getUuid(), // Usar el UUID de la publicación seleccionada
+                    randomPublication.getUuid(),
                     defaultAdminUser
             );
             likeService.addLike(like);
