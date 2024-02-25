@@ -11,6 +11,7 @@ import java.util.UUID;
 
 @Repository
 public interface PublicationRespository extends JpaRepository<Publication, UUID> {
+    List<Publication> findPublicationsByTitleContainsIgnoreCase(String title);
 
     Optional<Publication> findPublicationByUuid(UUID uuid);
     List<Publication> findPublicationByUser(User user);

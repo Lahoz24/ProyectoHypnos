@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 import net.datafaker.Faker;
@@ -45,7 +46,7 @@ public class FakerDataService {
                     faker.bool().bool(),
                     faker.bool().bool(),
                     faker.bool().bool(),
-                    LocalDate.now(),
+                    LocalDateTime.now(),
                     defaultAdminUser,
                     generateComments()
             );

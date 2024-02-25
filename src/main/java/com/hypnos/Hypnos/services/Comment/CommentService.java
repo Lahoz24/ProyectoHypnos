@@ -21,4 +21,6 @@ public interface CommentService {
 
     List<Comment> getAllComments();
 
+    Comment patch(UUID id, Comment comment);
+
 }

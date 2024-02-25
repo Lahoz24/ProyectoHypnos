@@ -18,6 +18,10 @@ public interface PublicationService {
     Publication updatePublication(UUID uuid, Publication publication);
 
     void deletePublication(UUID uuid);
+    List<Publication> findAll();
+    List<Publication> findPublicationByTitle(String title);
+
+    Publication patch(UUID id, Publication publication);
 
     List<Publication> getAllPublications();
 

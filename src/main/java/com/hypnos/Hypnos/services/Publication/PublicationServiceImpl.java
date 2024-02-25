@@ -56,6 +56,46 @@ public class PublicationServiceImpl implements PublicationService{
     }
 
     @Override
+    public List<Publication> findAll() {
+        return publicationRespository.findAll();
+    }
+
+    @Override
+    public List<Publication> findPublicationByTitle(String title) {
+        return publicationRespository.findPublicationsByTitleContainsIgnoreCase(title);
+    }
+
+    @Override
+    public Publication patch(UUID id, Publication publication) {
+
+        Publication publicationToPatch = publicationRespository.findById(id).orElseThrow();
+
+        if(publication.getDescription() != null){
+            publicationToPatch.setDescription(publication.getDescription());
+        }
+        if(publication.getContainsText() != null){
+            publicationToPatch.setContainsText(publication.getContainsText());
+        }
+        if(publication.getContainsImage() != null){
+            publicationToPatch.setContainsImage(publication.getContainsImage());
+        }
+        if(publication.getContainsAudio() != null){
+            publicationToPatch.setContainsAudio(publication.getContainsAudio());
+        }
+        if(publication.getTitle() != null){
+            publicationToPatch.setTitle(publication.getTitle());
+        }
+        if(publication.getUser() != null){
+            publicationToPatch.setUser(publication.getUser());
+        }
+        if(publication.getComments() != null){
+            publicationToPatch.setComments(publication.getComments());
+        }
+
+        return publicationRespository.save(publicationToPatch);
+    }
+
+    @Override
     public List<Publication> getAllPublications() {
         return publicationRespository.findAll();
     }

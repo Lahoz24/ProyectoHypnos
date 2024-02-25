@@ -1,12 +1,9 @@
 package com.hypnos.Hypnos.services.Comment;
 
 import com.hypnos.Hypnos.models.Comment;
-import com.hypnos.Hypnos.models.Publication;
 import com.hypnos.Hypnos.models.user.User;
 import com.hypnos.Hypnos.repositories.CommentRepository;
-import com.hypnos.Hypnos.repositories.PublicationRespository;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -56,6 +53,30 @@ public class CommentServiceImpl implements CommentService{
 
     @Override
     public List<Comment> getAllComments() { return commentRepository.findAll(); }
+
+    @Override
+    public Comment patch(UUID id, Comment comment) {
+
+        Comment commentToPatch = commentRepository.findById(id).orElseThrow();
+
+        if(comment.getText() != null){
+            commentToPatch.setText(comment.getText());
+        }
+        if(comment.getPublication() != null){
+            commentToPatch.setPublication(comment.getPublication());
+        }
+        if(comment.getUser() != null){
+            commentToPatch.setUser(comment.getUser());
+        }
+        if(comment.getParentComment() != null){
+            commentToPatch.setParentComment(comment.getParentComment());
+        }
+        if(comment.getChildComments() != null){
+            commentToPatch.setChildComments(comment.getChildComments());
+        }
+        return commentRepository.save(commentToPatch);
+    }
+
 
 }
 

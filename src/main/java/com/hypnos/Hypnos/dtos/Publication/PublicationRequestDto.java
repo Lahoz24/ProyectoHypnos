@@ -1,8 +1,10 @@
 package com.hypnos.Hypnos.dtos.Publication;
 //Contiene los datos que el usuario envía al servidor como parte de una solicitud.
+import com.hypnos.Hypnos.models.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Data // Genera automáticamente los métodos getter, setter, equals, hashCode y toString.
@@ -13,6 +15,6 @@ public class PublicationRequestDto {
     private Boolean containsImage;
     private Boolean containsAudio;
     private Boolean containsText;
-    private LocalDate publicationDate;
-    private UUID userId;
+    private LocalDateTime publicationDate;
+    private User user;
 }

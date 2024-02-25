@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -27,7 +28,7 @@ public class Publication {
     private Boolean containsImage;
     private Boolean containsAudio;
     private Boolean containsText;
-    private LocalDate publicationDate;
+    private LocalDateTime publicationDate;
 
     @ManyToOne
     private User user;
