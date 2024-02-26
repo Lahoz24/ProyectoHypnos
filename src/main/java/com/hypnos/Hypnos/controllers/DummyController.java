@@ -18,4 +18,9 @@ public class DummyController {
         String respuesta = "Hola Mundo";
         return ResponseEntity.ok(respuesta);
     }
+    @GetMapping("/adios")
+    public ResponseEntity<String> AdiosMundo(){
+        String respuesta = "Adios Mundo";
+        return ResponseEntity.ok(respuesta);
+    }
 }

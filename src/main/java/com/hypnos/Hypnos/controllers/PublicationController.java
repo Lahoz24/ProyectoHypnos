@@ -2,25 +2,23 @@ package com.hypnos.Hypnos.controllers;
 
 import com.hypnos.Hypnos.dtos.Publication.PublicationRequestDto;
 import com.hypnos.Hypnos.dtos.Publication.PublicationResponseDto;
+import com.hypnos.Hypnos.dtos.User.UserResponseDto;
 import com.hypnos.Hypnos.mappers.PublicationMapper;
 import com.hypnos.Hypnos.models.Publication;
-import com.hypnos.Hypnos.models.user.User;
 import com.hypnos.Hypnos.services.Publication.PublicationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 
 @RestController //Marca una clase como un controlador REST, donde cada método maneja una solicitud HTTP
 // y devuelve datos serializados directamente al cuerpo de la respuesta HTTP
 @RequestMapping("/api/publications")
 //Define la ruta base para todos los métodos dentro de un controlador REST
-@CrossOrigin(origins = "http://localhost:4200/")
-//Permite solicitudes HTTP desde un origen diferente al del servidor de aplicaciones.
 @Slf4j
 //genera automáticamente un logger llamado log en la clase marcada, que puede ser utilizado para registrar mensajes de registro.
 @RequiredArgsConstructor
@@ -32,17 +30,17 @@ public class PublicationController {
     private final PublicationService publicationService;
     private final PublicationMapper publicationMapper;
 
-    @GetMapping("")
-    public ResponseEntity<List<PublicationResponseDto>> getAllPublications(
-    ) {
-        log.info("getAllPublications");
+        @GetMapping("")
+        public ResponseEntity<List<PublicationResponseDto>> getAllPublications(
+        ) {
+            log.info("getAllPublications");
 
-        return ResponseEntity.ok(
-                publicationMapper.toResponse(publicationService.findAll())
-        );
-    }
+            return ResponseEntity.ok(
+                    publicationMapper.toResponse(publicationService.findAll())
+            );
+        }
 
-    @GetMapping("/by-name/{name}")
+    @GetMapping("/by-title/{title}")
     public ResponseEntity<List<PublicationResponseDto>> getPublicationsByTitle(
             @PathVariable String title
     ) {
@@ -52,12 +50,12 @@ public class PublicationController {
         );
     }
 
-    @GetMapping("/by-category/{categoryId}")
-    public ResponseEntity<List<PublicationResponseDto>> getPublicationsByCategory(
-            @PathVariable User user
+    @GetMapping("/by-user/{userId}")
+    public ResponseEntity<List<PublicationResponseDto>> getPublicationsByUser(
+            @PathVariable Long userId
     ){
         return ResponseEntity.ok(
-                publicationMapper.toResponse(publicationService.findPublicationsByUser(user))
+                publicationMapper.toResponse(publicationService.findPublicationsByUser(userId))
         );
     }
 

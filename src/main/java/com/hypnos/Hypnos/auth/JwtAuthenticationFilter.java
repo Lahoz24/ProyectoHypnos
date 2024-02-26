@@ -5,6 +5,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.auth0.jwt.interfaces.JWTVerifier;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,7 +21,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 @NoArgsConstructor
-public class JwtAuthenticationFilter extends OncePerRequestFilter{
+public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Value("${jwt.secret-key}")
     private String jwtSecretKey;
@@ -28,14 +29,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String authorizationHeader = request.getHeader("Authorization");
-        if(authorizationHeader != null && authorizationHeader.contains("Bearer ")){
+        if (authorizationHeader != null && authorizationHeader.contains("Bearer ")) {
             String token = authorizationHeader.replaceAll("Bearer ", "");
 
             DecodedJWT decodedJWT;
             try {
                 Algorithm algorithm = Algorithm.HMAC256(jwtSecretKey);
                 JWTVerifier verifier = JWT.require(algorithm)
-                        .withIssuer("erosketa")
+                        .withIssuer("hypnos")
                         .build();
                 decodedJWT = verifier.verify(token);
 
@@ -45,11 +46,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
                         new ArrayList<>()
                 );
                 SecurityContextHolder.getContext().setAuthentication(authentication);
-            } catch (JWTVerificationException exception){
+            } catch (JWTVerificationException exception) {
                 exception.printStackTrace();
             }
         }
-        doFilter(request, response, filterChain);
+        // Permitir que la solicitud continúe su procesamiento normal a través de la cadena de filtros
+        filterChain.doFilter(request, response);
     }
 }
 

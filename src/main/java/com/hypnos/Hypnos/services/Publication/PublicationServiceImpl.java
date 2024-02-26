@@ -27,8 +27,8 @@ public class PublicationServiceImpl implements PublicationService{
     }
 
     @Override
-    public List<Publication> findPublicationsByUser(User user) {
-        return publicationRespository.findPublicationByUser(user);
+    public List<Publication> findPublicationsByUser(Long userId) {
+        return publicationRespository.findPublicationsByUserId(userId);
     }
 
     @Override

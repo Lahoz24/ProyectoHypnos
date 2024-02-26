@@ -22,6 +22,7 @@ public class FakerDataService {
     private final UserDetailsServiceImpl userDetailsService;
     private final PublicationServiceImpl publicationService;
 
+
     private LikeServiceImpl likeService;
     public FakerDataService(UserDetailsServiceImpl userDetailsService, PublicationServiceImpl publicationService, LikeServiceImpl likeService) {
         this.userDetailsService = userDetailsService;
@@ -41,7 +42,7 @@ public class FakerDataService {
         for (int i = 0; i < number; i++) {
             Publication publication= new Publication(
                     UUID.randomUUID(),
-                    faker.lorem().sentence(),
+                    faker.lorem().word(),
                     faker.lorem().paragraph(),
                     faker.bool().bool(),
                     faker.bool().bool(),
@@ -102,7 +103,7 @@ public class FakerDataService {
 
     @PostConstruct
     public void insertInitialPublications() {
-        insertPublications(publicationService, 10); // Inserta 10 publicaciones al iniciar la aplicación
-        insertLikes(likeService, 5);
+        insertPublications(publicationService, 2); // Inserta 10 publicaciones al iniciar la aplicación
+        insertLikes(likeService, 2);
     }
 }

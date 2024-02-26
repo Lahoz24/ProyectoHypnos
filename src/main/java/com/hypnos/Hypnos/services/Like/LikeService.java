@@ -20,4 +20,5 @@ public interface LikeService {
 
     List<PublicationLike> getAllLikes();
 
+    PublicationLike patch(UUID id, PublicationLike like);
 }

@@ -1,5 +1,6 @@
 package com.hypnos.Hypnos.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.hypnos.Hypnos.models.user.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -31,9 +32,11 @@ public class Publication {
     private LocalDateTime publicationDate;
 
     @ManyToOne
+    @JsonIgnore
     private User user;
 
     @OneToMany(mappedBy = "publication", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Comment> comments;
 
 }

@@ -1,6 +1,7 @@
 package com.hypnos.Hypnos.services.Like;
 
 import com.hypnos.Hypnos.models.PublicationLike;
+import com.hypnos.Hypnos.models.PublicationLike;
 import com.hypnos.Hypnos.models.user.User;
 import com.hypnos.Hypnos.repositories.LikeRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -50,6 +51,20 @@ public class LikeServiceImpl implements LikeService {
 
     @Override
     public List<PublicationLike> getAllLikes() { return likeRepository.findAll(); }
+
+    @Override
+    public PublicationLike patch(UUID id, PublicationLike like) {
+
+        PublicationLike likeToPatch = likeRepository.findById(id).orElseThrow();
+
+        if(like.getPublication() != null){
+            likeToPatch.setPublication(like.getPublication());
+        }
+        if(like.getUser() != null){
+            likeToPatch.setUser(like.getUser());
+        }
+        return likeRepository.save(likeToPatch);
+    }
 
 }
 

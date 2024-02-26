@@ -16,7 +16,6 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/comments")
-@CrossOrigin(origins = "http://localhost:4200/")
 @Slf4j
 @RequiredArgsConstructor
 public class CommentController {
@@ -34,7 +33,7 @@ public class CommentController {
     }
 
     @GetMapping("/by-category/{categoryId}")
-    public ResponseEntity<List<CommentResponseDto>> getCommentsByCategory(
+    public ResponseEntity<List<CommentResponseDto>> getCommentsByUser(
             @PathVariable User user
     ){
         return ResponseEntity.ok(
