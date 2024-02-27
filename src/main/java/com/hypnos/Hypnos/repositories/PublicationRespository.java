@@ -14,6 +14,6 @@ public interface PublicationRespository extends JpaRepository<Publication, UUID>
     List<Publication> findPublicationsByTitleContainsIgnoreCase(String title);
 
     Optional<Publication> findPublicationByUuid(UUID uuid);
-    List<Publication> findPublicationsByUserId(Long userId);
+    List<Publication> findPublicationsByUserUUID(UUID userId);
     List<Publication> findPublicationByTitle(String title);
 }

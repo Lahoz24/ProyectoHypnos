@@ -30,10 +30,7 @@ public class Publication {
     private Boolean containsAudio;
     private Boolean containsText;
     private LocalDateTime publicationDate;
-
-    @ManyToOne
-    @JsonIgnore
-    private User user;
+    private UUID userUUID;
 
     @OneToMany(mappedBy = "publication", cascade = CascadeType.ALL)
     @JsonIgnore

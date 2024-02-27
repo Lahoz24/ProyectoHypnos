@@ -20,10 +20,7 @@ public class Comment {
     private UUID uuid;
 
     private String text;
-//  private UUID parentCommentId;
-
-    @ManyToOne
-    private User user;
+    private UUID userUUID;
 
     @ManyToOne
     private Publication publication;

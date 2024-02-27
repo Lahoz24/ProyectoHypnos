@@ -24,7 +24,7 @@ public class PublicationMapper {
                 publication.getContainsAudio(),
                 publication.getContainsText(),
                 publication.getPublicationDate(),
-                publication.getUser(),
+                publication.getUserUUID(),
                 publication.getComments()
         );
     }
@@ -44,7 +44,7 @@ public class PublicationMapper {
                 publicationRequestDto.getContainsText(),
                 publicationRequestDto.getContainsAudio(),
                 LocalDateTime.now(),
-                publicationRequestDto.getUser(),
+                publicationRequestDto.getUuidUser(),
                 null
         );
     }

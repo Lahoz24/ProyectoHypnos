@@ -13,6 +13,6 @@ import java.util.UUID;
 @AllArgsConstructor // Crea un constructor sin argumentos.
 public class CommentRequestDto {
     private String text;
-    private User user;
+    private UUID userUUID;
     private Publication publication;
 }

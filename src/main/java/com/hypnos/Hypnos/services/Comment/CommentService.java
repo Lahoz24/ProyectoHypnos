@@ -11,7 +11,7 @@ public interface CommentService {
 
     Comment findCommentById(UUID uuid);
 
-    List<Comment> findCommentsByUser(User user);
+    List<Comment> findCommentsByUserUUID(UUID userUUID);
 
     Comment addComment(Comment comment);
 

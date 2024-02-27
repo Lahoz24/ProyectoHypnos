@@ -22,7 +22,7 @@ public class PublicationResponseDto {
     private Boolean containsAudio;
     private Boolean containsText;
     private LocalDateTime publicationDate;
-    private User user;
+    private UUID uuidUser;
     private List<Comment> comments; // Lista de comentarios asociados a la publicación
     //  private List<Like> likes; // Lista de "me gusta" asociados a la publicación
 }

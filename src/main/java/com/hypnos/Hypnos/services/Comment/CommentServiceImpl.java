@@ -25,8 +25,8 @@ public class CommentServiceImpl implements CommentService{
     }
 
     @Override
-    public List<Comment> findCommentsByUser(User user) {
-        return commentRepository.findCommentByUser(user);
+    public List<Comment> findCommentsByUserUUID(UUID userUUID) {
+        return commentRepository.findCommentByUserUUID(userUUID);
 
     }
 
@@ -42,7 +42,7 @@ public class CommentServiceImpl implements CommentService{
         updated.setText(comment.getText());
         updated.setChildComments(comment.getChildComments());
         updated.setParentComment(comment.getParentComment());
-        updated.setUser(comment.getUser());
+        updated.setUuid(comment.getUserUUID());
         updated.setPublication(comment.getPublication());
 
         return commentRepository.save(updated);
@@ -65,8 +65,8 @@ public class CommentServiceImpl implements CommentService{
         if(comment.getPublication() != null){
             commentToPatch.setPublication(comment.getPublication());
         }
-        if(comment.getUser() != null){
-            commentToPatch.setUser(comment.getUser());
+        if(comment.getUserUUID() != null){
+            commentToPatch.setUserUUID(comment.getUserUUID());
         }
         if(comment.getParentComment() != null){
             commentToPatch.setParentComment(comment.getParentComment());

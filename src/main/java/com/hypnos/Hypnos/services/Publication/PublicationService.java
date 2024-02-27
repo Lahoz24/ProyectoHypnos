@@ -11,7 +11,7 @@ public interface PublicationService {
 
     Publication findPublicationById(UUID uuid);
 
-    List<Publication> findPublicationsByUser(Long id);
+    List<Publication> findPublicationsByUserUUID(UUID id);
 
     Publication addPublication(Publication publication);
 

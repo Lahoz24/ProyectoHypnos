@@ -48,7 +48,7 @@ public class FakerDataService {
                     faker.bool().bool(),
                     faker.bool().bool(),
                     LocalDateTime.now(),
-                    defaultAdminUser,
+                    defaultAdminUser.getId(),
                     generateComments()
             );
             publicationService.addPublication(publication);
@@ -67,17 +67,19 @@ public class FakerDataService {
     }
 
     public List<Comment> generateComments() {
+        User defaultAdminUser = createDefaultAdminUser();
         List<Comment> comments = new ArrayList<>();
         List<Publication> publications = publicationService.getAllPublications();
         if (publications != null && !publications.isEmpty()) {
             Publication randomPublication = publications.get(faker.number().numberBetween(0, publications.size()));
+       //     Comment randomComment = comments.get(faker.number().numberBetween(0, comments.size()));
             for (int i = 0; i < 3; i++) {
                 Comment comment = new Comment();
                 comment.setUuid(UUID.randomUUID());
                 comment.setText(faker.lorem().sentence());
                 comment.setParentComment(null);
+                defaultAdminUser.getId();
                 comment.setPublication(randomPublication);
-                createDefaultAdminUser().getId();
                 comments.add(comment);
             }
         }

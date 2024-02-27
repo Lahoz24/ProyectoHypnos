@@ -26,9 +26,11 @@ public class PublicationServiceImpl implements PublicationService{
         return publicationRespository.findById(id).orElseThrow();
     }
 
+
+
     @Override
-    public List<Publication> findPublicationsByUser(Long userId) {
-        return publicationRespository.findPublicationsByUserId(userId);
+    public List<Publication> findPublicationsByUserUUID(UUID userUUID) {
+        return publicationRespository.findPublicationsByUserUUID(userUUID);
     }
 
     @Override
@@ -85,8 +87,8 @@ public class PublicationServiceImpl implements PublicationService{
         if(publication.getTitle() != null){
             publicationToPatch.setTitle(publication.getTitle());
         }
-        if(publication.getUser() != null){
-            publicationToPatch.setUser(publication.getUser());
+        if(publication.getUserUUID() != null){
+            publicationToPatch.setUserUUID(publication.getUserUUID());
         }
         if(publication.getComments() != null){
             publicationToPatch.setComments(publication.getComments());

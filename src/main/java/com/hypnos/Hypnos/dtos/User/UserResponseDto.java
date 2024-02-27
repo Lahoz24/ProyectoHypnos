@@ -5,12 +5,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
+import java.util.UUID;
+
 @Data
 @NoArgsConstructor(force = true)
 @RequiredArgsConstructor
 @Builder
 public class UserResponseDto {
-    private final Long id;
+    private final UUID id;
     private final String firstname;
     private final String lastname;
     private final String email;

@@ -16,7 +16,7 @@ import java.util.UUID;
 public class CommentResponseDto {
     private UUID uuid;
     private String text;
-    private User user;
+    private UUID userUUID;
     private Publication publication;
     private List<CommentResponseDto> childComments; // Lista de comentarios secundarios
     //  private List<Like> likes; // Lista de "me gusta" asociados a la publicación

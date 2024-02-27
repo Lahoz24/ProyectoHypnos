@@ -16,5 +16,5 @@ public class PublicationRequestDto {
     private Boolean containsAudio;
     private Boolean containsText;
     private LocalDateTime publicationDate;
-    private User user;
+    private UUID uuidUser;
 }

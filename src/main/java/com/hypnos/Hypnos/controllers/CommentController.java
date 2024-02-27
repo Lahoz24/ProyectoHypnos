@@ -32,12 +32,12 @@ public class CommentController {
         );
     }
 
-    @GetMapping("/by-category/{categoryId}")
-    public ResponseEntity<List<CommentResponseDto>> getCommentsByUser(
-            @PathVariable User user
+    @GetMapping("/by-user/{userUUID}")
+    public ResponseEntity<List<CommentResponseDto>> getCommentsByUserUUID(
+            @PathVariable UUID userUUID
     ){
         return ResponseEntity.ok(
-                commentMapper.toResponse(commentService.findCommentsByUser(user))
+                commentMapper.toResponse(commentService.findCommentsByUserUUID(userUUID))
         );
     }
 

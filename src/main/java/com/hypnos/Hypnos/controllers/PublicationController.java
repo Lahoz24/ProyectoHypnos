@@ -52,10 +52,10 @@ public class PublicationController {
 
     @GetMapping("/by-user/{userId}")
     public ResponseEntity<List<PublicationResponseDto>> getPublicationsByUser(
-            @PathVariable Long userId
+            @PathVariable UUID userId
     ){
         return ResponseEntity.ok(
-                publicationMapper.toResponse(publicationService.findPublicationsByUser(userId))
+                publicationMapper.toResponse(publicationService.findPublicationsByUserUUID(userId))
         );
     }
 

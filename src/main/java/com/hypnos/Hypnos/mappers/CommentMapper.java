@@ -16,7 +16,7 @@ public class CommentMapper {
         return new CommentResponseDto(
                 comment.getUuid(),
                 comment.getText(),
-                comment.getUser(),
+                comment.getUserUUID(),
                 comment.getPublication(),
                 null
         );
@@ -32,7 +32,7 @@ public class CommentMapper {
         return new Comment(
                 UUID.randomUUID(),
                 commentRequestDto.getText(),
-                commentRequestDto.getUser(),
+                commentRequestDto.getUserUUID(),
                 commentRequestDto.getPublication(),
                 null,
                 null
