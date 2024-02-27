@@ -103,7 +103,6 @@ public class FakerDataService {
             likeService.addLike(like);
         }
     }
-
     @PostConstruct
     public void insertInitialPublications() {
         insertPublications(publicationService, 2); // Inserta 10 publicaciones al iniciar la aplicación
