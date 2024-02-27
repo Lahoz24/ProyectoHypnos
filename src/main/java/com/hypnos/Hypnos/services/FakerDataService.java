@@ -77,6 +77,7 @@ public class FakerDataService {
                 comment.setText(faker.lorem().sentence());
                 comment.setParentComment(null);
                 comment.setPublication(randomPublication);
+                createDefaultAdminUser().getId();
                 comments.add(comment);
             }
         }
