@@ -21,5 +21,6 @@ public class PublicationLike {
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
+    // mapear una columna de clave externa (foreign key) en una entidad a una columna en una tabla de base de datos.
     private User user;
 }

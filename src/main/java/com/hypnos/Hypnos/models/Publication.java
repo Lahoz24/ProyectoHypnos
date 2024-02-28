@@ -33,7 +33,6 @@ public class Publication {
     private UUID userUUID;
 
     @OneToMany(mappedBy = "publication", cascade = CascadeType.ALL)
-    @JsonIgnore
     private List<Comment> comments;
 
 }

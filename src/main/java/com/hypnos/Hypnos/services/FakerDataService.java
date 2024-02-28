@@ -104,6 +104,8 @@ public class FakerDataService {
         }
     }
     @PostConstruct
+    //Cuando se aplica a un método dentro de una clase, esta anotación indica que el método debe ejecutarse después
+    // de que se haya realizado la inyección de dependencias para realizar cualquier tarea de inicialización.
     public void insertInitialPublications() {
         insertPublications(publicationService, 2); // Inserta 10 publicaciones al iniciar la aplicación
         insertLikes(likeService, 2);
