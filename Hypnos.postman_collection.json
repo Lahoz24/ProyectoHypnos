@@ -162,6 +162,109 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "POST",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": " {\r\n        \"uuid\": \"00b5ed39-2437-42fa-a57f-516c44879994\",\r\n        \"title\": \"ut\",\r\n        \"description\": \"Tempora aliquam et et. Asperiores neque sit hic consequuntur numquam sapiente. Maxime repudiandae beatae consectetur veniam sed eaque nesciunt. Sit nostrum eius eum porro velit. Cum molestiae in quaerat consequuntur.\",\r\n        \"containsImage\": false,\r\n        \"containsAudio\": true,\r\n        \"containsText\": false,\r\n        \"publicationDate\": \"2024-02-28T09:44:16\",\r\n        \"uuidUser\": \"f4fae804-29bf-4180-8125-f227d3395d7e\"\r\n }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/publications",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"publications"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PUT",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": " {\r\n        \"title\": \"ut\",\r\n        \"description\": \"Tempora aliquam et et. Asperiores neque sit hic consequuntur numquam sapiente. Maxime repudiandae beatae consectetur veniam sed eaque nesciunt. Sit nostrum eius eum porro velit. Cum molestiae in quaerat consequuntur.\",\r\n        \"containsImage\": true,\r\n        \"containsAudio\": true,\r\n        \"containsText\": true,\r\n        \"publicationDate\": \"2024-02-28T09:44:16\",\r\n        \"uuidUser\": \"f4fae804-29bf-4180-8125-f227d3395d7e\"\r\n }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/publications/00b5ed39-2437-42fa-a57f-51ec44879994",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"publications",
+								"00b5ed39-2437-42fa-a57f-51ec44879994"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/publications/2a9e3980-2c31-433e-9503-41bd51ae7b95",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"publications",
+								"2a9e3980-2c31-433e-9503-41bd51ae7b95"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PATCH",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": " {\r\n        \"title\": \"ut\",\r\n        \"description\": \"Tempora aliquam et et. Asperiores neque sit hic consequuntur numquam sapiente. Maxime repudiandae beatae consectetur veniam sed eaque nesciunt. Sit nostrum eius eum porro velit. Cum molestiae in quaerat consequuntur.\",\r\n        \"containsImage\": true,\r\n        \"containsAudio\": true,\r\n        \"containsText\": true,\r\n        \"publicationDate\": \"2024-02-28T09:44:16\",\r\n        \"uuidUser\": \"f4fae804-29bf-4180-8125-f227d3395d7e\"\r\n }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/publications/patch/4693580b-8ccd-4616-848f-bbefa99b197f",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"publications",
+								"patch",
+								"4693580b-8ccd-4616-848f-bbefa99b197f"
+							]
+						}
+					},
+					"response": []
 				}
 			],
 			"event": [
@@ -222,7 +325,7 @@
 		"bearer": [
 			{
 				"key": "token",
-				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJoeXBub3MiLCJzdWIiOiJ1c2VyMyIsImV4cCI6MTcwOTEzNzA2OH0.1gI4389OASEdSXHKAfVsT1djJhTv7uHuKPrGKwK8gLQ",
+				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJoeXBub3MiLCJzdWIiOiJ1c2VyMyIsImV4cCI6MTcwOTE5NjkwOX0.L0dxJo-egt516iDBgMfZkriB_8S_sPlGLkMML1z9Ic4",
 				"type": "string"
 			}
 		]

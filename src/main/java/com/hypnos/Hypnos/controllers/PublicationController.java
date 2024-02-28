@@ -59,23 +59,6 @@ public class PublicationController {
         );
     }
 
-//    @GetMapping("/by-tobuy/{toBuy}")
-//    public ResponseEntity<List<PublicationResponseDto>> getPublicationsByToBuy(
-//            @PathVariable boolean toBuy
-//    ){
-//        return ResponseEntity.ok(
-//                publicationMapper.toResponse(publicationService.findPublicationsByToBuy(toBuy))
-//        );
-//    }
-
-//    @GetMapping("/by-tocheck/{toCheck}")
-//    public ResponseEntity<List<PublicationResponseDto>> getPublicationsByToCheck(
-//            @PathVariable boolean toCheck
-//    ){
-//        return ResponseEntity.ok(
-//                publicationMapper.toResponse(publicationService.findPublicationsByToCheck(toCheck))
-//        );
-//    }
     @GetMapping("/{id}")
     public ResponseEntity<PublicationResponseDto> getPublicationById(
             @PathVariable UUID id
@@ -109,47 +92,6 @@ public class PublicationController {
         );
     }
 
-//    @PatchMapping("/stock/{id}")
-//    public ResponseEntity<PublicationResponseDto> setStock(
-//            @PathVariable Long id,
-//            @RequestParam Double stock
-//
-//    ) {
-//        LocalDateTime stockTimestamp = LocalDateTime.now();
-//        log.info("setStock");
-//        Publication publicationUpdated = publicationService.setStock(id, stock, stockTimestamp);
-//        return ResponseEntity.ok(
-//                publicationMapper.toResponse(publicationUpdated)
-//        );
-//    }
-
-//    @PatchMapping("/tobuy/{id}")
-//    public ResponseEntity<PublicationResponseDto> setToBuy(
-//            @PathVariable Long id,
-//            @RequestParam Boolean toBuy
-//    ) {
-//        LocalDateTime toBuyTimestamp = LocalDateTime.now();
-//        log.info("setToBuy");
-//        Publication publicationUpdated = publicationService.setToBuy(id, toBuy, toBuyTimestamp);
-//        return ResponseEntity.ok(
-//                publicationMapper.toResponse(publicationUpdated)
-//        );
-//    }
-
-//    @PatchMapping("/tocheck/{id}")
-//    public ResponseEntity<PublicationResponseDto> setToCheck(
-//            @PathVariable Long id,
-//            @RequestParam Boolean toCheck
-//
-//    ) {
-//        LocalDateTime toCheckTimestamp = LocalDateTime.now();
-//        log.info("setToCheck");
-//        Publication publicationUpdated = publicationService.setToCheck(id, toCheck, toCheckTimestamp);
-//        return ResponseEntity.ok(
-//                publicationMapper.toResponse(publicationUpdated)
-//        );
-//    }
-
     @DeleteMapping("/{id}")
     public ResponseEntity<PublicationResponseDto> deletePublication(
             @PathVariable UUID id
@@ -171,16 +113,4 @@ public class PublicationController {
         return ResponseEntity.ok(publicationMapper.toResponse(publicationPatched));
     }
 
-//    @GetMapping("/max-stock")
-//    public ResponseEntity<List<PublicationResponseDto>> getPublicationsByMaxStock(
-//            @RequestParam Double maxStock
-//    ) {
-//        log.info("getPublicationsByMaxStock");
-//
-//        if (maxStock < 0) return ResponseEntity.badRequest().build();
-//
-//        return ResponseEntity.ok(
-//                publicationMapper.toResponse(publicationService.findByStockLessThanEqual(maxStock))
-//        );
-//    }
 }

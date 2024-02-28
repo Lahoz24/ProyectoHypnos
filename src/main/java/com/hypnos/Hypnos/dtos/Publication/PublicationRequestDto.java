@@ -15,6 +15,5 @@ public class PublicationRequestDto {
     private Boolean containsImage;
     private Boolean containsAudio;
     private Boolean containsText;
-    private LocalDateTime publicationDate;
     private UUID uuidUser;
 }

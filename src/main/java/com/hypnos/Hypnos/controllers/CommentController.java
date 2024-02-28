@@ -41,23 +41,6 @@ public class CommentController {
         );
     }
 
-//    @GetMapping("/by-tobuy/{toBuy}")
-//    public ResponseEntity<List<CommentResponseDto>> getCommentsByToBuy(
-//            @PathVariable boolean toBuy
-//    ){
-//        return ResponseEntity.ok(
-//                publicationMapper.toResponse(publicationService.findCommentsByToBuy(toBuy))
-//        );
-//    }
-
-    //    @GetMapping("/by-tocheck/{toCheck}")
-//    public ResponseEntity<List<CommentResponseDto>> getCommentsByToCheck(
-//            @PathVariable boolean toCheck
-//    ){
-//        return ResponseEntity.ok(
-//                publicationMapper.toResponse(publicationService.findCommentsByToCheck(toCheck))
-//        );
-//    }
     @GetMapping("/{id}")
     public ResponseEntity<CommentResponseDto> getCommentById(
             @PathVariable UUID id
@@ -91,47 +74,6 @@ public class CommentController {
         );
     }
 
-//    @PatchMapping("/stock/{id}")
-//    public ResponseEntity<CommentResponseDto> setStock(
-//            @PathVariable Long id,
-//            @RequestParam Double stock
-//
-//    ) {
-//        LocalDateTime stockTimestamp = LocalDateTime.now();
-//        log.info("setStock");
-//        Comment commentUpdated = publicationService.setStock(id, stock, stockTimestamp);
-//        return ResponseEntity.ok(
-//                publicationMapper.toResponse(commentUpdated)
-//        );
-//    }
-
-//    @PatchMapping("/tobuy/{id}")
-//    public ResponseEntity<CommentResponseDto> setToBuy(
-//            @PathVariable Long id,
-//            @RequestParam Boolean toBuy
-//    ) {
-//        LocalDateTime toBuyTimestamp = LocalDateTime.now();
-//        log.info("setToBuy");
-//        Comment commentUpdated = publicationService.setToBuy(id, toBuy, toBuyTimestamp);
-//        return ResponseEntity.ok(
-//                publicationMapper.toResponse(commentUpdated)
-//        );
-//    }
-
-//    @PatchMapping("/tocheck/{id}")
-//    public ResponseEntity<CommentResponseDto> setToCheck(
-//            @PathVariable Long id,
-//            @RequestParam Boolean toCheck
-//
-//    ) {
-//        LocalDateTime toCheckTimestamp = LocalDateTime.now();
-//        log.info("setToCheck");
-//        Comment commentUpdated = publicationService.setToCheck(id, toCheck, toCheckTimestamp);
-//        return ResponseEntity.ok(
-//                publicationMapper.toResponse(commentUpdated)
-//        );
-//    }
-
     @DeleteMapping("/{id}")
     public ResponseEntity<CommentResponseDto> deleteComment(
             @PathVariable UUID id
@@ -153,16 +95,4 @@ public class CommentController {
         return ResponseEntity.ok(commentMapper.toResponse(commentPatched));
     }
 
-//    @GetMapping("/max-stock")
-//    public ResponseEntity<List<CommentResponseDto>> getCommentsByMaxStock(
-//            @RequestParam Double maxStock
-//    ) {
-//        log.info("getCommentsByMaxStock");
-//
-//        if (maxStock < 0) return ResponseEntity.badRequest().build();
-//
-//        return ResponseEntity.ok(
-//                publicationMapper.toResponse(publicationService.findByStockLessThanEqual(maxStock))
-//        );
-//    }
 }

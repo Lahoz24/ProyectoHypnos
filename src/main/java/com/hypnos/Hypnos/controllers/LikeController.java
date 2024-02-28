@@ -40,23 +40,6 @@ public class LikeController {
         );
     }
 
-//    @GetMapping("/by-tobuy/{toBuy}")
-//    public ResponseEntity<List<LikeResponseDto>> getLikesByToBuy(
-//            @PathVariable boolean toBuy
-//    ){
-//        return ResponseEntity.ok(
-//                publicationMapper.toResponse(publicationService.findLikesByToBuy(toBuy))
-//        );
-//    }
-
-    //    @GetMapping("/by-tocheck/{toCheck}")
-//    public ResponseEntity<List<LikeResponseDto>> getLikesByToCheck(
-//            @PathVariable boolean toCheck
-//    ){
-//        return ResponseEntity.ok(
-//                publicationMapper.toResponse(publicationService.findLikesByToCheck(toCheck))
-//        );
-//    }
     @GetMapping("/{id}")
     public ResponseEntity<LikeResponseDto> getLikeById(
             @PathVariable UUID id
@@ -90,47 +73,6 @@ public class LikeController {
         );
     }
 
-//    @PatchMapping("/stock/{id}")
-//    public ResponseEntity<LikeResponseDto> setStock(
-//            @PathVariable Long id,
-//            @RequestParam Double stock
-//
-//    ) {
-//        LocalDateTime stockTimestamp = LocalDateTime.now();
-//        log.info("setStock");
-//        Like likeUpdated = publicationService.setStock(id, stock, stockTimestamp);
-//        return ResponseEntity.ok(
-//                publicationMapper.toResponse(likeUpdated)
-//        );
-//    }
-
-//    @PatchMapping("/tobuy/{id}")
-//    public ResponseEntity<LikeResponseDto> setToBuy(
-//            @PathVariable Long id,
-//            @RequestParam Boolean toBuy
-//    ) {
-//        LocalDateTime toBuyTimestamp = LocalDateTime.now();
-//        log.info("setToBuy");
-//        Like likeUpdated = publicationService.setToBuy(id, toBuy, toBuyTimestamp);
-//        return ResponseEntity.ok(
-//                publicationMapper.toResponse(likeUpdated)
-//        );
-//    }
-
-//    @PatchMapping("/tocheck/{id}")
-//    public ResponseEntity<LikeResponseDto> setToCheck(
-//            @PathVariable Long id,
-//            @RequestParam Boolean toCheck
-//
-//    ) {
-//        LocalDateTime toCheckTimestamp = LocalDateTime.now();
-//        log.info("setToCheck");
-//        Like likeUpdated = publicationService.setToCheck(id, toCheck, toCheckTimestamp);
-//        return ResponseEntity.ok(
-//                publicationMapper.toResponse(likeUpdated)
-//        );
-//    }
-
     @DeleteMapping("/{id}")
     public ResponseEntity<LikeResponseDto> deleteLike(
             @PathVariable UUID id
@@ -152,16 +94,4 @@ public class LikeController {
         return ResponseEntity.ok(likeMapper.toResponse(likePatched));
     }
 
-//    @GetMapping("/max-stock")
-//    public ResponseEntity<List<LikeResponseDto>> getLikesByMaxStock(
-//            @RequestParam Double maxStock
-//    ) {
-//        log.info("getLikesByMaxStock");
-//
-//        if (maxStock < 0) return ResponseEntity.badRequest().build();
-//
-//        return ResponseEntity.ok(
-//                publicationMapper.toResponse(publicationService.findByStockLessThanEqual(maxStock))
-//        );
-//    }
 }
