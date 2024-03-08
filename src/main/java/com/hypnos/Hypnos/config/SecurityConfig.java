@@ -1,8 +1,8 @@
 package com.hypnos.Hypnos.config;
 
 import com.hypnos.Hypnos.auth.JwtAuthenticationFilter;
-import com.hypnos.Hypnos.repositories.UserDetailsRepository;
-import com.hypnos.Hypnos.services.UserDetailsServiceImpl;
+import com.hypnos.Hypnos.repositories.user.UserDetailsRepository;
+import com.hypnos.Hypnos.services.user.UserDetailsServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;

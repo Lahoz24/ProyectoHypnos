@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-//metodo que devuelda response pero que lo que haya dentro sea string(Hola Mundo)
+//metodo que devuelva response pero que lo que haya dentro sea string(Hola Mundo)
 @RestController
 @RequestMapping("/api/dummies")
 @Slf4j

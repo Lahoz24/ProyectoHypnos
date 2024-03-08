@@ -3,7 +3,7 @@ package com.hypnos.Hypnos.controllers;
 import com.hypnos.Hypnos.auth.LoginRequest;
 import com.hypnos.Hypnos.auth.JwtService;
 import com.hypnos.Hypnos.auth.SignupRequest;
-import com.hypnos.Hypnos.services.UserDetailsServiceImpl;
+import com.hypnos.Hypnos.services.user.UserDetailsServiceImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
