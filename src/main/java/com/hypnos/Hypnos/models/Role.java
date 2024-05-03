@@ -1,4 +1,4 @@
-package com.hypnos.Hypnos.models.user;
+package com.hypnos.Hypnos.models;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static com.hypnos.Hypnos.models.user.Permission.*;
+import static com.hypnos.Hypnos.models.Permission.*;
 
 @Getter
 @RequiredArgsConstructor

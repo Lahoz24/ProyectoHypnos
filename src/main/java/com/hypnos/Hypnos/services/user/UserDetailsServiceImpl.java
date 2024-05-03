@@ -1,7 +1,7 @@
 package com.hypnos.Hypnos.services.user;
 
 import com.hypnos.Hypnos.auth.SignupRequest;
-import com.hypnos.Hypnos.models.user.User;
+import com.hypnos.Hypnos.models.User;
 import com.hypnos.Hypnos.repositories.user.UserDetailsRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

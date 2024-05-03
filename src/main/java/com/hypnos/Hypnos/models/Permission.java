@@ -1,4 +1,4 @@
-package com.hypnos.Hypnos.models.user;
+package com.hypnos.Hypnos.models;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
