@@ -26,9 +26,6 @@ public class Publication {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(mappedBy = "publication")
-    private List<Comment> comments;
-
     @ManyToMany
     @JoinTable(
             name = "publication_category",
@@ -36,6 +33,11 @@ public class Publication {
             inverseJoinColumns = @JoinColumn(name = "category_id")
     )
     private List<Category> categories;
+
+    @OneToMany(mappedBy = "publication")
+    private List<Comment> comments;
+
+
 
     @ManyToMany(mappedBy = "likedPublications")
     private List<User> likedByUsers;
