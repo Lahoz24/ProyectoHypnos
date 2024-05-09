@@ -3,9 +3,11 @@ package com.hypnos.Hypnos.models;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -26,12 +28,12 @@ public class User implements UserDetails {
     private String password;
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Publication> publications;
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Comment> comments;
     @ManyToMany
     private List<Publication> likedPublications;
     @ManyToMany
     private List<Comment> likedComments;
+    @CreatedDate
+    private LocalDateTime createdAt;
 
 
 
