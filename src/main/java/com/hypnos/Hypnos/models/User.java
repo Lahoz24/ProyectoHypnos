@@ -1,6 +1,8 @@
 package com.hypnos.Hypnos.models;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
@@ -12,20 +14,24 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
-@Entity
 @Data
+@AllArgsConstructor
 @NoArgsConstructor
+@Builder
+@Entity
 @Table(name = "users")
 public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
     private String firstname;
     private String lastname;
     @Column(unique = true)
     private String email;
     private String password;
+    @Enumerated(EnumType.STRING)
+    private Role role = Role.USER;
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Publication> publications;
     @ManyToMany
@@ -42,8 +48,6 @@ public class User implements UserDetails {
         this.password = password;
     }
 
-    @Enumerated(EnumType.STRING)
-    private Role role = Role.USER;
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;
