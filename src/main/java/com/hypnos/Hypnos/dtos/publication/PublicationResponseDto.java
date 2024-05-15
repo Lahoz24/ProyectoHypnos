@@ -17,9 +17,9 @@ import java.util.List;
 public class PublicationResponseDto {
     private final Long id;
     private String text;
-    private User user;
+    private final User user;
     private List<Category> categories;
     private List<Comment> comments;
     private List<User> likedByUsers;
-    private LocalDateTime createdAt;
+    private final LocalDateTime createdAt;
 }

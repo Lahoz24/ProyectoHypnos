@@ -11,6 +11,6 @@ import lombok.Data;
 @Builder
 public class CommentRequestDto {
     private String text;
-    private User user;
-    private Publication publication;
+    private final Long userId;
+    private final Long publicationId;
 }

@@ -16,7 +16,7 @@ public class CommentResponseDto {
     private final Long id;
     private String text;
     private List<User> likedByUsers;
-    private User user;
-    private Publication publication;
-    private LocalDateTime createdAt;
+    private final User user;
+    private final Publication publication;
+    private final LocalDateTime createdAt;
 }

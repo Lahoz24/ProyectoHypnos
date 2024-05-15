@@ -29,18 +29,32 @@ public class UserMapper {
         );
     }
 
-    public User toModel(UserRequestDto userDTO) {
+    public User toModel(UserRequestDto userRequestDto) {
         return new User(
-                null,
-                userDTO.getFirstname(),
-                userDTO.getLastname(),
-                userDTO.getEmail(),
-                userDTO.getPassword(),
-                userDTO.getRole(),
+                0L,
+                userRequestDto.getFirstname(),
+                userRequestDto.getLastname(),
+                userRequestDto.getEmail(),
+                userRequestDto.getPassword(),
+                userRequestDto.getRole(),
                 null,
                 null,
                 null,
                 LocalDateTime.now()
+        );
+    }
+    public User toModelfromRequestDto(Long userId) {
+        return new User(
+                userId,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
         );
     }
 }

@@ -8,7 +8,7 @@ import lombok.*;
 @Builder
 public class CategoryResponseDto {
     private final Long id;
-    private final String name;
-    private final String description;
+    private String name;
+    private String description;
 
 }

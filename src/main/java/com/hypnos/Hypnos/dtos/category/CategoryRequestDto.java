@@ -7,7 +7,7 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class CategoryRequestDto {
-    private final String name;
-    private final String description;
+    private String name;
+    private String description;
 
 }
