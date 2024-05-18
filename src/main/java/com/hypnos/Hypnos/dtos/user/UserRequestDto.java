@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 public class UserRequestDto {
     private final String firstname;
     private final String lastname;
+    private final String alias;
     private final String email;
     private final String password;
     private final Role role;

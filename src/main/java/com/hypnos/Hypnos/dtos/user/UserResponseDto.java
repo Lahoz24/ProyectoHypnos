@@ -20,6 +20,7 @@ public class UserResponseDto {
     private final Long id;
     private final String firstname;
     private final String lastname;
+    private final String alias;
     private final String email;
     private final String role;
     private final List<Publication> publications;

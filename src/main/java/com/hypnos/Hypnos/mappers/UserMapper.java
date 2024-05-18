@@ -20,6 +20,7 @@ public class UserMapper {
                 user.getId(),
                 user.getFirstname(),
                 user.getLastname(),
+                user.getAlias(),
                 user.getEmail(),
                 user.getRole().name(),
                 user.getPublications(),
@@ -34,6 +35,7 @@ public class UserMapper {
                 0L,
                 userRequestDto.getFirstname(),
                 userRequestDto.getLastname(),
+                userRequestDto.getAlias(),
                 userRequestDto.getEmail(),
                 userRequestDto.getPassword(),
                 userRequestDto.getRole(),
@@ -46,6 +48,7 @@ public class UserMapper {
     public User toModelfromRequestDto(Long userId) {
         return new User(
                 userId,
+                null,
                 null,
                 null,
                 null,
