@@ -3,7 +3,7 @@ package com.hypnos.Hypnos.controllers;
 import com.hypnos.Hypnos.auth.LoginRequest;
 import com.hypnos.Hypnos.auth.JwtService;
 import com.hypnos.Hypnos.auth.SignupRequest;
-import com.hypnos.Hypnos.services.user.UserDetailsServiceImpl;
+import com.hypnos.Hypnos.services.user.UserServiceImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -17,9 +17,9 @@ public class AuthController {
 
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
-    private final UserDetailsServiceImpl userDetailsService;
+    private final UserServiceImpl userDetailsService;
 
-    public AuthController(JwtService jwtService, AuthenticationManager authenticationManager, UserDetailsServiceImpl userDetailsService) {
+    public AuthController(JwtService jwtService, AuthenticationManager authenticationManager, UserServiceImpl userDetailsService) {
         this.jwtService = jwtService;
         this.authenticationManager = authenticationManager;
         this.userDetailsService = userDetailsService;

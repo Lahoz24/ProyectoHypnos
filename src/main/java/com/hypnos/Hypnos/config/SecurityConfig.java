@@ -1,8 +1,9 @@
 package com.hypnos.Hypnos.config;
 
 import com.hypnos.Hypnos.auth.JwtAuthenticationFilter;
-import com.hypnos.Hypnos.repositories.UserDetailsRepository;
-import com.hypnos.Hypnos.services.user.UserDetailsServiceImpl;
+import com.hypnos.Hypnos.mappers.UserMapper;
+import com.hypnos.Hypnos.repositories.UserRepository;
+import com.hypnos.Hypnos.services.user.UserServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -26,10 +27,12 @@ import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 @EnableMethodSecurity
 public class SecurityConfig {
 
-    private final UserDetailsRepository userDetailsRepository;
+    private final UserRepository userRepository;
+    private final UserMapper userMapper;
 
-    public SecurityConfig(UserDetailsRepository userDetailsRepository) {
-        this.userDetailsRepository = userDetailsRepository;
+    public SecurityConfig(UserRepository userRepository, UserMapper userMapper) {
+        this.userRepository = userRepository;
+        this.userMapper = userMapper;
     }
 
     @Bean
@@ -72,7 +75,7 @@ public class SecurityConfig {
 
     @Bean
     public UserDetailsService userDetailsService() {
-        return new UserDetailsServiceImpl(userDetailsRepository, passwordEncoder());
+        return new UserServiceImpl(userRepository,userMapper, passwordEncoder());
     }
 
     @Bean

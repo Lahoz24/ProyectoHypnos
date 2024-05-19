@@ -2,6 +2,7 @@ package com.hypnos.Hypnos.dtos.user;
 
 import com.hypnos.Hypnos.models.Comment;
 import com.hypnos.Hypnos.models.Publication;
+import com.hypnos.Hypnos.models.User;
 import jakarta.persistence.ManyToMany;
 import lombok.Builder;
 import lombok.Data;
@@ -26,5 +27,7 @@ public class UserResponseDto {
     private final List<Publication> publications;
     private final List<Publication> likedPublications;
     private final List<Comment> likedComments;
+    private final List<User> following;
+    private final List<User> followers;
     private final LocalDateTime createdAt;
 }

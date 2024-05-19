@@ -1,10 +1,7 @@
 package com.hypnos.Hypnos.models;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -39,6 +36,18 @@ public class User implements UserDetails {
     private List<Publication> likedPublications;
     @ManyToMany
     private List<Comment> likedComments;
+
+    // Relación de seguidores y seguidos
+    @ManyToMany
+    @JoinTable(
+            name = "user_following",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "following_id")
+    )
+    private List<User> following; // Lista de usuarios a los que sigue este usuario
+
+    @ManyToMany(mappedBy = "following")
+    private List<User> followers; // Lista de usuarios que siguen a este usuario
     @CreatedDate
     private LocalDateTime createdAt;
 

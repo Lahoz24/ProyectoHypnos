@@ -1,6 +1,7 @@
 package com.hypnos.Hypnos.services.publication;
 
 import com.hypnos.Hypnos.models.Publication;
+import com.hypnos.Hypnos.models.User;
 
 import java.util.List;
 
@@ -17,4 +18,6 @@ public interface PublicationService {
     List<Publication> getPublicationsByCategoryIds(List<Long> categoryIds);
 
     List<Publication> getRandomPublications(int page, int size);
+    List<Publication> findByUserInOrderByCreatedAtDesc(List<User> followedUsers);
+    List<Publication> getPublicationsFromFollowedUsersOrderByCreatedAtDesc(Long userId);
 }

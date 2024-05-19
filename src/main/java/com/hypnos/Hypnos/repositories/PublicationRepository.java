@@ -1,6 +1,7 @@
 package com.hypnos.Hypnos.repositories;
 
 import com.hypnos.Hypnos.models.Publication;
+import com.hypnos.Hypnos.models.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -25,10 +26,12 @@ public interface PublicationRepository extends JpaRepository<Publication, Long> 
     List<Publication> findLikedPublicationsByUserId(@Param("userId") Long userId);
 
     // Consulta para obtener un conjunto de IDs al azar
-    @Query(value = "SELECT id FROM Publication ORDER BY RAND() LIMIT ?1", nativeQuery = true)
+    @Query("SELECT id FROM Publication ORDER BY RAND() LIMIT 1")
     List<Long> findRandomPublicationIds(int limit);
 
     // Método para recuperar publicaciones por un conjunto de IDs
     Page<Publication> findByIdIn(List<Long> ids, Pageable pageable);
+
+    List<Publication> findByUserInOrderByCreatedAtDesc(List<User> followedUsers);
 }
 
