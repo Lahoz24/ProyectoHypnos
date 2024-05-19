@@ -1,78 +1,85 @@
 package com.hypnos.Hypnos.services.publication;
 
+import com.hypnos.Hypnos.models.Category;
 import com.hypnos.Hypnos.models.Publication;
 import com.hypnos.Hypnos.models.User;
+import com.hypnos.Hypnos.repositories.CategoryRepository;
 import com.hypnos.Hypnos.repositories.PublicationRepository;
 import com.hypnos.Hypnos.repositories.UserRepository;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
+@Slf4j
+@RequiredArgsConstructor
+
 public class PublicationServiceImpl implements PublicationService {
     private final PublicationRepository publicationRepository;
+    private final CategoryRepository categoryRepository;
     private final UserRepository userRepository;
 
-    @Autowired
-    public PublicationServiceImpl(PublicationRepository publicationRepository, UserRepository userRepository) {
-        this.publicationRepository = publicationRepository;
-        this.userRepository = userRepository;
-    }
 
     @Override
     public Publication findById(Long id) {
-        return null;
+        return publicationRepository.findById(id).orElseThrow();
     }
 
     @Override
     public List<Publication> findPublicationByText(String text) {
-        return null;
+        return publicationRepository.findPublicationByTextContainsIgnoreCase(text);
     }
 
     @Override
     public List<Publication> findPublicationByUserId(Long id) {
-        return null;
+        return publicationRepository.findPublicationByUser_Id(id);
     }
 
     @Override
     public List<Publication> findPublicationByUserAlias(String alias) {
-        return null;
+        return publicationRepository.findPublicationByUser_Alias(alias);
     }
 
     @Override
     public List<Publication> findPublicationsByCategoryIds(List<Long> categoryIds) {
-        return null;
+        return publicationRepository.findPublicationsByCategoryIds(categoryIds);
     }
 
     @Override
     public List<Publication> findLikedPublicationsByUserId(Long userId) {
-        return null;
+        return publicationRepository.findLikedPublicationsByUserId(userId);
     }
 
     @Override
     public void deleteById(Long id) {
-
+        publicationRepository.deleteById(id);
     }
 
     @Override
     public Publication save(Publication publication) {
-        return null;
+        return publicationRepository.save(publication);
     }
 
-    @Override
-    public Publication update(Long id, Publication publication) {
-        return null;
-    }
 
     @Override
     public List<Publication> getPublicationsByCategoryIds(List<Long> categoryIds) {
-        return null;
+        return publicationRepository.findPublicationsByCategoryIds(categoryIds);
     }
 
     @Override
     public List<Publication> getRandomPublications(int page, int size) {
-        return null;
+        // Seleccionar un conjunto de IDs al azar
+        List<Long> randomIds = publicationRepository.findRandomPublicationIds(size);
+        // Recuperar las publicaciones correspondientes a esos IDs
+        PageRequest pageRequest = PageRequest.of(page, size);
+        Page<Publication> publicationPage = publicationRepository.findByIdIn(randomIds, pageRequest);
+        return publicationPage.getContent();
     }
 
     @Override
@@ -89,5 +96,20 @@ public class PublicationServiceImpl implements PublicationService {
         // Obtenemos las publicaciones de los usuarios que sigue el usuario
         List<User> followedUsers = user.getFollowing();
         return publicationRepository.findByUserInOrderByCreatedAtDesc(followedUsers);
+    }
+    public Publication updateCategories(Long publicationId, List<Long> categoryIds, Long userId) {
+        Optional<Publication> optionalPublication = publicationRepository.findById(publicationId);
+        if (optionalPublication.isEmpty()) {
+            throw new IllegalArgumentException("Publication not found");
+        }
+
+        Publication publication = optionalPublication.get();
+        if (!publication.getUser().getId().equals(userId)) {
+            throw new IllegalStateException("User is not the owner of the publication");
+        }
+
+        List<Category> categories = categoryRepository.findAllById(categoryIds);
+        publication.setCategories(categories);
+        return publicationRepository.save(publication);
     }
 }

@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface CommentRepository extends JpaRepository<Comment, Long> {
     Optional<Comment> findCommentById(Long id);
-    List<Comment> findCommentByTextContainingIgnoreCase(String text);
+    List<Comment> findCommentByTextContainsIgnoreCase(String text);
     List<Comment> findCommentByUser_Id(Long userId);
     List<Comment> findCommentByPublication_Id(Long publicationId);
 

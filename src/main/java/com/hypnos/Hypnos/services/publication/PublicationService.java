@@ -14,10 +14,12 @@ public interface PublicationService {
     List<Publication> findLikedPublicationsByUserId(Long userId);
     void deleteById(Long id);
     Publication save(Publication publication);
-    Publication update(Long id, Publication publication);
+
     List<Publication> getPublicationsByCategoryIds(List<Long> categoryIds);
 
     List<Publication> getRandomPublications(int page, int size);
     List<Publication> findByUserInOrderByCreatedAtDesc(List<User> followedUsers);
     List<Publication> getPublicationsFromFollowedUsersOrderByCreatedAtDesc(Long userId);
+    Publication updateCategories(Long publicationId, List<Long> categoryIds, Long userId);
+
 }

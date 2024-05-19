@@ -18,8 +18,8 @@ public interface PublicationRepository extends JpaRepository<Publication, Long> 
     List<Publication> findPublicationByUser_Alias(String alias);
 
     // Custom query to find publications by category IDs
-    @Query("SELECT p FROM Publication p JOIN p.categories c WHERE c.id IN :categoryIds GROUP BY p.id HAVING COUNT(c.id) = :count")
-    List<Publication> findPublicationsByCategoryIds(@Param("categoryIds") List<Long> categoryIds, @Param("count") Long count);
+    @Query("SELECT DISTINCT p FROM Publication p JOIN p.categories c WHERE c.id IN :categoryIds")
+    List<Publication> findPublicationsByCategoryIds(@Param("categoryIds") List<Long> categoryIds);
 
     // Custom query to find liked publications by user ID
     @Query("SELECT p FROM Publication p JOIN p.likedByUsers u WHERE u.id = :userId")
