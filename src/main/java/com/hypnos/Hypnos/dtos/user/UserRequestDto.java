@@ -16,5 +16,4 @@ public class UserRequestDto {
     private final String alias;
     private final String email;
     private final String password;
-    private final Role role;
 }

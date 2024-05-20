@@ -2,6 +2,7 @@ package com.hypnos.Hypnos.mappers;
 
 import com.hypnos.Hypnos.dtos.user.UserRequestDto;
 import com.hypnos.Hypnos.dtos.user.UserResponseDto;
+import com.hypnos.Hypnos.models.Role;
 import com.hypnos.Hypnos.models.User;
 import org.springframework.stereotype.Component;
 
@@ -43,7 +44,7 @@ public class UserMapper {
                 userRequestDto.getAlias(),
                 userRequestDto.getEmail(),
                 userRequestDto.getPassword(),
-                userRequestDto.getRole(),
+                Role.USER,
                 null,
                 null,
                 null,

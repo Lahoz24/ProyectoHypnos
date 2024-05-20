@@ -3,6 +3,7 @@ package com.hypnos.Hypnos.services.user;
 import com.hypnos.Hypnos.auth.SignupRequest;
 import com.hypnos.Hypnos.dtos.user.UserResponseDto;
 import com.hypnos.Hypnos.mappers.UserMapper;
+import com.hypnos.Hypnos.models.Role;
 import com.hypnos.Hypnos.models.User;
 import com.hypnos.Hypnos.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -26,21 +27,29 @@ public class UserServiceImpl implements UserDetailsService {
 
 
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        return userRepository.findByEmail(email);
+    public UserDetails loadUserByUsername(String alias) throws UsernameNotFoundException {
+        return userRepository.findByAlias(alias);
     }
 
     public List<User> getAll(){
         return userRepository.findAll();
     }
 
-    public UserDetails create(SignupRequest signupRequest){
-        return userRepository.save(
-                new User(
-                        signupRequest.getEmail(),
-                        passwordEncoder.encode(signupRequest.getPassword())
-                )
-        );
+    public User create(SignupRequest signupRequest) {
+        String alias = signupRequest.getAlias();
+        if (!alias.startsWith("@")) {
+            alias = "@" + alias;
+        }
+
+        User user = new User();
+        user.setFirstname(signupRequest.getFirstname());
+        user.setLastname(signupRequest.getLastname());
+        user.setAlias(alias);
+        user.setEmail(signupRequest.getEmail());
+        user.setPassword(passwordEncoder.encode(signupRequest.getPassword()));
+        user.setRole(Role.USER);
+
+        return userRepository.save(user);
     }
 
     public void followUser(Long userId, Long userToFollowId) {

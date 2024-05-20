@@ -8,23 +8,21 @@ import com.hypnos.Hypnos.repositories.PublicationRepository;
 import com.hypnos.Hypnos.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Slf4j
 @RequiredArgsConstructor
-
 public class PublicationServiceImpl implements PublicationService {
     private final PublicationRepository publicationRepository;
     private final CategoryRepository categoryRepository;
     private final UserRepository userRepository;
-
 
     @Override
     public Publication findById(Long id) {
@@ -57,15 +55,22 @@ public class PublicationServiceImpl implements PublicationService {
     }
 
     @Override
-    public void deleteById(Long id) {
-        publicationRepository.deleteById(id);
+    @PreAuthorize("#alias == authentication.principal.alias")
+    public void deleteById(Long id, String alias) {
+        Publication publication = publicationRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Publication not found"));
+        if (publication.getUser().getAlias().equals(alias)) {
+            publicationRepository.deleteById(id);
+        } else {
+            throw new AccessDeniedException("You are not allowed to delete this publication");
+        }
     }
 
     @Override
+    @PreAuthorize("#publication.user.alias == authentication.principal.alias")
     public Publication save(Publication publication) {
         return publicationRepository.save(publication);
     }
-
 
     @Override
     public List<Publication> getPublicationsByCategoryIds(List<Long> categoryIds) {
@@ -97,13 +102,12 @@ public class PublicationServiceImpl implements PublicationService {
         List<User> followedUsers = user.getFollowing();
         return publicationRepository.findByUserInOrderByCreatedAtDesc(followedUsers);
     }
-    public Publication updateCategories(Long publicationId, List<Long> categoryIds, Long userId) {
-        Optional<Publication> optionalPublication = publicationRepository.findById(publicationId);
-        if (optionalPublication.isEmpty()) {
-            throw new IllegalArgumentException("Publication not found");
-        }
 
-        Publication publication = optionalPublication.get();
+    @Override
+    @PreAuthorize("#userId == authentication.principal.id")
+    public Publication updateCategories(Long publicationId, List<Long> categoryIds, Long userId) {
+        Publication publication = publicationRepository.findById(publicationId)
+                .orElseThrow(() -> new IllegalArgumentException("Publication not found"));
         if (!publication.getUser().getId().equals(userId)) {
             throw new IllegalStateException("User is not the owner of the publication");
         }

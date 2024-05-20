@@ -24,8 +24,10 @@ public class User implements UserDetails {
     private Long id;
     private String firstname;
     private String lastname;
+    @Getter
+    @Column(unique = true, nullable = false)
     private String alias;
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String email;
     private String password;
     @Enumerated(EnumType.STRING)
@@ -53,8 +55,11 @@ public class User implements UserDetails {
 
 
 
-    public User(String email, String password){
+    public User(String firstname,String lastname,String email,String alias, String password){
+        this.firstname = firstname;
+        this.lastname = lastname;
         this.email = email;
+        this.alias = alias;
         this.password = password;
     }
 
@@ -72,6 +77,7 @@ public class User implements UserDetails {
     public String getUsername() {
         return this.email;
     }
+
 
     @Override
     public boolean isAccountNonExpired() {

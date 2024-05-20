@@ -16,7 +16,7 @@ public class JwtService {
     @Value("${jwt.expiration}")
     public Long jwtExpiration;
 
-    public String createToken(String username){
+    public String createToken(String username) {
         String token = "";
         try {
             Algorithm algorithm = Algorithm.HMAC256(jwtSecretKey);
@@ -25,7 +25,7 @@ public class JwtService {
                     .withSubject(username)
                     .withExpiresAt(new Date(System.currentTimeMillis() + jwtExpiration))
                     .sign(algorithm);
-        } catch (JWTCreationException exception){
+        } catch (JWTCreationException exception) {
             // Invalid Signing configuration / Couldn't convert Claims.
         }
         return token;
