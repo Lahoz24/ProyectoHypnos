@@ -8,6 +8,7 @@ import com.hypnos.Hypnos.models.User;
 import com.hypnos.Hypnos.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -25,13 +26,12 @@ public class UserServiceImpl implements UserDetailsService {
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
 
-
     @Override
     public UserDetails loadUserByUsername(String alias) throws UsernameNotFoundException {
         return userRepository.findByAlias(alias);
     }
 
-    public List<User> getAll(){
+    public List<User> getAll() {
         return userRepository.findAll();
     }
 
@@ -52,6 +52,7 @@ public class UserServiceImpl implements UserDetailsService {
         return userRepository.save(user);
     }
 
+    @PreAuthorize("#userId == principal.id")
     public void followUser(Long userId, Long userToFollowId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
         User userToFollow = userRepository.findById(userToFollowId).orElseThrow(() -> new RuntimeException("User to follow not found"));
@@ -60,6 +61,7 @@ public class UserServiceImpl implements UserDetailsService {
         userRepository.save(user);
     }
 
+    @PreAuthorize("#userId == principal.id")
     public void unfollowUser(Long userId, Long userToUnfollowId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
         User userToUnfollow = userRepository.findById(userToUnfollowId).orElseThrow(() -> new RuntimeException("User to unfollow not found"));
@@ -83,5 +85,26 @@ public class UserServiceImpl implements UserDetailsService {
         return user.getFollowers();
     }
 
+    public List<User> findByFollowing_Id(Long userId) {
+        return userRepository.findByFollowing_Id(userId);
+    }
 
+    public List<User> findByFollowers_Id(Long userId) {
+        return userRepository.findByFollowers_Id(userId);
+    }
+
+    public Long countPublications(Long userId) {
+        return userRepository.countPublications(userId);
+    }
+
+    public User findByAliasContainsIgnoreCase(String alias) {
+        return userRepository.findByAliasContainsIgnoreCase(alias);
+    }
+    public User findByAlias(String alias) {
+        return userRepository.findByAlias(alias);
+    }
+    @PreAuthorize("hasRole('ADMIN') or #alias == principal.username")
+    public void deleteByAlias(String alias) {
+        userRepository.deleteByAlias(alias);
+    }
 }

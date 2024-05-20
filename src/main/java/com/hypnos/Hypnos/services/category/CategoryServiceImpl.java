@@ -4,6 +4,7 @@ import com.hypnos.Hypnos.models.Category;
 import com.hypnos.Hypnos.repositories.CategoryRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,9 +26,11 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    @PreAuthorize("hasRole('ADMIN')")
     public Category save(Category category) {
         return categoryRepository.save(category);
     }
+
     @Override
     public List<Category> findCategoriesByName(String name) {
         return categoryRepository.findCategoriesByNameContainsIgnoreCase(name);
@@ -39,11 +42,13 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    @PreAuthorize("hasRole('ADMIN')")
     public void deleteById(Long id) {
         categoryRepository.deleteById(id);
     }
 
     @Override
+    @PreAuthorize("hasRole('ADMIN')")
     public Category update(Long id, Category category) {
         Category updated = this.findById(id);
 

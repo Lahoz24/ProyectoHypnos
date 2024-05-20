@@ -22,5 +22,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query("SELECT COUNT(p) FROM Publication p WHERE p.user.id = :userId")
     Long countPublications(@Param("userId") Long userId);
 
+    void deleteByAlias(String alias);
+
 }
 

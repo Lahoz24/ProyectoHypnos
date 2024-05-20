@@ -4,6 +4,7 @@ import com.hypnos.Hypnos.models.Comment;
 import com.hypnos.Hypnos.repositories.CommentRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -40,7 +41,9 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    @PreAuthorize("#comment.user.id == authentication.principal.id")
     public void deleteById(Long id) {
         commentRepository.deleteById(id);
     }
+
 }

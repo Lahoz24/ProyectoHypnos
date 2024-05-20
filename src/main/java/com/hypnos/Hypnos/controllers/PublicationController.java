@@ -40,4 +40,46 @@ public class PublicationController {
         Publication updatedPublication = publicationService.updateCategories(id, categoryIds, userId);
         return ResponseEntity.ok(updatedPublication);
     }
+
+    @GetMapping("/text/{text}")
+    public ResponseEntity<List<Publication>> findPublicationByText(@PathVariable String text) {
+        List<Publication> publications = publicationService.findPublicationByText(text);
+        return ResponseEntity.ok(publications);
+    }
+
+    @GetMapping("/user/{id}")
+    public ResponseEntity<List<Publication>> findPublicationByUserId(@PathVariable Long id) {
+        List<Publication> publications = publicationService.findPublicationByUserId(id);
+        return ResponseEntity.ok(publications);
+    }
+
+    @GetMapping("/user/{alias}")
+    public ResponseEntity<List<Publication>> findPublicationByUserAlias(@PathVariable String alias) {
+        List<Publication> publications = publicationService.findPublicationByUserAlias(alias);
+        return ResponseEntity.ok(publications);
+    }
+
+    @GetMapping("/categories")
+    public ResponseEntity<List<Publication>> findPublicationsByCategoryIds(@RequestParam List<Long> categoryIds) {
+        List<Publication> publications = publicationService.findPublicationsByCategoryIds(categoryIds);
+        return ResponseEntity.ok(publications);
+    }
+
+    @GetMapping("/liked/{userId}")
+    public ResponseEntity<List<Publication>> findLikedPublicationsByUserId(@PathVariable Long userId) {
+        List<Publication> publications = publicationService.findLikedPublicationsByUserId(userId);
+        return ResponseEntity.ok(publications);
+    }
+
+    @GetMapping("/random")
+    public ResponseEntity<List<Publication>> getRandomPublications(@RequestParam int page, @RequestParam int size) {
+        List<Publication> publications = publicationService.getRandomPublications(page, size);
+        return ResponseEntity.ok(publications);
+    }
+
+    @GetMapping("/followed/{userId}")
+    public ResponseEntity<List<Publication>> getPublicationsFromFollowedUsersOrderByCreatedAtDesc(@PathVariable Long userId) {
+        List<Publication> publications = publicationService.getPublicationsFromFollowedUsersOrderByCreatedAtDesc(userId);
+        return ResponseEntity.ok(publications);
+    }
 }
