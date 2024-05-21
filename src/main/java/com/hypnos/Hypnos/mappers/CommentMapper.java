@@ -4,21 +4,23 @@ import com.hypnos.Hypnos.dtos.comment.CommentRequestDto;
 import com.hypnos.Hypnos.dtos.comment.CommentResponseDto;
 import com.hypnos.Hypnos.models.Comment;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
 
 @Component
 public class CommentMapper {
     private final UserMapper userMapper;
     private final PublicationMapper publicationMapper;
+
     @Autowired
-    public CommentMapper(UserMapper userMapper,PublicationMapper publicationMapper){
+    public CommentMapper(UserMapper userMapper, @Lazy PublicationMapper publicationMapper) {
         this.userMapper = userMapper;
         this.publicationMapper = publicationMapper;
     }
+
     public CommentResponseDto toResponse(Comment comment) {
         return new CommentResponseDto(
                 comment.getId(),
@@ -41,7 +43,7 @@ public class CommentMapper {
         return new Comment(
                 0L,
                 commentRequestDto.getText(),
-                        null,
+                null,
                 commentRequestDto.getUserId() != null ?
                         userMapper.toModelfromRequestDto(commentRequestDto.getUserId()) : null,
                 commentRequestDto.getPublicationId() != null ?
@@ -49,5 +51,4 @@ public class CommentMapper {
                 LocalDateTime.now()
         );
     }
-
 }

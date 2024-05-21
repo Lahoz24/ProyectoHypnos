@@ -1,11 +1,11 @@
 package com.hypnos.Hypnos.mappers;
 
-
 import com.hypnos.Hypnos.dtos.publication.PublicationRequestDto;
 import com.hypnos.Hypnos.dtos.publication.PublicationResponseDto;
 import com.hypnos.Hypnos.models.Category;
 import com.hypnos.Hypnos.models.Publication;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -19,11 +19,12 @@ public class PublicationMapper {
     private final CategoryMapper categoryMapper;
 
     @Autowired
-    public PublicationMapper(UserMapper userMapper,CommentMapper commentMapper,CategoryMapper categoryMapper){
+    public PublicationMapper(UserMapper userMapper, @Lazy CommentMapper commentMapper, CategoryMapper categoryMapper) {
         this.userMapper = userMapper;
         this.commentMapper = commentMapper;
         this.categoryMapper = categoryMapper;
     }
+
     public PublicationResponseDto toResponse(Publication publication) {
         return new PublicationResponseDto(
                 publication.getId(),
