@@ -41,7 +41,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    @PreAuthorize("#comment.user.id == authentication.principal.id")
+    @PreAuthorize("hasRole('ADMIN') or #comment.user.id == authentication.principal.id")
     public void deleteById(Long id) {
         commentRepository.deleteById(id);
     }
