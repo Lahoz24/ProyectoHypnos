@@ -31,7 +31,7 @@ public class User implements UserDetails {
     private String email;
     private String password;
     @Enumerated(EnumType.STRING)
-    private Role role = Role.USER;
+    private Role role;
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Publication> publications;
     @ManyToMany
@@ -55,12 +55,13 @@ public class User implements UserDetails {
 
 
 
-    public User(String firstname,String lastname,String email,String alias, String password){
+    public User(String firstname,String lastname,String email,String alias, String password, Role role){
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
         this.alias = alias;
         this.password = password;
+        this.role= role;
     }
 
     @Override

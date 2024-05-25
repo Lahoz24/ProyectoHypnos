@@ -6,6 +6,7 @@ import com.hypnos.Hypnos.models.User;
 import java.util.List;
 
 public interface PublicationService {
+    List<Publication> findAll();
     Publication findById(Long id);
     List<Publication> findPublicationByText(String text);
     List<Publication> findPublicationByUserId(Long id);
