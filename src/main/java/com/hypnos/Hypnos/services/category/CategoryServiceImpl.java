@@ -26,7 +26,6 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    @PreAuthorize("hasRole('ADMIN')")
     public Category save(Category category) {
         return categoryRepository.save(category);
     }
@@ -42,13 +41,11 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    @PreAuthorize("hasRole('ADMIN')")
     public void deleteById(Long id) {
         categoryRepository.deleteById(id);
     }
 
     @Override
-    @PreAuthorize("hasRole('ADMIN')")
     public Category update(Long id, Category category) {
         Category updated = this.findById(id);
 

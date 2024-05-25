@@ -1,9 +1,5 @@
 package com.hypnos.Hypnos;
 
-import com.hypnos.Hypnos.models.Category;
-import com.hypnos.Hypnos.models.User;
-import com.hypnos.Hypnos.repositories.UserRepository;
-import com.hypnos.Hypnos.services.category.CategoryService;
 import com.hypnos.Hypnos.services.faker.InitialDataCreationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -12,11 +8,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
 
-import java.util.List;
-@Profile("!test") // Este perfil excluye el perfil de test
 @SpringBootApplication
-
 public class HypnosApplication {
+
+	@Autowired
+	private InitialDataCreationService initialDataCreationService;
 
 	public static void main(String[] args) {
 		System.out.println("LOADING...");
@@ -25,8 +21,8 @@ public class HypnosApplication {
 		System.out.println("*                                                                                                                                                      			                          *");
 		System.out.println("*                                                                                                                                                      			       			          *");
 		System.out.println("*                                                                                                                                                                           		      *");
-		System.out.println("*                                                                                   ¡BIENVENIDO!                                                                            		      *");
-		System.out.println("*                                                                                    A HYPNOS                                                                            		          *");
+		System.out.println("*                                                                                   ¡BIENVENIDO                                                                            		          *");
+		System.out.println("*                                                                                    A HYPNOS!                                                                          		          *");
 		System.out.println("*                                                                                                                                                                           		      *");
 		System.out.println("*                                                                                                                                                      			            		      *");
 		System.out.println("*                                                                                                                                                                          			      *");
@@ -39,17 +35,9 @@ public class HypnosApplication {
 	}
 
 	@Bean
-	@Profile("data-init")
-	public CommandLineRunner init(InitialDataCreationService service,UserRepository userRepository,CategoryService categoryService) {
+	public CommandLineRunner init() {
 		return args -> {
-			service.createDefaultAdminUser();
-			service.createFakeUser(10);
-			service.createDefaultCategories();
-
-			List<User> users = userRepository.findAll();
-			List<Category> categories = categoryService.findAll();
-			service.createFakePublications(20, users, categories);
-			service.createDefaultComment(15, users, service.findAllPublications());
+			initialDataCreationService.init();
 		};
 	}
 }

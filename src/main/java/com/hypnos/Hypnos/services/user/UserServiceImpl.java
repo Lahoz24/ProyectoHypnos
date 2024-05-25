@@ -52,7 +52,6 @@ public class UserServiceImpl implements UserDetailsService {
         return userRepository.save(user);
     }
 
-    @PreAuthorize("hasRole('ADMIN') or #userId == principal.id")
     public void followUser(Long userId, Long userToFollowId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
         User userToFollow = userRepository.findById(userToFollowId).orElseThrow(() -> new RuntimeException("User to follow not found"));
@@ -61,7 +60,6 @@ public class UserServiceImpl implements UserDetailsService {
         userRepository.save(user);
     }
 
-    @PreAuthorize("hasRole('ADMIN') or #userId == principal.id")
     public void unfollowUser(Long userId, Long userToUnfollowId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
         User userToUnfollow = userRepository.findById(userToUnfollowId).orElseThrow(() -> new RuntimeException("User to unfollow not found"));
@@ -103,7 +101,6 @@ public class UserServiceImpl implements UserDetailsService {
     public User findByAlias(String alias) {
         return userRepository.findByAlias(alias);
     }
-    @PreAuthorize("hasRole('ADMIN') or #alias == principal.username")
     public void deleteByAlias(String alias) {
         userRepository.deleteByAlias(alias);
     }

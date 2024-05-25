@@ -10,6 +10,7 @@ import java.util.List;
 public interface UserRepository extends JpaRepository<User, Long> {
     User findByEmail(String email);
     User findByAlias(String alias);
+    Boolean existsByAlias(String alias);
     User findByAliasContainsIgnoreCase(String alias);
     List<User> findByFollowing_Id(Long userId);
     List<User> findByFollowers_Id(Long userId);

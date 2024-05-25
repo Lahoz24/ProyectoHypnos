@@ -57,7 +57,6 @@ public class PublicationServiceImpl implements PublicationService {
     }
 
     @Override
-    @PreAuthorize("hasRole('ADMIN') or #alias == authentication.principal.alias")
     public void deleteById(Long id, String alias) {
         Publication publication = publicationRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Publication not found"));
@@ -69,7 +68,6 @@ public class PublicationServiceImpl implements PublicationService {
     }
 
     @Override
-    @PreAuthorize("hasRole('ADMIN') or #publication.user.alias == authentication.principal.alias")
     public Publication save(Publication publication) {
         return publicationRepository.save(publication);
     }
@@ -106,7 +104,6 @@ public class PublicationServiceImpl implements PublicationService {
     }
 
     @Override
-    @PreAuthorize("hasRole('ADMIN') or #userId == authentication.principal.id")
     public Publication updateCategories(Long publicationId, List<Long> categoryIds, Long userId) {
         Publication publication = publicationRepository.findById(publicationId)
                 .orElseThrow(() -> new IllegalArgumentException("Publication not found"));
