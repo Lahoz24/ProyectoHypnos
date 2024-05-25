@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/auth")
+@CrossOrigin(origins = "http://127.0.0.1:5173")
 public class AuthController {
 
     private final JwtService jwtService;
@@ -27,15 +28,21 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody LoginRequest loginRequest) {
-        Authentication authentication =
-                authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                        loginRequest.getEmail(),
-                        loginRequest.getPassword()
-                ));
-        return ResponseEntity.ok(
-                jwtService.createToken(authentication.getName()
-                )
-        );
+        try {
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            loginRequest.getEmail(),
+                            loginRequest.getPassword()
+                    )
+            );
+            String token = jwtService.createToken(authentication.getName());
+            return ResponseEntity.ok(token);
+        } catch (Exception e) {
+            // Loggear el error
+            System.err.println("Error en autenticación: " + e.getMessage());
+            // Devolver un estado 403 con un mensaje detallado
+            return ResponseEntity.status(403).body("Correo electrónico o contraseña incorrectos.");
+        }
     }
     @PostMapping("/signup")
     public ResponseEntity<UserDetails> signup(@RequestBody SignupRequest signupRequest) {

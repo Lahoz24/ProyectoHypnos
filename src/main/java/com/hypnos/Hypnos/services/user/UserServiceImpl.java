@@ -27,9 +27,23 @@ public class UserServiceImpl implements UserDetailsService {
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    public UserDetails loadUserByUsername(String alias) throws UsernameNotFoundException {
-        return userRepository.findByAlias(alias);
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        User user = userRepository.findByEmail(email);
+        if (user == null) {
+            throw new UsernameNotFoundException("Usuario no encontrado con correo electrónico: " + email);
+        }
+
+        // Obtener la contraseña codificada almacenada en la base de datos
+        String storedPasswordEncoded = user.getPassword();
+
+        return org.springframework.security.core.userdetails.User.builder()
+                .username(user.getEmail()) // Utiliza el correo electrónico como nombre de usuario
+                .password(storedPasswordEncoded) // Utiliza la contraseña codificada almacenada
+                .roles(user.getRole().toString())
+                .build();
     }
+
+
 
     public List<User> getAll() {
         return userRepository.findAll();

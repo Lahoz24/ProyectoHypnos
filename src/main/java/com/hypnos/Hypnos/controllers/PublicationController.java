@@ -47,7 +47,7 @@ public class PublicationController {
         return ResponseEntity.ok(publications);
     }
 
-    @GetMapping("/user/{id}")
+    @GetMapping("/user/id/{id}")
     public ResponseEntity<List<Publication>> findPublicationByUserId(@PathVariable Long id) {
         List<Publication> publications = publicationService.findPublicationByUserId(id);
         return ResponseEntity.ok(publications);
