@@ -36,7 +36,7 @@ public class CategoryMapper {
         );
     }
 
-    public Category toModelfromRequestDto(Long categoryId) {
+    public Category toModelFromRequestDto(Long categoryId) {
         return new Category(
                 categoryId,
                 null,

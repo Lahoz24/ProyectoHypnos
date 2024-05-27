@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/comments")
-@CrossOrigin
+@CrossOrigin(origins = "*")
 @Slf4j
 @RequiredArgsConstructor
 public class CommentController {

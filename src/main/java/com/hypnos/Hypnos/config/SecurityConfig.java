@@ -1,7 +1,7 @@
 package com.hypnos.Hypnos.config;
 
-import com.hypnos.Hypnos.auth.*;
-import com.hypnos.Hypnos.mappers.UserMapper;
+import com.hypnos.Hypnos.auth.JwtAuthenticationFilter;
+import com.hypnos.Hypnos.auth.JwtService;
 import com.hypnos.Hypnos.repositories.UserDetailsRepository;
 import com.hypnos.Hypnos.services.user.UserServiceImpl;
 import org.springframework.context.annotation.Bean;
@@ -28,33 +28,26 @@ import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 public class SecurityConfig {
 
     private final UserDetailsRepository userDetailsRepository;
+    private final JwtService jwtService;
 
-    public SecurityConfig(UserDetailsRepository userDetailsRepository) {
+    public SecurityConfig(UserDetailsRepository userDetailsRepository, JwtService jwtService) {
         this.userDetailsRepository = userDetailsRepository;
+        this.jwtService = jwtService;
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http, MvcRequestMatcher.Builder mvc) throws Exception {
-        http
-                .csrf(csrf -> csrf.disable())
-                .authorizeHttpRequests((authorize) -> authorize
-                        .requestMatchers(mvc.pattern("/api/auth/login")).permitAll()
-                        .requestMatchers(mvc.pattern("/api/auth/signup")).permitAll()
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        return http.csrf().disable()
+                .headers().frameOptions().disable()
+                .and()
+                .authorizeRequests(authorize -> authorize
+                        .requestMatchers("/api/auth/**").permitAll()
                         .anyRequest().authenticated()
                 )
-                .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
-                .sessionManagement(customizer -> customizer
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                );
-
-        return http.build();
+                .addFilterBefore(new JwtAuthenticationFilter(jwtService), UsernamePasswordAuthenticationFilter.class)
+                .sessionManagement(customizer -> customizer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .build();
     }
-
-    @Bean
-    public JwtAuthenticationFilter jwtAuthenticationFilter() {
-        return new JwtAuthenticationFilter();
-    }
-
 
     @Bean
     public AuthenticationProvider authenticationProvider() {

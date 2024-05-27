@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import com.hypnos.Hypnos.models.User;
 
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping("/api/profile")
 public class ProfileController {
 

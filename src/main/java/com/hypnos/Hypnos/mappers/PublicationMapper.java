@@ -5,6 +5,7 @@ import com.hypnos.Hypnos.dtos.publication.PublicationResponseDto;
 import com.hypnos.Hypnos.models.Category;
 import com.hypnos.Hypnos.models.Publication;
 import com.hypnos.Hypnos.models.User;
+import com.hypnos.Hypnos.services.user.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
@@ -20,12 +21,14 @@ public class PublicationMapper {
     private final UserMapper userMapper;
     private final CommentMapper commentMapper;
     private final CategoryMapper categoryMapper;
+    private final UserServiceImpl userDetailsService;
 
     @Autowired
-    public PublicationMapper(UserMapper userMapper, @Lazy CommentMapper commentMapper, CategoryMapper categoryMapper) {
+    public PublicationMapper(UserMapper userMapper, @Lazy CommentMapper commentMapper, CategoryMapper categoryMapper, UserServiceImpl userDetailsService) {
         this.userMapper = userMapper;
         this.commentMapper = commentMapper;
         this.categoryMapper = categoryMapper;
+        this.userDetailsService = userDetailsService;
     }
 
     public PublicationResponseDto toResponse(Publication publication) {
@@ -41,7 +44,7 @@ public class PublicationMapper {
     }
 
     // Usar un método que reciba una lista de IDs de categorías y devuelva una lista de modelos de categorías
-    public Publication toModel(PublicationRequestDto publicationRequestDto) {
+   /* public Publication toModel(PublicationRequestDto publicationRequestDto) {
         List<Long> categoryIds = publicationRequestDto.getCategoryIds();
         List<Category> categories = new ArrayList<>();
         if (categoryIds != null) {
@@ -61,7 +64,25 @@ public class PublicationMapper {
                 null,
                 LocalDateTime.now()
         );
+    }*/
+    public Publication toModel(PublicationRequestDto publicationRequestDto) {
+        Publication publication = new Publication();
+        publication.setText(publicationRequestDto.getText());
+        publication.setUser(userDetailsService.findById(publicationRequestDto.getUserId()));
+
+        List<Long> categoryIds = publicationRequestDto.getCategoryIds();
+        List<Category> categories = new ArrayList<>();
+        if (categoryIds != null) {
+            for (Long categoryId : categoryIds) {
+                Category category = categoryMapper.toModelFromRequestDto(categoryId);
+                categories.add(category);
+            }
+        }
+        publication.setCategories(categories);
+
+        return publication;
     }
+
 
     public Publication toModelfromRequestDto(Long publicationId) {
         return new Publication(

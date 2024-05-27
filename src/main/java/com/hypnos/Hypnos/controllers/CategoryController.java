@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/categories")
-@CrossOrigin
+@CrossOrigin(origins = "*")
 @Slf4j
 @RequiredArgsConstructor
 public class CategoryController {

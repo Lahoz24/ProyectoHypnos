@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -105,4 +106,9 @@ public class UserServiceImpl implements UserDetailsService {
     public void deleteByAlias(String alias) {
         userDetailsRepository.deleteByAlias(alias);
     }
+    public User findById(Long id) {
+        Optional<User> optionalUser = userDetailsRepository.findById(id);
+        return optionalUser.orElse(null);
+    }
+
 }

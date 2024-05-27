@@ -3,7 +3,10 @@ package com.hypnos.Hypnos.controllers;
 import com.hypnos.Hypnos.auth.LoginRequest;
 import com.hypnos.Hypnos.auth.JwtService;
 import com.hypnos.Hypnos.auth.SignupRequest;
+import com.hypnos.Hypnos.dtos.user.UserResponseDto;
+import com.hypnos.Hypnos.models.User;
 import com.hypnos.Hypnos.services.user.UserServiceImpl;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -15,7 +18,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/auth")
-@CrossOrigin(origins = "http://127.0.0.1:5173")
+@CrossOrigin(origins = "*")
 public class AuthController {
 
     private final JwtService jwtService;
@@ -29,23 +32,45 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Map> login(@RequestBody LoginRequest loginRequest) {
-        Authentication authentication =
-                authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                        loginRequest.getEmail(),
-                        loginRequest.getPassword()
-                ));
-        return ResponseEntity.ok(Map.of("token",
-                jwtService.createToken(authentication.getName()
-                ))
-        );
+    public ResponseEntity<Map<String, Object>> login(@RequestBody LoginRequest loginRequest) {
+        return authenticateUser(loginRequest.getEmail(), loginRequest.getPassword());
     }
+
     @PostMapping("/signup")
     public ResponseEntity<UserDetails> signup(@RequestBody SignupRequest signupRequest) {
         return ResponseEntity.ok(
-                // jwtService.createToken(authentication.getName()),
                 userDetailsService.create(signupRequest) //pasar por mapper
         );
     }
+
+    private ResponseEntity<Map<String, Object>> authenticateUser(String email, String password) {
+            Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            String token = jwtService.createToken(userDetails.getUsername());
+            UserResponseDto userResponseDto = mapToUserResponseDto(userDetails);
+            return ResponseEntity.ok(Map.of("token", token, "user", userResponseDto));
+    }
+
+    private UserResponseDto mapToUserResponseDto(UserDetails userDetails) {
+        // Convierte UserDetails a tu clase de modelo de usuario
+        User user = (User) userDetails;
+
+        // Crea una instancia de UserResponseDto y establece los campos con los valores correspondientes
+        return UserResponseDto.builder()
+                .id(user.getId())
+                .firstname(user.getFirstname())
+                .lastname(user.getLastname())
+                .alias(user.getAlias())
+                .email(user.getEmail())
+                .role(user.getRole().toString()) // Suponiendo que el campo role es de tipo Enum
+                .publications(user.getPublications()) // Ajusta según la estructura real de tu usuario
+                .likedPublications(user.getLikedPublications()) // Ajusta según la estructura real de tu usuario
+                .likedComments(user.getLikedComments()) // Ajusta según la estructura real de tu usuario
+                .following(user.getFollowing()) // Ajusta según la estructura real de tu usuario
+                .followers(user.getFollowers()) // Ajusta según la estructura real de tu usuario
+                .createdAt(user.getCreatedAt())
+                .build();
+    }
 }
+
 

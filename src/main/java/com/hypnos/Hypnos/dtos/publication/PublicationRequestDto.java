@@ -13,6 +13,6 @@ import java.util.List;
 @Builder
 public class PublicationRequestDto {
     private String text;
-    private final Long userId;
+    private Long userId;
     private List<Long> categoryIds;
 }

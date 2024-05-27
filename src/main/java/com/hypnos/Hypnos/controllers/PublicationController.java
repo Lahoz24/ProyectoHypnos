@@ -26,7 +26,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/publications")
-@CrossOrigin(origins = "http://localhost:4200/")
+@CrossOrigin(origins = "*")
 @Slf4j
 @RequiredArgsConstructor
 public class PublicationController {
@@ -42,20 +42,18 @@ public class PublicationController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<PublicationResponseDto> createPublication(
+    public PublicationResponseDto createPublication(
             @RequestBody PublicationRequestDto publicationRequestDto
     ) {
-
+        try {
             log.info("Creating new publication");
-            Publication publicationSaved = publicationService.save(publicationMapper.toModel(publicationRequestDto));
-
-            return ResponseEntity.created(null).body(
-                    publicationMapper.toResponse(publicationSaved)
-            );
-
+            Publication publicationSaved = publicationMapper.toModel(publicationRequestDto);
+            return publicationMapper.toResponse(publicationService.save(publicationSaved));
+        } catch (Exception e) {
+            log.error("Error while creating publication: {}", e.getMessage());
+             throw new RuntimeException("Failed to create publication");
+        }
     }
-
-
 
     @PatchMapping("/{id}/categories")
     public ResponseEntity<Publication> updateCategories(@PathVariable Long id, @RequestBody List<Long> categoryIds, @RequestParam Long userId) {

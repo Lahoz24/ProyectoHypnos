@@ -9,13 +9,16 @@ import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-
 public class Publication {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,6 +27,7 @@ public class Publication {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @JsonBackReference // Usar @JsonBackReference en el lado hijo de la relación
     private User user;
 
     @ManyToMany
@@ -35,16 +39,14 @@ public class Publication {
     private List<Category> categories;
 
     @OneToMany(mappedBy = "publication")
+    @JsonManagedReference // Usar @JsonManagedReference en el lado padre de la relación
     private List<Comment> comments;
-
-
 
     @ManyToMany(mappedBy = "likedPublications")
     private List<User> likedByUsers;
 
     @CreatedDate
     private LocalDateTime createdAt;
-
 }
 
 
