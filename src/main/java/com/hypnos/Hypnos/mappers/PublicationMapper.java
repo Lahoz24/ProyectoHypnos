@@ -4,9 +4,12 @@ import com.hypnos.Hypnos.dtos.publication.PublicationRequestDto;
 import com.hypnos.Hypnos.dtos.publication.PublicationResponseDto;
 import com.hypnos.Hypnos.models.Category;
 import com.hypnos.Hypnos.models.Publication;
+import com.hypnos.Hypnos.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
+import org.springframework.security.core.context.SecurityContextHolder;
+
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;

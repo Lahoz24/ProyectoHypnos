@@ -3,17 +3,16 @@ package com.hypnos.Hypnos.dtos.publication;
 import com.hypnos.Hypnos.models.Category;
 import com.hypnos.Hypnos.models.Comment;
 import com.hypnos.Hypnos.models.User;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
+@NoArgsConstructor(force = true) // Para que no me de error en el constructor de jackson
+@RequiredArgsConstructor // Para que me cree un constructor con los atributos finales
 @AllArgsConstructor
-@Builder
 public class PublicationResponseDto {
     private final Long id;
     private String text;

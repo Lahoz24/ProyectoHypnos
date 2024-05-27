@@ -11,6 +11,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api/auth")
 @CrossOrigin(origins = "http://127.0.0.1:5173")
@@ -27,27 +29,21 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginRequest loginRequest) {
-        try {
-            Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(
-                            loginRequest.getEmail(),
-                            loginRequest.getPassword()
-                    )
-            );
-            String token = jwtService.createToken(authentication.getName());
-            return ResponseEntity.ok(token);
-        } catch (Exception e) {
-            // Loggear el error
-            System.err.println("Error en autenticación: " + e.getMessage());
-            // Devolver un estado 403 con un mensaje detallado
-            return ResponseEntity.status(403).body("Correo electrónico o contraseña incorrectos.");
-        }
+    public ResponseEntity<Map> login(@RequestBody LoginRequest loginRequest) {
+        Authentication authentication =
+                authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+                        loginRequest.getEmail(),
+                        loginRequest.getPassword()
+                ));
+        return ResponseEntity.ok(Map.of("token",
+                jwtService.createToken(authentication.getName()
+                ))
+        );
     }
     @PostMapping("/signup")
     public ResponseEntity<UserDetails> signup(@RequestBody SignupRequest signupRequest) {
         return ResponseEntity.ok(
-//                jwtService.createToken(authentication.getName())
+                // jwtService.createToken(authentication.getName()),
                 userDetailsService.create(signupRequest) //pasar por mapper
         );
     }

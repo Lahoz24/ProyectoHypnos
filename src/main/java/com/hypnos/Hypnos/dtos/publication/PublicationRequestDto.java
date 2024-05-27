@@ -15,5 +15,4 @@ public class PublicationRequestDto {
     private String text;
     private final Long userId;
     private List<Long> categoryIds;
-
 }

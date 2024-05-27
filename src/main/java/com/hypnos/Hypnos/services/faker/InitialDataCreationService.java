@@ -1,7 +1,7 @@
 package com.hypnos.Hypnos.services.faker;
 
 import com.hypnos.Hypnos.models.*;
-import com.hypnos.Hypnos.repositories.UserRepository;
+import com.hypnos.Hypnos.repositories.UserDetailsRepository;
 import com.hypnos.Hypnos.services.category.CategoryService;
 import com.hypnos.Hypnos.services.comment.CommentService;
 import com.hypnos.Hypnos.services.publication.PublicationService;
@@ -10,13 +10,12 @@ import lombok.RequiredArgsConstructor;
 import net.datafaker.Faker;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
 @RequiredArgsConstructor
 public class InitialDataCreationService {
-    private final UserRepository userRepository;
+    private final UserDetailsRepository userDetailsRepository;
     private final CategoryService categoryService;
     private final PublicationService publicationService;
     private final CommentService commentService;
@@ -27,7 +26,7 @@ public class InitialDataCreationService {
         createDefaultAdminUser();
         createFakeUser(10);
         createDefaultCategories();
-        List<User> users = userRepository.findAll();
+        List<User> users = userDetailsRepository.findAll();
         List<Category> categories = categoryService.findAll();
         createFakePublications(20, users, categories);
         createDefaultComment(15, users, publicationService.findAll());
@@ -36,7 +35,7 @@ public class InitialDataCreationService {
     public void createDefaultAdminUser() {
         String defaultAliasAl = "alvaro_lahoz";
         String defaultAliasAn = "ana_batres";
-        if (!userRepository.existsByAlias(defaultAliasAl) && !userRepository.existsByAlias(defaultAliasAn) ) {
+        if (!userDetailsRepository.existsByAlias(defaultAliasAl) && !userDetailsRepository.existsByAlias(defaultAliasAn) ) {
             User user = User.builder()
                     .firstname("Alvaro")
                     .lastname("Lahoz")
@@ -46,7 +45,7 @@ public class InitialDataCreationService {
                     .role(Role.ADMIN)
                     .build();
 
-            userRepository.save(user);
+            userDetailsRepository.save(user);
 
             User user2 = User.builder()
                     .firstname("Ana")
@@ -57,7 +56,7 @@ public class InitialDataCreationService {
                     .role(Role.ADMIN)
                     .build();
 
-            userRepository.save(user2);
+            userDetailsRepository.save(user2);
         }
 
 
@@ -75,7 +74,7 @@ public class InitialDataCreationService {
                     .role(Role.USER)
                     .build();
 
-            userRepository.save(user);
+            userDetailsRepository.save(user);
         }
     }
 

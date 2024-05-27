@@ -1,26 +1,39 @@
 package com.hypnos.Hypnos.controllers;
 
+import com.hypnos.Hypnos.dtos.publication.PublicationRequestDto;
+import com.hypnos.Hypnos.dtos.publication.PublicationResponseDto;
+import com.hypnos.Hypnos.mappers.PublicationMapper;
 import com.hypnos.Hypnos.models.Publication;
 import com.hypnos.Hypnos.models.User;
 import com.hypnos.Hypnos.services.publication.PublicationService;
+import com.hypnos.Hypnos.services.user.UserServiceImpl;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
+import java.security.Principal;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/publications")
+@CrossOrigin(origins = "http://localhost:4200/")
+@Slf4j
+@RequiredArgsConstructor
 public class PublicationController {
 
     private final PublicationService publicationService;
-
-    @Autowired
-    public PublicationController(PublicationService publicationService) {
-        this.publicationService = publicationService;
-    }
+    private final PublicationMapper publicationMapper;
+    private final UserServiceImpl userService;
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletePublication(@PathVariable Long id, @RequestParam String alias) {
@@ -28,12 +41,21 @@ public class PublicationController {
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping
-    public ResponseEntity<Publication> createPublication(@RequestBody Publication publication, @AuthenticationPrincipal User user) {
-        publication.setUser(user);
-        Publication createdPublication = publicationService.save(publication);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdPublication);
+    @PostMapping("/create")
+    public ResponseEntity<PublicationResponseDto> createPublication(
+            @RequestBody PublicationRequestDto publicationRequestDto
+    ) {
+
+            log.info("Creating new publication");
+            Publication publicationSaved = publicationService.save(publicationMapper.toModel(publicationRequestDto));
+
+            return ResponseEntity.created(null).body(
+                    publicationMapper.toResponse(publicationSaved)
+            );
+
     }
+
+
 
     @PatchMapping("/{id}/categories")
     public ResponseEntity<Publication> updateCategories(@PathVariable Long id, @RequestBody List<Long> categoryIds, @RequestParam Long userId) {

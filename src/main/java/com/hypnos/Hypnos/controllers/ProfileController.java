@@ -1,6 +1,6 @@
 package com.hypnos.Hypnos.controllers;
 
-import com.hypnos.Hypnos.repositories.UserRepository;
+import com.hypnos.Hypnos.repositories.UserDetailsRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -11,17 +11,17 @@ import com.hypnos.Hypnos.models.User;
 @RequestMapping("/api/profile")
 public class ProfileController {
 
-    private final UserRepository userRepository;
+    private final UserDetailsRepository userDetailsRepository;
 
-    public ProfileController(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public ProfileController(UserDetailsRepository userDetailsRepository) {
+        this.userDetailsRepository = userDetailsRepository;
     }
 
     @GetMapping("/me")
     public ResponseEntity<User> getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
-        User user = userRepository.findByEmail(email);
+        User user = userDetailsRepository.findByEmail(email);
         return ResponseEntity.ok(user);
     }
 }

@@ -5,13 +5,12 @@ import com.hypnos.Hypnos.models.Publication;
 import com.hypnos.Hypnos.models.User;
 import com.hypnos.Hypnos.repositories.CategoryRepository;
 import com.hypnos.Hypnos.repositories.PublicationRepository;
-import com.hypnos.Hypnos.repositories.UserRepository;
+import com.hypnos.Hypnos.repositories.UserDetailsRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,7 +21,7 @@ import java.util.List;
 public class PublicationServiceImpl implements PublicationService {
     private final PublicationRepository publicationRepository;
     private final CategoryRepository categoryRepository;
-    private final UserRepository userRepository;
+    private final UserDetailsRepository userDetailsRepository;
 
     @Override
     public List<Publication> findAll(){ return publicationRepository.findAll();}
@@ -95,7 +94,7 @@ public class PublicationServiceImpl implements PublicationService {
     @Override
     public List<Publication> getPublicationsFromFollowedUsersOrderByCreatedAtDesc(Long userId) {
         // Obtenemos al usuario
-        User user = userRepository.findById(userId)
+        User user = userDetailsRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         // Obtenemos las publicaciones de los usuarios que sigue el usuario

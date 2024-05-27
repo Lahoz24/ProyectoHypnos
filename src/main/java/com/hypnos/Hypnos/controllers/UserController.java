@@ -45,12 +45,6 @@ public class UserController {
         return ResponseEntity.ok(userMapper.toResponse(followers));
     }
 
-    @GetMapping("/{alias}/follow-stats")
-    public ResponseEntity<UserResponseDto> getUserFollowStats(@PathVariable String alias) {
-        log.info("getUserFollowStats");
-        User user = userServiceImpl.findByAlias(alias);
-        return ResponseEntity.ok(userServiceImpl.getUserFollowStats(user.getId()));
-    }
 
     @GetMapping("/{alias}/following-users")
     public ResponseEntity<List<UserResponseDto>> getFollowingUsers(@PathVariable String alias) {

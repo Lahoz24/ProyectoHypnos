@@ -1,8 +1,8 @@
 package com.hypnos.Hypnos.config;
 
-import com.hypnos.Hypnos.auth.JwtAuthenticationFilter;
+import com.hypnos.Hypnos.auth.*;
 import com.hypnos.Hypnos.mappers.UserMapper;
-import com.hypnos.Hypnos.repositories.UserRepository;
+import com.hypnos.Hypnos.repositories.UserDetailsRepository;
 import com.hypnos.Hypnos.services.user.UserServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,24 +21,16 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter;
-
-
-
 
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
-public class SecurityConfig{
+public class SecurityConfig {
 
-    private final UserRepository userRepository;
-    private final UserMapper userMapper;
+    private final UserDetailsRepository userDetailsRepository;
 
-    public SecurityConfig(UserRepository userRepository, UserMapper userMapper) {
-        this.userRepository = userRepository;
-        this.userMapper = userMapper;
+    public SecurityConfig(UserDetailsRepository userDetailsRepository) {
+        this.userDetailsRepository = userDetailsRepository;
     }
 
     @Bean
@@ -63,6 +55,7 @@ public class SecurityConfig{
         return new JwtAuthenticationFilter();
     }
 
+
     @Bean
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
@@ -72,7 +65,7 @@ public class SecurityConfig{
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(HttpSecurity  http) throws Exception {
+    public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
         AuthenticationManagerBuilder authenticationManagerBuilder = http.getSharedObject(AuthenticationManagerBuilder.class);
         authenticationManagerBuilder.userDetailsService(userDetailsService()).passwordEncoder(passwordEncoder());
         return authenticationManagerBuilder.build();
@@ -80,7 +73,7 @@ public class SecurityConfig{
 
     @Bean
     public UserDetailsService userDetailsService() {
-        return new UserServiceImpl(userRepository,userMapper, passwordEncoder());
+        return new UserServiceImpl(userDetailsRepository, passwordEncoder());
     }
 
     @Bean
