@@ -32,8 +32,8 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Map<String, Object>> login(@RequestBody LoginRequest loginRequest) {
-        return authenticateUser(loginRequest.getEmail(), loginRequest.getPassword());
+    public ResponseEntity<String> login(@RequestBody LoginRequest loginRequest) {
+        return ResponseEntity.ok(authenticateUser(loginRequest.getEmail(), loginRequest.getPassword()));
     }
 
     @PostMapping("/signup")
@@ -43,12 +43,10 @@ public class AuthController {
         );
     }
 
-    private ResponseEntity<Map<String, Object>> authenticateUser(String email, String password) {
-            Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
-            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-            String token = jwtService.createToken(userDetails.getUsername());
-            UserResponseDto userResponseDto = mapToUserResponseDto(userDetails);
-            return ResponseEntity.ok(Map.of("token", token, "user", userResponseDto));
+    private String authenticateUser(String email, String password) {
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        return jwtService.createToken(userDetails.getUsername());
     }
 
     private UserResponseDto mapToUserResponseDto(UserDetails userDetails) {
@@ -72,5 +70,4 @@ public class AuthController {
                 .build();
     }
 }
-
 
