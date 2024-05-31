@@ -34,4 +34,3 @@ public interface PublicationRepository extends JpaRepository<Publication, Long> 
 
     List<Publication> findByUserInOrderByCreatedAtDesc(List<User> followedUsers);
 }
-

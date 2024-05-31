@@ -34,6 +34,7 @@ public class PublicationMapper {
     public PublicationResponseDto toResponse(Publication publication) {
         return new PublicationResponseDto(
                 publication.getId(),
+                publication.getTitle(),
                 publication.getText(),
                 publication.getUser(),
                 publication.getCategories(),
@@ -67,6 +68,7 @@ public class PublicationMapper {
     }*/
     public Publication toModel(PublicationRequestDto publicationRequestDto) {
         Publication publication = new Publication();
+        publication.setTitle(publicationRequestDto.getTitle());
         publication.setText(publicationRequestDto.getText());
         publication.setUser(userDetailsService.findById(publicationRequestDto.getUserId()));
 
@@ -87,6 +89,7 @@ public class PublicationMapper {
     public Publication toModelfromRequestDto(Long publicationId) {
         return new Publication(
                 publicationId,
+                null,
                 null,
                 null,
                 null,

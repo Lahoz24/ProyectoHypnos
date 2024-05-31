@@ -22,5 +22,6 @@ public interface CategoryService {
 
     Category update(Long id, Category model);
 
+    boolean existsByName(String name);
 }
 

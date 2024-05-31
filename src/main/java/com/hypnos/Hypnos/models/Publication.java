@@ -23,7 +23,11 @@ public class Publication {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Lob
+    @Column(columnDefinition = "TEXT")
     private String text;
+
+    private String title;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

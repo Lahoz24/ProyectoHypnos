@@ -36,9 +36,46 @@ public class PublicationController {
     private final UserServiceImpl userService;
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletePublication(@PathVariable Long id, @RequestParam String alias) {
-        publicationService.deleteById(id, alias);
+    public ResponseEntity<Void> deletePublication(@PathVariable Long id) {
+        publicationService.deleteById(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/id/{id}")
+    public ResponseEntity<PublicationResponseDto> getPublicationById(@PathVariable Long id) {
+        try {
+            Publication publication = publicationService.findById(id);
+            if (publication != null) {
+                PublicationResponseDto responseDto = publicationMapper.toResponse(publication);
+                return ResponseEntity.ok(responseDto);
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch (Exception e) {
+            log.error("Error while fetching publication by ID: {}", e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<PublicationResponseDto> updatePublication(
+            @PathVariable Long id,
+            @RequestBody PublicationRequestDto publicationRequestDto
+    ) {
+        try {
+            log.info("Updating publication with ID: {}", id);
+            Publication existingPublication = publicationService.findById(id);
+            if (existingPublication == null) {
+                return ResponseEntity.notFound().build();
+            }
+            existingPublication.setText(publicationRequestDto.getText());
+            Publication updatedPublication = publicationService.save(existingPublication);
+            PublicationResponseDto responseDto = publicationMapper.toResponse(updatedPublication);
+            return ResponseEntity.ok(responseDto);
+        } catch (Exception e) {
+            log.error("Error while updating publication with ID {}: {}", id, e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
     @PostMapping("/create")
@@ -51,7 +88,7 @@ public class PublicationController {
             return publicationMapper.toResponse(publicationService.save(publicationSaved));
         } catch (Exception e) {
             log.error("Error while creating publication: {}", e.getMessage());
-             throw new RuntimeException("Failed to create publication");
+            throw new RuntimeException("Failed to create publication");
         }
     }
 

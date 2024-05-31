@@ -15,6 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 public class PublicationResponseDto {
     private final Long id;
+    private String title;
     private String text;
     private final User user;
     private List<Category> categories;

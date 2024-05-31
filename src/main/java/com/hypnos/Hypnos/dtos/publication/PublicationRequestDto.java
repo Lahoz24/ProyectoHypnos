@@ -12,6 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class PublicationRequestDto {
+    private String title;
     private String text;
     private Long userId;
     private List<Long> categoryIds;

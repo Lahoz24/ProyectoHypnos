@@ -56,14 +56,10 @@ public class PublicationServiceImpl implements PublicationService {
     }
 
     @Override
-    public void deleteById(Long id, String alias) {
+    public void deleteById(Long id) {
         Publication publication = publicationRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Publication not found"));
-        if (publication.getUser().getAlias().equals(alias)) {
-            publicationRepository.deleteById(id);
-        } else {
-            throw new AccessDeniedException("You are not allowed to delete this publication");
-        }
+        publicationRepository.delete(publication);
     }
 
     @Override

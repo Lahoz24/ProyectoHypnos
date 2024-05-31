@@ -13,7 +13,7 @@ public interface PublicationService {
     List<Publication> findPublicationByUserAlias(String alias);
     List<Publication> findPublicationsByCategoryIds(List<Long> categoryIds);
     List<Publication> findLikedPublicationsByUserId(Long userId);
-    void deleteById(Long id,String alias);
+    void deleteById(Long id);
     Publication save(Publication publication);
 
     List<Publication> getPublicationsByCategoryIds(List<Long> categoryIds);

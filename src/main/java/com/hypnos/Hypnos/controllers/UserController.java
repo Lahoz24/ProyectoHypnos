@@ -22,12 +22,6 @@ public class UserController {
     private final UserServiceImpl userServiceImpl;
     private final UserMapper userMapper;
 
-    @GetMapping("/id/{id}")
-    public ResponseEntity<UserResponseDto> getUserById(@PathVariable Long id) {
-        log.info("getUserById");
-        User user = userServiceImpl.findById(id);
-        return ResponseEntity.ok(userMapper.toResponse(user));
-    }
     @GetMapping("/{alias}")
     public ResponseEntity<UserResponseDto> getUserByAlias(@PathVariable String alias) {
         log.info("getUserByAlias");
