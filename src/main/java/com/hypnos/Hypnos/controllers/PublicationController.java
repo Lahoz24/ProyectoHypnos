@@ -3,9 +3,11 @@ package com.hypnos.Hypnos.controllers;
 import com.hypnos.Hypnos.dtos.publication.PublicationRequestDto;
 import com.hypnos.Hypnos.dtos.publication.PublicationResponseDto;
 import com.hypnos.Hypnos.mappers.PublicationMapper;
+import com.hypnos.Hypnos.models.Comment;
 import com.hypnos.Hypnos.models.Publication;
 import com.hypnos.Hypnos.models.User;
 import com.hypnos.Hypnos.services.publication.PublicationService;
+import com.hypnos.Hypnos.services.publication.PublicationServiceImpl;
 import com.hypnos.Hypnos.services.user.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +25,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 import java.security.Principal;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/publications")
@@ -92,8 +95,8 @@ public class PublicationController {
     }
 
     @GetMapping("/random")
-    public ResponseEntity<List<Publication>> getRandomPublications(@RequestParam int page, @RequestParam int size) {
-        List<Publication> publications = publicationService.getRandomPublications(page, size);
+    public ResponseEntity<List<Object[]>> getRandomPublications() {
+        List<Object[]> publications = publicationService.findRandomPublications();
         return ResponseEntity.ok(publications);
     }
 

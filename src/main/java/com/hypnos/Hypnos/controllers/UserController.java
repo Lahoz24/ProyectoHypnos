@@ -28,12 +28,6 @@ public class UserController {
         User user = userServiceImpl.findById(id);
         return ResponseEntity.ok(userMapper.toResponse(user));
     }
-    @GetMapping("/{alias}")
-    public ResponseEntity<UserResponseDto> getUserByAlias(@PathVariable String alias) {
-        log.info("getUserByAlias");
-        User user = userServiceImpl.findByAlias(alias);
-        return ResponseEntity.ok(userMapper.toResponse(user));
-    }
 
     @GetMapping("/{alias}/following")
     public ResponseEntity<List<UserResponseDto>> getFollowing(@PathVariable String alias) {
@@ -50,6 +44,7 @@ public class UserController {
         List<User> followers = userServiceImpl.getFollowers(user.getId());
         return ResponseEntity.ok(userMapper.toResponse(followers));
     }
+
 
 
     @GetMapping("/{alias}/following-users")
@@ -105,5 +100,15 @@ public class UserController {
         User userToUnfollow = userServiceImpl.findByAlias(userToUnfollowAlias);
         userServiceImpl.unfollowUser(user.getId(), userToUnfollow.getId());
         return ResponseEntity.noContent().build();
+    }
+    @GetMapping("/{alias}")
+    public ResponseEntity<UserResponseDto> getByAlias(@PathVariable String alias) {
+        log.info("getByAlias");
+        User user = userServiceImpl.findByAlias(alias);
+        if (user != null) {
+            return ResponseEntity.ok(userMapper.toResponse(user));
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 }

@@ -23,13 +23,29 @@ public class InitialDataCreationService {
 
     @PostConstruct
     public void init() {
+        // Verificar y crear usuarios por defecto
         createDefaultAdminUser();
-        createFakeUser(10);
-        createDefaultCategories();
+        if (userDetailsRepository.count() == 2) {
+            createFakeUser(10);
+        }
+
+        // Verificar y crear categorías por defecto
+        if (categoryService.findAll().isEmpty()) {
+            createDefaultCategories();
+        }
+
         List<User> users = userDetailsRepository.findAll();
         List<Category> categories = categoryService.findAll();
-        createFakePublications(20, users, categories);
-        createDefaultComment(15, users, publicationService.findAll());
+
+        // Verificar y crear publicaciones ficticias
+        if (publicationService.findAll().isEmpty()) {
+            createFakePublications(20, users, categories);
+        }
+
+        // Verificar y crear comentarios ficticios
+        if (commentService.findAll().isEmpty()) {
+            createDefaultComment(15, users, publicationService.findAll());
+        }
     }
 
     public void createDefaultAdminUser() {

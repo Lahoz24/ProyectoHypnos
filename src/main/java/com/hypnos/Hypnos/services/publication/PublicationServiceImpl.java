@@ -1,6 +1,7 @@
 package com.hypnos.Hypnos.services.publication;
 
 import com.hypnos.Hypnos.models.Category;
+import com.hypnos.Hypnos.models.Comment;
 import com.hypnos.Hypnos.models.Publication;
 import com.hypnos.Hypnos.models.User;
 import com.hypnos.Hypnos.repositories.CategoryRepository;
@@ -13,7 +14,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @Slf4j
@@ -77,13 +81,8 @@ public class PublicationServiceImpl implements PublicationService {
     }
 
     @Override
-    public List<Publication> getRandomPublications(int page, int size) {
-        // Seleccionar un conjunto de IDs al azar
-        List<Long> randomIds = publicationRepository.findRandomPublicationIds(size);
-        // Recuperar las publicaciones correspondientes a esos IDs
-        PageRequest pageRequest = PageRequest.of(page, size);
-        Page<Publication> publicationPage = publicationRepository.findByIdIn(randomIds, pageRequest);
-        return publicationPage.getContent();
+    public List<Object[]> findRandomPublications() {
+        return publicationRepository.findRandomPublications();
     }
 
     @Override
