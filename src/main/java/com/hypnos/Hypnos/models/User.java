@@ -1,5 +1,7 @@
 package com.hypnos.Hypnos.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -47,9 +49,11 @@ public class User implements UserDetails {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "following_id")
     )
+    @JsonManagedReference
     private List<User> following; // Lista de usuarios a los que sigue este usuario
 
     @ManyToMany(mappedBy = "following")
+    @JsonBackReference
     private List<User> followers; // Lista de usuarios que siguen a este usuario
     @CreatedDate
     private LocalDateTime createdAt;
