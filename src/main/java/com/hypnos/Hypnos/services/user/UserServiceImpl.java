@@ -55,9 +55,15 @@ public class UserServiceImpl implements UserDetailsService {
         return userDetailsRepository.save(user);
     }
 
-    public void followUser(Long userId, Long userToFollowId) {
-        User user = userDetailsRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
-        User userToFollow = userDetailsRepository.findById(userToFollowId).orElseThrow(() -> new RuntimeException("User to follow not found"));
+    public void followUser(Long userId, Long followId) {
+        User user = userDetailsRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+        User userToFollow = userDetailsRepository.findById(followId)
+                .orElseThrow(() -> new IllegalArgumentException("User to follow not found"));
+
+        if (user.getFollowing().contains(userToFollow)) {
+            throw new IllegalArgumentException("Already following this user");
+        }
 
         user.getFollowing().add(userToFollow);
         userDetailsRepository.save(user);

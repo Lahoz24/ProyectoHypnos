@@ -84,13 +84,10 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping("/{alias}/follow/{userToFollowAlias}")
-    public ResponseEntity<Void> followUser(@PathVariable String alias, @PathVariable String userToFollowAlias) {
-        log.info("followUser");
-        User user = userServiceImpl.findByAlias(alias);
-        User userToFollow = userServiceImpl.findByAlias(userToFollowAlias);
-        userServiceImpl.followUser(user.getId(), userToFollow.getId());
-        return ResponseEntity.noContent().build();
+    @PostMapping("/{userId}/follow/{followId}")
+    public ResponseEntity<String> followUser(@PathVariable Long userId, @PathVariable Long followId) {
+        userServiceImpl.followUser(userId, followId);
+        return ResponseEntity.ok("User followed successfully");
     }
 
     @DeleteMapping("/{alias}/unfollow/{userToUnfollowAlias}")

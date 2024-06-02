@@ -28,10 +28,8 @@ public class HypnosApplication {
 		System.out.println("*                                                                                                                                                                          			      *");
 		System.out.println("*******************************************************************************************************************************************************************************************");
 
-		System.out.println("Abre Postman en http://localhost:8080/api/users para ver los usuarios.");
-		System.out.println("Abre Postman en http://localhost:8080/api/categories para ver las categorías.");
-		System.out.println("Abre Postman en http://localhost:8080/api/publications para ver las publicaciones.");
-		System.out.println("Abre Postman en http://localhost:8080/api/comments para ver los comentarios.");
+		System.out.println("Abre Postman en http://localhost:8080/api/auth/signup para registrarte");
+		System.out.println("Abre Postman en http://localhost:8080/api/auth/login para loguearte");
 	}
 
 	@Bean
