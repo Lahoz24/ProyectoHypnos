@@ -64,7 +64,10 @@ public class User implements UserDetails {
         this.password = password;
         this.role= role;
     }
-
+    @PrePersist
+    protected void onCreate() {
+        this.createdAt = LocalDateTime.now();
+    }
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return role.getAuthorities();

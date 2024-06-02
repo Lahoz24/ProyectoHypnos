@@ -29,8 +29,7 @@ public interface PublicationRepository extends JpaRepository<Publication, Long> 
     @Query("SELECT id FROM Publication ORDER BY RAND() LIMIT 1")
     List<Long> findRandomPublicationIds(int limit);
 
-    // Método para recuperar publicaciones por un conjunto de IDs
-    Page<Publication> findByIdIn(List<Long> ids, Pageable pageable);
-
     List<Publication> findByUserInOrderByCreatedAtDesc(List<User> followedUsers);
+    @Query(value = "SELECT * FROM publication ORDER BY RAND() LIMIT 10", nativeQuery = true)
+    List<Object[]> findRandomPublications();
 }

@@ -50,7 +50,7 @@ public class UserMapper {
                 null,
                 null,
                 null,
-                LocalDateTime.now()
+                null
         );
     }
 

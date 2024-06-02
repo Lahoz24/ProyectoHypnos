@@ -38,8 +38,8 @@ public class CommentController {
     }
 
     @GetMapping("/publication/{publicationId}")
-    public ResponseEntity<List<Comment>> getCommentsByPublicationId(@PathVariable Long publicationId) {
-        List<Comment> comments = commentServiceImpl.findCommentByPublicationId(publicationId);
+    public ResponseEntity<List<Object[]>> getCommentTextsByPublicationId(@PathVariable Long publicationId) {
+        List<Object[]> comments = commentServiceImpl.findCommentTextsAndUserIdsByPublicationId(publicationId);
         return ResponseEntity.ok(comments);
     }
 

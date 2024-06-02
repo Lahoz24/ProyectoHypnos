@@ -1,9 +1,13 @@
 package com.hypnos.Hypnos.services.publication;
 
+import com.hypnos.Hypnos.models.Comment;
 import com.hypnos.Hypnos.models.Publication;
 import com.hypnos.Hypnos.models.User;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 public interface PublicationService {
     List<Publication> findAll();
@@ -18,9 +22,10 @@ public interface PublicationService {
 
     List<Publication> getPublicationsByCategoryIds(List<Long> categoryIds);
 
-    List<Publication> getRandomPublications(int page, int size);
     List<Publication> findByUserInOrderByCreatedAtDesc(List<User> followedUsers);
     List<Publication> getPublicationsFromFollowedUsersOrderByCreatedAtDesc(Long userId);
     Publication updateCategories(Long publicationId, List<Long> categoryIds, Long userId);
+    List<Object[]> findRandomPublications();
+
 
 }
