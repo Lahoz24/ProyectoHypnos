@@ -27,6 +27,7 @@ import java.util.Optional;
 public class UserServiceImpl implements UserDetailsService {
 
     private final UserDetailsRepository userDetailsRepository;
+    private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
 
     @Override
@@ -55,7 +56,7 @@ public class UserServiceImpl implements UserDetailsService {
         return userDetailsRepository.save(user);
     }
 
-    public void followUser(Long userId, Long followId) {
+    public UserResponseDto followUser(Long userId, Long followId) {
         User user = userDetailsRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
         User userToFollow = userDetailsRepository.findById(followId)
@@ -66,7 +67,12 @@ public class UserServiceImpl implements UserDetailsService {
         }
 
         user.getFollowing().add(userToFollow);
+        userToFollow.getFollowers().add(user);
         userDetailsRepository.save(user);
+        userDetailsRepository.save(userToFollow);
+
+        // Convert the updated user to UserResponseDto using UserMapper
+        return userMapper.toResponse(user);
     }
 
     public void unfollowUser(Long userId, Long userToUnfollowId) {

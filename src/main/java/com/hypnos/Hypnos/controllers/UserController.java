@@ -85,9 +85,9 @@ public class UserController {
     }
 
     @PostMapping("/{userId}/follow/{followId}")
-    public ResponseEntity<String> followUser(@PathVariable Long userId, @PathVariable Long followId) {
-        userServiceImpl.followUser(userId, followId);
-        return ResponseEntity.ok("User followed successfully");
+    public ResponseEntity<UserResponseDto> followUser(@PathVariable Long userId, @PathVariable Long followId) {
+        UserResponseDto updatedUser = userServiceImpl.followUser(userId, followId);
+        return ResponseEntity.ok(updatedUser);
     }
 
     @DeleteMapping("/{alias}/unfollow/{userToUnfollowAlias}")
