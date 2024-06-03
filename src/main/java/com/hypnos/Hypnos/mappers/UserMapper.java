@@ -2,11 +2,11 @@ package com.hypnos.Hypnos.mappers;
 
 import com.hypnos.Hypnos.dtos.user.UserRequestDto;
 import com.hypnos.Hypnos.dtos.user.UserResponseDto;
+import com.hypnos.Hypnos.dtos.user.UserSimpleDto;
 import com.hypnos.Hypnos.models.Role;
 import com.hypnos.Hypnos.models.User;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,8 +24,8 @@ public class UserMapper {
                 user.getPublications(),
                 user.getLikedPublications(),
                 user.getLikedComments(),
-                user.getFollowing(),
-                user.getFollowers(),
+                toSimpleDtoList(user.getFollowing()),
+                toSimpleDtoList(user.getFollowers()),
                 user.getCreatedAt()
         );
     }
@@ -70,5 +70,20 @@ public class UserMapper {
                 null,
                 null
         );
+    }
+
+    public UserSimpleDto toSimpleDto(User user) {
+        return UserSimpleDto.builder()
+                .id(user.getId())
+                .firstname(user.getFirstname())
+                .lastname(user.getLastname())
+                .alias(user.getAlias())
+                .build();
+    }
+
+    public List<UserSimpleDto> toSimpleDtoList(List<User> users) {
+        return users.stream()
+                .map(this::toSimpleDto)
+                .collect(Collectors.toList());
     }
 }

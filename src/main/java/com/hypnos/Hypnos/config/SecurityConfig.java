@@ -2,6 +2,7 @@ package com.hypnos.Hypnos.config;
 
 import com.hypnos.Hypnos.auth.JwtAuthenticationFilter;
 import com.hypnos.Hypnos.auth.JwtService;
+import com.hypnos.Hypnos.mappers.UserMapper;
 import com.hypnos.Hypnos.repositories.UserDetailsRepository;
 import com.hypnos.Hypnos.services.user.UserServiceImpl;
 import org.springframework.context.annotation.Bean;
@@ -29,10 +30,12 @@ public class SecurityConfig {
 
     private final UserDetailsRepository userDetailsRepository;
     private final JwtService jwtService;
+    private final UserMapper userMapper;
 
-    public SecurityConfig(UserDetailsRepository userDetailsRepository, JwtService jwtService) {
+    public SecurityConfig(UserDetailsRepository userDetailsRepository, JwtService jwtService, UserMapper userMapper) {
         this.userDetailsRepository = userDetailsRepository;
         this.jwtService = jwtService;
+        this.userMapper = userMapper;
     }
 
     @Bean
@@ -66,7 +69,7 @@ public class SecurityConfig {
 
     @Bean
     public UserDetailsService userDetailsService() {
-        return new UserServiceImpl(userDetailsRepository, passwordEncoder());
+        return new UserServiceImpl(userDetailsRepository, userMapper, passwordEncoder());
     }
 
     @Bean
