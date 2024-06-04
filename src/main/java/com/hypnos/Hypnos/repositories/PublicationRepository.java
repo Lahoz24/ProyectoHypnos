@@ -32,4 +32,7 @@ public interface PublicationRepository extends JpaRepository<Publication, Long> 
     List<Publication> findByUserInOrderByCreatedAtDesc(List<User> followedUsers);
     @Query(value = "SELECT * FROM publication ORDER BY RAND() LIMIT 10", nativeQuery = true)
     List<Object[]> findRandomPublications();
+
+    @Query("SELECT p FROM Publication p JOIN p.categories c WHERE c.id = :categoryId")
+    List<Object[]> findByCategoryId(@Param("categoryId") Long categoryId);
 }

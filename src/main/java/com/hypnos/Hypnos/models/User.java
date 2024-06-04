@@ -1,6 +1,7 @@
 package com.hypnos.Hypnos.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
@@ -36,10 +37,13 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonBackReference
     private List<Publication> publications;
     @ManyToMany
+    @JsonBackReference
     private List<Publication> likedPublications;
     @ManyToMany
+    @JsonIgnore
     private List<Comment> likedComments;
 
     // Relación de seguidores y seguidos

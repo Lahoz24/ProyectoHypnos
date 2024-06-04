@@ -2,6 +2,7 @@ package com.hypnos.Hypnos.controllers;
 
 import com.hypnos.Hypnos.dtos.publication.PublicationRequestDto;
 import com.hypnos.Hypnos.dtos.publication.PublicationResponseDto;
+import com.hypnos.Hypnos.dtos.publication.PublicationSimpleDto;
 import com.hypnos.Hypnos.mappers.PublicationMapper;
 import com.hypnos.Hypnos.models.Comment;
 import com.hypnos.Hypnos.models.Publication;
@@ -26,6 +27,7 @@ import java.net.URI;
 import java.security.Principal;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/publications")
@@ -141,5 +143,13 @@ public class PublicationController {
     public ResponseEntity<List<Publication>> getPublicationsFromFollowedUsersOrderByCreatedAtDesc(@PathVariable Long userId) {
         List<Publication> publications = publicationService.getPublicationsFromFollowedUsersOrderByCreatedAtDesc(userId);
         return ResponseEntity.ok(publications);
+    }
+
+
+    @GetMapping("/category/{categoryId}")
+    public ResponseEntity<List<PublicationSimpleDto>> getPublicationsByCategoryId(@PathVariable Long categoryId) {
+        List<Publication> publications = publicationService.getPublicationsByCategoryId(categoryId);
+        List<PublicationSimpleDto> publicationSimpleDtos = publicationMapper.toSimpleDtoList(publications);
+        return ResponseEntity.ok(publicationSimpleDtos);
     }
 }

@@ -40,12 +40,14 @@ public class Publication {
             joinColumns = @JoinColumn(name = "publication_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id")
     )
+    @JsonIgnore
     private List<Category> categories;
 
     @OneToMany(mappedBy = "publication")
-    @JsonManagedReference // Usar @JsonManagedReference en el lado padre de la relación
+    @JsonManagedReference // Uso @JsonManagedReference en el lado padre de la relación
     private List<Comment> comments;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "likedPublications")
     private List<User> likedByUsers;
 

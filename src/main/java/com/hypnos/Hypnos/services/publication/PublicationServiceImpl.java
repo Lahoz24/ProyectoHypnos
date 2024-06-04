@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -71,11 +72,13 @@ public class PublicationServiceImpl implements PublicationService {
         return publicationRepository.save(publication);
     }
 
-    @Override
-    public List<Publication> getPublicationsByCategoryIds(List<Long> categoryIds) {
-        return publicationRepository.findPublicationsByCategoryIds(categoryIds);
+    public List<Publication> getPublicationsByCategoryId(Long categoryId) {
+        List<Object[]> publications = publicationRepository.findByCategoryId(categoryId);
+        // Mapear los resultados a una lista de Publication
+        return publications.stream()
+                .map(objects -> (Publication) objects[0])
+                .collect(Collectors.toList());
     }
-
     @Override
     public List<Object[]> findRandomPublications() {
         return publicationRepository.findRandomPublications();

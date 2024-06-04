@@ -2,6 +2,8 @@ package com.hypnos.Hypnos.mappers;
 
 import com.hypnos.Hypnos.dtos.publication.PublicationRequestDto;
 import com.hypnos.Hypnos.dtos.publication.PublicationResponseDto;
+import com.hypnos.Hypnos.dtos.publication.PublicationSimpleDto;
+import com.hypnos.Hypnos.dtos.user.UserSimpleDto;
 import com.hypnos.Hypnos.models.Category;
 import com.hypnos.Hypnos.models.Publication;
 import com.hypnos.Hypnos.models.User;
@@ -15,6 +17,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class PublicationMapper {
@@ -97,5 +100,24 @@ public class PublicationMapper {
                 null,
                 null
         );
+    }
+    public PublicationSimpleDto toSimpleDto(Publication publication) {
+        return PublicationSimpleDto.builder()
+                .id(publication.getId())
+                .text(publication.getText())
+                .title(publication.getTitle())
+                .user(UserSimpleDto.builder()
+                        .id(publication.getUser().getId())
+                        .firstname(publication.getUser().getFirstname())
+                        .lastname(publication.getUser().getLastname())
+                        .alias(publication.getUser().getAlias())
+                        .build())
+                .build();
+    }
+
+    public List<PublicationSimpleDto> toSimpleDtoList(List<Publication> publications) {
+        return publications.stream()
+                .map(this::toSimpleDto)
+                .collect(Collectors.toList());
     }
 }

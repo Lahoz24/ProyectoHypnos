@@ -1,5 +1,6 @@
 package com.hypnos.Hypnos.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,6 +26,7 @@ public class Comment {
     private String text;
 
     @ManyToMany(mappedBy = "likedComments")
+    @JsonIgnore
     private List<User> likedByUsers;
 
     @ManyToOne

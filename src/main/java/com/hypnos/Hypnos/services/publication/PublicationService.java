@@ -20,12 +20,12 @@ public interface PublicationService {
     void deleteById(Long id);
     Publication save(Publication publication);
 
-    List<Publication> getPublicationsByCategoryIds(List<Long> categoryIds);
 
     List<Publication> findByUserInOrderByCreatedAtDesc(List<User> followedUsers);
     List<Publication> getPublicationsFromFollowedUsersOrderByCreatedAtDesc(Long userId);
     Publication updateCategories(Long publicationId, List<Long> categoryIds, Long userId);
     List<Object[]> findRandomPublications();
 
+    List<Publication> getPublicationsByCategoryId(Long categoryId);
 
 }
