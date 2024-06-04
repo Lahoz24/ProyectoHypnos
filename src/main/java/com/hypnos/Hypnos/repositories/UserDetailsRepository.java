@@ -14,6 +14,8 @@ public interface UserDetailsRepository extends JpaRepository<User, Long> {
     User findByEmail(String email);
     User findByAlias(String alias);
     Boolean existsByAlias(String alias);
+    List<User> findByAliasContainingIgnoreCase(String alias);
+
     User findByAliasContainsIgnoreCase(String alias);
     List<User> findByFollowing_Id(Long userId);
     List<User> findByFollowers_Id(Long userId);

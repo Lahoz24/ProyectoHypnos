@@ -35,6 +35,11 @@ public class UserServiceImpl implements UserDetailsService {
         return userDetailsRepository.findByEmail(email);
     }
 
+    public List<User> searchUsersByAlias(String alias) {
+        return userDetailsRepository.findByAliasContainingIgnoreCase(alias);
+    }
+
+
     public List<User> getAll() {
         return userDetailsRepository.findAll();
     }
@@ -74,7 +79,6 @@ public class UserServiceImpl implements UserDetailsService {
         // Convert the updated user to UserResponseDto using UserMapper
         return userMapper.toResponse(user);
     }
-
     public void unfollowUser(Long userId, Long userToUnfollowId) {
         User user = userDetailsRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
         User userToUnfollow = userDetailsRepository.findById(userToUnfollowId).orElseThrow(() -> new RuntimeException("User to unfollow not found"));
@@ -121,6 +125,35 @@ public class UserServiceImpl implements UserDetailsService {
     public User findById(Long id) {
         Optional<User> optionalUser = userDetailsRepository.findById(id);
         return optionalUser.orElse(null);
+    }
+
+    private void patchUser(User userUpdated, User user) {
+        if (user.getFirstname() != null) {
+            userUpdated.setFirstname(user.getFirstname());
+        }
+        if (user.getLastname() != null) {
+            userUpdated.setLastname(user.getLastname());
+        }
+        if (user.getPassword() != null) {
+            userUpdated.setPassword(passwordEncoder.encode(user.getPassword()));
+        }
+        if (user.getAlias() != null) {
+            userUpdated.setAlias(user.getAlias());
+        }
+        if (user.getEmail() != null) {
+            userUpdated.setEmail(user.getEmail());
+        }
+    }
+
+    public User patch(String alias, User user) {
+        User userUpdated = this.findByAlias(alias);
+        if (userUpdated == null) {
+            throw new RuntimeException("User not found");
+        }
+
+        patchUser(userUpdated, user);
+
+        return userDetailsRepository.save(userUpdated);
     }
 
 }

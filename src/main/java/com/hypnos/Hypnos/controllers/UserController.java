@@ -1,6 +1,7 @@
 package com.hypnos.Hypnos.controllers;
 
 import com.hypnos.Hypnos.auth.SignupRequest;
+import com.hypnos.Hypnos.dtos.user.UserRequestDto;
 import com.hypnos.Hypnos.dtos.user.UserResponseDto;
 import com.hypnos.Hypnos.mappers.UserMapper;
 import com.hypnos.Hypnos.models.User;
@@ -46,7 +47,6 @@ public class UserController {
     }
 
 
-
     @GetMapping("/{alias}/following-users")
     public ResponseEntity<List<UserResponseDto>> getFollowingUsers(@PathVariable String alias) {
         log.info("getFollowingUsers");
@@ -90,12 +90,10 @@ public class UserController {
         return ResponseEntity.ok(updatedUser);
     }
 
-    @DeleteMapping("/{alias}/unfollow/{userToUnfollowAlias}")
-    public ResponseEntity<Void> unfollowUser(@PathVariable String alias, @PathVariable String userToUnfollowAlias) {
+    @DeleteMapping("/{id}/unfollow/{userToUnfollowId}") // Cambiar los parámetros de alias a id
+    public ResponseEntity<Void> unfollowUser(@PathVariable Long id, @PathVariable Long userToUnfollowId) {
         log.info("unfollowUser");
-        User user = userServiceImpl.findByAlias(alias);
-        User userToUnfollow = userServiceImpl.findByAlias(userToUnfollowAlias);
-        userServiceImpl.unfollowUser(user.getId(), userToUnfollow.getId());
+        userServiceImpl.unfollowUser(id, userToUnfollowId); // Utilizar los IDs directamente
         return ResponseEntity.noContent().build();
     }
     @GetMapping("/{alias}")
@@ -108,4 +106,12 @@ public class UserController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @PatchMapping("/{alias}")
+    public ResponseEntity<UserResponseDto> patchUser(@PathVariable String alias, @RequestBody UserRequestDto userRequestDto) {
+        log.info("patchUser");
+        User updatedUser = userServiceImpl.patch(alias, userMapper.toModel(userRequestDto));
+        return ResponseEntity.ok(userMapper.toResponse(updatedUser));
+    }
+
 }
