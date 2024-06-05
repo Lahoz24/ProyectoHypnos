@@ -8,7 +8,11 @@ import com.hypnos.Hypnos.models.User;
 import com.hypnos.Hypnos.services.user.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -106,12 +110,16 @@ public class UserController {
             return ResponseEntity.notFound().build();
         }
     }
-
     @PatchMapping("/{alias}")
-    public ResponseEntity<UserResponseDto> patchUser(@PathVariable String alias, @RequestBody UserRequestDto userRequestDto) {
-        log.info("patchUser");
-        User updatedUser = userServiceImpl.patch(alias, userMapper.toModel(userRequestDto));
-        return ResponseEntity.ok(userMapper.toResponse(updatedUser));
+    public ResponseEntity<UserResponseDto> updateUser(@PathVariable String alias, @RequestBody UserRequestDto userRequestDto) {
+        log.info("updateUser");
+        try {
+            User updatedUser = userServiceImpl.updateUser(alias, userRequestDto);
+            return ResponseEntity.ok(userMapper.toResponse(updatedUser));
+        } catch (Exception e) {
+            log.error("Error updating user: ", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
 }

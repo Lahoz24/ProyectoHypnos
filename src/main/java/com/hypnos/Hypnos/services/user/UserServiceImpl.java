@@ -1,6 +1,7 @@
 package com.hypnos.Hypnos.services.user;
 
 import com.hypnos.Hypnos.auth.SignupRequest;
+import com.hypnos.Hypnos.dtos.user.UserRequestDto;
 import com.hypnos.Hypnos.dtos.user.UserResponseDto;
 import com.hypnos.Hypnos.mappers.UserMapper;
 import com.hypnos.Hypnos.models.Role;
@@ -127,33 +128,24 @@ public class UserServiceImpl implements UserDetailsService {
         return optionalUser.orElse(null);
     }
 
-    private void patchUser(User userUpdated, User user) {
-        if (user.getFirstname() != null) {
-            userUpdated.setFirstname(user.getFirstname());
-        }
-        if (user.getLastname() != null) {
-            userUpdated.setLastname(user.getLastname());
-        }
-        if (user.getPassword() != null) {
-            userUpdated.setPassword(passwordEncoder.encode(user.getPassword()));
-        }
-        if (user.getAlias() != null) {
-            userUpdated.setAlias(user.getAlias());
-        }
-        if (user.getEmail() != null) {
-            userUpdated.setEmail(user.getEmail());
-        }
-    }
-
-    public User patch(String alias, User user) {
-        User userUpdated = this.findByAlias(alias);
-        if (userUpdated == null) {
+    public User updateUser(String alias, UserRequestDto userRequestDto) {
+        User user = userDetailsRepository.findByAlias(alias);
+        if (user == null) {
             throw new RuntimeException("User not found");
         }
-
-        patchUser(userUpdated, user);
-
-        return userDetailsRepository.save(userUpdated);
+        if (userRequestDto.getFirstname() != null) {
+            user.setFirstname(userRequestDto.getFirstname());
+        }
+        if (userRequestDto.getLastname() != null) {
+            user.setLastname(userRequestDto.getLastname());
+        }
+        if (userRequestDto.getEmail() != null) {
+            user.setEmail(userRequestDto.getEmail());
+        }
+        if (userRequestDto.getAlias() != null) {
+            user.setAlias(userRequestDto.getAlias());
+        }
+        return userDetailsRepository.save(user);
     }
 
 }
