@@ -185,6 +185,7 @@ public class InitialDataCreationService {
 
             Publication publication = Publication.builder()
                     .text(faker.lorem().sentence())
+                    .title(faker.lorem().word())
                     .user(randomUser)
                     .categories(randomCategories)
                     .createdAt(LocalDateTime.now())
@@ -220,7 +221,7 @@ public class InitialDataCreationService {
     }
 
     private List<Category> getRandomCategories(List<Category> categories) {
-        int numCategories = faker.number().numberBetween(1, categories.size());
+        int numCategories = faker.number().numberBetween(1, 4);
         List<Category> randomCategories = new ArrayList<>();
         Set<Integer> chosenIndexes = new HashSet<>();
 
