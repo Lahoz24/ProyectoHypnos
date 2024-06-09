@@ -17,7 +17,7 @@ public class PublicationResponseDto {
     private String title;
     private String text;
     private final User user;
-    private Category category;
+    private List<Category> categories;
     private final LocalDateTime createdAt;
 }
 

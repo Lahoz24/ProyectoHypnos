@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import net.datafaker.Faker;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
@@ -186,6 +187,7 @@ public class InitialDataCreationService {
                     .text(faker.lorem().sentence())
                     .user(randomUser)
                     .categories(randomCategories)
+                    .createdAt(LocalDateTime.now())
                     .build();
 
             publicationService.save(publication);
@@ -202,9 +204,10 @@ public class InitialDataCreationService {
                     .text(faker.lorem().sentence())
                     .user(randomUser)
                     .publication(randomPublication)
+                    .createdAt(LocalDateTime.now())
                     .build();
 
-            commentService.save(comment); // Debes inyectar el servicio de comentarios (commentService)
+            commentService.save(comment);
         }
     }
 
@@ -231,8 +234,5 @@ public class InitialDataCreationService {
         }
 
         return randomCategories;
-    }
-    public List<Publication> findAllPublications() {
-        return publicationService.findAll();
     }
 }

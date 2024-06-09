@@ -5,7 +5,6 @@ import com.hypnos.Hypnos.dtos.publication.PublicationResponseDto;
 import com.hypnos.Hypnos.mappers.PublicationMapper;
 import com.hypnos.Hypnos.models.Publication;
 import com.hypnos.Hypnos.services.publication.PublicationService;
-import com.hypnos.Hypnos.services.user.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -13,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/publications")
@@ -23,7 +23,6 @@ public class PublicationController {
 
     private final PublicationService publicationService;
     private final PublicationMapper publicationMapper;
-    private final UserServiceImpl userService;
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletePublication(@PathVariable Long id) {
@@ -48,46 +47,59 @@ public class PublicationController {
     }
 
     @PostMapping("/create")
-    public PublicationResponseDto createPublication(@RequestBody PublicationRequestDto publicationRequestDto) {
+    public ResponseEntity<PublicationResponseDto> createPublication(@RequestBody PublicationRequestDto publicationRequestDto) {
         try {
             log.info("Creating new publication");
-            Publication publicationSaved = publicationMapper.toModel(publicationRequestDto);
-            return publicationMapper.toResponse(publicationService.save(publicationSaved));
+            Publication publicationSaved = publicationService.create(publicationRequestDto);
+            return ResponseEntity.status(HttpStatus.CREATED).body(publicationMapper.toResponse(publicationSaved));
         } catch (Exception e) {
             log.error("Error while creating publication: {}", e.getMessage());
-            throw new RuntimeException("Failed to create publication");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 
     @GetMapping("/text/{text}")
-    public ResponseEntity<List<Publication>> findPublicationByText(@PathVariable String text) {
+    public ResponseEntity<List<PublicationResponseDto>> findPublicationByText(@PathVariable String text) {
         List<Publication> publications = publicationService.findPublicationByText(text);
-        return ResponseEntity.ok(publications);
+        List<PublicationResponseDto> responseDtos = publications.stream()
+                .map(publicationMapper::toResponse)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(responseDtos);
     }
 
     @GetMapping("/user/id/{id}")
-    public ResponseEntity<List<Publication>> findPublicationByUserId(@PathVariable Long id) {
+    public ResponseEntity<List<PublicationResponseDto>> findPublicationByUserId(@PathVariable Long id) {
         List<Publication> publications = publicationService.findPublicationByUserId(id);
-        return ResponseEntity.ok(publications);
+        List<PublicationResponseDto> responseDtos = publications.stream()
+                .map(publicationMapper::toResponse)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(responseDtos);
     }
 
     @GetMapping("/user/{alias}")
-    public ResponseEntity<List<Publication>> findPublicationByUserAlias(@PathVariable String alias) {
+    public ResponseEntity<List<PublicationResponseDto>> findPublicationByUserAlias(@PathVariable String alias) {
         List<Publication> publications = publicationService.findPublicationByUserAlias(alias);
-        return ResponseEntity.ok(publications);
+        List<PublicationResponseDto> responseDtos = publications.stream()
+                .map(publicationMapper::toResponse)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(responseDtos);
     }
 
     @GetMapping("/categories")
-    public ResponseEntity<List<Publication>> findPublicationsByCategoryIds(@RequestParam Long categoryIds) {
-        List<Publication> publications = publicationService.findPublicationByCategoryId(categoryIds);
-        return ResponseEntity.ok(publications);
+    public ResponseEntity<List<PublicationResponseDto>> findPublicationsByCategoryIds(@RequestParam List<Long> categoryIds) {
+        List<Publication> publications = publicationService.findPublicationsByCategoryIds(categoryIds);
+        List<PublicationResponseDto> responseDtos = publications.stream()
+                .map(publicationMapper::toResponse)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(responseDtos);
     }
 
     @GetMapping("/random")
-    public ResponseEntity<List<Publication>> getRandomPublications() {
+    public ResponseEntity<List<PublicationResponseDto>> getRandomPublications() {
         List<Publication> publications = publicationService.findRandomPublications();
-        return ResponseEntity.ok(publications);
+        List<PublicationResponseDto> responseDtos = publications.stream()
+                .map(publicationMapper::toResponse)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(responseDtos);
     }
-
-
 }

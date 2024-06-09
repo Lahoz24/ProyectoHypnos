@@ -4,6 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.List;
+import java.util.Set;
+
 @Data
 @AllArgsConstructor
 @Builder
@@ -11,5 +14,5 @@ public class PublicationRequestDto {
     private String title;
     private String text;
     private Long userId;
-    private Long categoryId;
+    private List<Long> categoryIds;
 }

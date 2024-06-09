@@ -1,5 +1,6 @@
 package com.hypnos.Hypnos.repositories;
 
+import com.hypnos.Hypnos.models.Category;
 import com.hypnos.Hypnos.models.Publication;
 import com.hypnos.Hypnos.models.User;
 import org.springframework.data.domain.Page;
@@ -16,9 +17,10 @@ public interface PublicationRepository extends JpaRepository<Publication, Long> 
     List<Publication> findPublicationByTextContainsIgnoreCase(String text);
     List<Publication> findPublicationByUser_Id(Long userId);
     List<Publication> findPublicationByUser_Alias(String alias);
-    List<Publication> findPublicationByCategory_Id(Long categoryId);
+    List<Publication> findPublicationsByCategories_IdIn(List<Long> categoryIds);
     @Query(value = "SELECT * FROM publication ORDER BY RAND() LIMIT 10", nativeQuery = true)
     List<Publication> findRandomPublications();
+
 
 /*    @Query(value = "SELECT * FROM publication ORDER BY RAND() LIMIT 10", nativeQuery = true)
     List<Object[]> findRandomPublications();*/

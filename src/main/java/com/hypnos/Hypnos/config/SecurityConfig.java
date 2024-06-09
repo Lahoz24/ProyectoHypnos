@@ -30,12 +30,10 @@ public class SecurityConfig {
 
     private final UserDetailsRepository userDetailsRepository;
     private final JwtService jwtService;
-    private final UserMapper userMapper;
 
-    public SecurityConfig(UserDetailsRepository userDetailsRepository, JwtService jwtService, UserMapper userMapper) {
+    public SecurityConfig(UserDetailsRepository userDetailsRepository, JwtService jwtService) {
         this.userDetailsRepository = userDetailsRepository;
         this.jwtService = jwtService;
-        this.userMapper = userMapper;
     }
 
     @Bean
@@ -69,7 +67,7 @@ public class SecurityConfig {
 
     @Bean
     public UserDetailsService userDetailsService() {
-        return new UserServiceImpl(userDetailsRepository, userMapper, passwordEncoder());
+        return new UserServiceImpl(userDetailsRepository, passwordEncoder());
     }
 
     @Bean

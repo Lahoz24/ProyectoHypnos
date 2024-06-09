@@ -1,5 +1,6 @@
 package com.hypnos.Hypnos.services.publication;
 
+import com.hypnos.Hypnos.dtos.publication.PublicationRequestDto;
 import com.hypnos.Hypnos.models.Comment;
 import com.hypnos.Hypnos.models.Publication;
 import com.hypnos.Hypnos.models.User;
@@ -15,9 +16,14 @@ public interface PublicationService {
     List<Publication> findPublicationByText(String text);
     List<Publication> findPublicationByUserId(Long userId);
     List<Publication> findPublicationByUserAlias(String alias);
-    List<Publication> findPublicationByCategoryId(Long categoryId);
+    List<Publication> findPublicationsByCategoryIds(List<Long> categoryIds);
+
     void deleteById(Long id);
-    Publication save(Publication publication);
+    Publication create(PublicationRequestDto PublicationRequestDto);
+
+    Publication save(Publication Publication);
+
+
     List<Publication> findRandomPublications();
 
 

@@ -1,30 +1,22 @@
 package com.hypnos.Hypnos.services.publication;
 
-import com.hypnos.Hypnos.models.Category;
-import com.hypnos.Hypnos.models.Comment;
+import com.hypnos.Hypnos.dtos.publication.PublicationRequestDto;
 import com.hypnos.Hypnos.models.Publication;
-import com.hypnos.Hypnos.models.User;
-import com.hypnos.Hypnos.repositories.CategoryRepository;
 import com.hypnos.Hypnos.repositories.PublicationRepository;
-import com.hypnos.Hypnos.repositories.UserDetailsRepository;
+import com.hypnos.Hypnos.mappers.PublicationMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @Service
 @Slf4j
 @RequiredArgsConstructor
 public class PublicationServiceImpl implements PublicationService {
+
     private final PublicationRepository publicationRepository;
+    private final PublicationMapper publicationMapper;
 
     @Override
     public List<Publication> findAll() {
@@ -52,15 +44,19 @@ public class PublicationServiceImpl implements PublicationService {
     }
 
     @Override
-    public List<Publication> findPublicationByCategoryId(Long categoryId) {
-        return publicationRepository.findPublicationByCategory_Id(categoryId);
+    public List<Publication> findPublicationsByCategoryIds(List<Long> categoryIds) {
+        return publicationRepository.findPublicationsByCategories_IdIn(categoryIds);
     }
 
     @Override
     public void deleteById(Long id) {
         publicationRepository.deleteById(id);
     }
-
+    @Override
+    public Publication create(PublicationRequestDto publicationRequestDto) {
+        Publication publication = publicationMapper.toModel(publicationRequestDto);
+        return publicationRepository.save(publication);
+    }
     @Override
     public Publication save(Publication publication) {
         return publicationRepository.save(publication);
@@ -70,6 +66,7 @@ public class PublicationServiceImpl implements PublicationService {
     public List<Publication> findRandomPublications() {
         return publicationRepository.findRandomPublications();
     }
+
 
 
 }
