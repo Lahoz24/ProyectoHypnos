@@ -1,99 +1,46 @@
 package com.hypnos.Hypnos.mappers;
 
+import com.hypnos.Hypnos.dtos.category.CategoryResponseDto;
 import com.hypnos.Hypnos.dtos.publication.PublicationRequestDto;
 import com.hypnos.Hypnos.dtos.publication.PublicationResponseDto;
-import com.hypnos.Hypnos.dtos.publication.PublicationSimpleDto;
-import com.hypnos.Hypnos.dtos.user.UserSimpleDto;
 import com.hypnos.Hypnos.models.Category;
 import com.hypnos.Hypnos.models.Publication;
-import com.hypnos.Hypnos.models.User;
-import com.hypnos.Hypnos.services.user.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
-import org.springframework.security.core.context.SecurityContextHolder;
 
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
 public class PublicationMapper {
-    private final UserMapper userMapper;
-    private final CommentMapper commentMapper;
     private final CategoryMapper categoryMapper;
-    private final UserServiceImpl userDetailsService;
+    private final UserMapper userMapper;
 
     @Autowired
-    public PublicationMapper(UserMapper userMapper, @Lazy CommentMapper commentMapper, CategoryMapper categoryMapper, UserServiceImpl userDetailsService) {
+    public PublicationMapper(UserMapper userMapper, CategoryMapper categoryMapper) {
         this.userMapper = userMapper;
-        this.commentMapper = commentMapper;
         this.categoryMapper = categoryMapper;
-        this.userDetailsService = userDetailsService;
     }
 
-    public PublicationResponseDto toResponse(Publication publication) {
-        return new PublicationResponseDto(
-                publication.getId(),
-                publication.getTitle(),
-                publication.getText(),
-                publication.getUser(),
-                publication.getCategories(),
-                publication.getComments(),
-                publication.getLikedByUsers(),
-                publication.getCreatedAt()
-        );
-    }
-
-    // Usar un método que reciba una lista de IDs de categorías y devuelva una lista de modelos de categorías
-   /* public Publication toModel(PublicationRequestDto publicationRequestDto) {
-        List<Long> categoryIds = publicationRequestDto.getCategoryIds();
-        List<Category> categories = new ArrayList<>();
-        if (categoryIds != null) {
-            for (Long categoryId : categoryIds) {
-                Category category = categoryMapper.toModelfromRequestDto(categoryId);
-                categories.add(category);
-            }
-        }
-
+    public Publication toModel(PublicationRequestDto publicationRequestDto) {
         return new Publication(
                 0L,
                 publicationRequestDto.getText(),
+                publicationRequestDto.getTitle(),
                 publicationRequestDto.getUserId() != null ?
-                        userMapper.toModelfromRequestDto(publicationRequestDto.getUserId()) : null,
-                categories, // Utiliza la lista de modelos de categorías creada anteriormente
-                null,
-                null,
+                        userMapper.toModelFromRequestDto(publicationRequestDto.getUserId()) : null,
+                publicationRequestDto.getCategoryId() != null ?
+                        categoryMapper.toModelFromRequestDto(publicationRequestDto.getCategoryId()) : null,
                 LocalDateTime.now()
         );
-    }*/
-    public Publication toModel(PublicationRequestDto publicationRequestDto) {
-        Publication publication = new Publication();
-        publication.setTitle(publicationRequestDto.getTitle());
-        publication.setText(publicationRequestDto.getText());
-        publication.setUser(userDetailsService.findById(publicationRequestDto.getUserId()));
-
-        List<Long> categoryIds = publicationRequestDto.getCategoryIds();
-        List<Category> categories = new ArrayList<>();
-        if (categoryIds != null) {
-            for (Long categoryId : categoryIds) {
-                Category category = categoryMapper.toModelFromRequestDto(categoryId);
-                categories.add(category);
-            }
-        }
-        publication.setCategories(categories);
-
-        return publication;
     }
 
 
-    public Publication toModelfromRequestDto(Long publicationId) {
+    public Publication toModelFromRequestDto(Long publicationId) {
         return new Publication(
                 publicationId,
-                null,
-                null,
                 null,
                 null,
                 null,
@@ -101,23 +48,21 @@ public class PublicationMapper {
                 null
         );
     }
-    public PublicationSimpleDto toSimpleDto(Publication publication) {
-        return PublicationSimpleDto.builder()
-                .id(publication.getId())
-                .text(publication.getText())
-                .title(publication.getTitle())
-                .user(UserSimpleDto.builder()
-                        .id(publication.getUser().getId())
-                        .firstname(publication.getUser().getFirstname())
-                        .lastname(publication.getUser().getLastname())
-                        .alias(publication.getUser().getAlias())
-                        .build())
-                .build();
+    public PublicationResponseDto toResponse(Publication publication) {
+        return new PublicationResponseDto(
+                publication.getId(),
+                publication.getTitle(),
+                publication.getText(),
+                publication.getUser(),
+                publication.getCategory(),
+                publication.getCreatedAt()
+        );
     }
 
-    public List<PublicationSimpleDto> toSimpleDtoList(List<Publication> publications) {
+    public List<PublicationResponseDto> toResponse(List<Publication> publications) {
         return publications.stream()
-                .map(this::toSimpleDto)
-                .collect(Collectors.toList());
+                .map(this::toResponse)
+                .toList();
     }
+
 }

@@ -24,11 +24,6 @@ public class UserResponseDto {
     private final String alias;
     private final String email;
     private final String role;
-    private final List<Publication> publications;
-    private final List<Publication> likedPublications;
-    private final List<Comment> likedComments;
-    private final List<UserSimpleDto> following;  // Use a simplified DTO
-    private final List<UserSimpleDto> followers;  // Use a simplified DTO
     private final LocalDateTime createdAt;
 }
 

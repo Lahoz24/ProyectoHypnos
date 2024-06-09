@@ -36,30 +36,9 @@ public class User implements UserDetails {
     private String password;
     @Enumerated(EnumType.STRING)
     private Role role;
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    @JsonBackReference
-    private List<Publication> publications;
-    @ManyToMany
-    @JsonBackReference
-    private List<Publication> likedPublications;
-    @ManyToMany
-    @JsonIgnore
-    private List<Comment> likedComments;
 
-    // Relación de seguidores y seguidos
-    @ManyToMany
-    @JoinTable(
-            name = "user_following",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "following_id")
-    )
-    @JsonManagedReference
-    private List<User> following; // Lista de usuarios a los que sigue este usuario
-
-    @ManyToMany(mappedBy = "following")
-    @JsonBackReference
-    private List<User> followers; // Lista de usuarios que siguen a este usuario
     @CreatedDate
+    @Column(updatable = false)
     private LocalDateTime createdAt;
 
 

@@ -3,8 +3,8 @@ package com.hypnos.Hypnos.mappers;
 import com.hypnos.Hypnos.dtos.comment.CommentRequestDto;
 import com.hypnos.Hypnos.dtos.comment.CommentResponseDto;
 import com.hypnos.Hypnos.models.Comment;
+import com.hypnos.Hypnos.models.Publication;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -16,16 +16,36 @@ public class CommentMapper {
     private final PublicationMapper publicationMapper;
 
     @Autowired
-    public CommentMapper(UserMapper userMapper, @Lazy PublicationMapper publicationMapper) {
+    public CommentMapper(UserMapper userMapper, PublicationMapper publicationMapper) {
         this.userMapper = userMapper;
         this.publicationMapper = publicationMapper;
     }
 
+    public Comment toModel(CommentRequestDto commentRequestDto) {
+        return new Comment(
+                0L,
+                commentRequestDto.getText(),
+                commentRequestDto.getUserId() != null ?
+                        userMapper.toModelFromRequestDto(commentRequestDto.getUserId()) : null,
+                commentRequestDto.getPublicationId() != null ?
+                        publicationMapper.toModelFromRequestDto(commentRequestDto.getPublicationId()) : null,
+                LocalDateTime.now()
+        );
+    }
+
+    public Comment toModelFromRequestDto(Long commentId) {
+        return new Comment(
+                commentId,
+                null,
+                null,
+                null,
+                null
+        );
+    }
     public CommentResponseDto toResponse(Comment comment) {
         return new CommentResponseDto(
                 comment.getId(),
                 comment.getText(),
-                comment.getLikedByUsers(),
                 comment.getUser(),
                 comment.getPublication(),
                 comment.getCreatedAt()
@@ -36,19 +56,5 @@ public class CommentMapper {
         return comment.stream()
                 .map(this::toResponse)
                 .toList();
-    }
-
-    // Mapeamos de DTO a modelo
-    public Comment toModel(CommentRequestDto commentRequestDto) {
-        return new Comment(
-                0L,
-                commentRequestDto.getText(),
-                null,
-                commentRequestDto.getUserId() != null ?
-                        userMapper.toModelfromRequestDto(commentRequestDto.getUserId()) : null,
-                commentRequestDto.getPublicationId() != null ?
-                        publicationMapper.toModelfromRequestDto(commentRequestDto.getPublicationId()) : null,
-                LocalDateTime.now()
-        );
     }
 }

@@ -15,7 +15,6 @@ import java.util.List;
 public class CommentResponseDto {
     private final Long id;
     private String text;
-    private List<User> likedByUsers;
     private final User user;
     private final Publication publication;
     private final LocalDateTime createdAt;

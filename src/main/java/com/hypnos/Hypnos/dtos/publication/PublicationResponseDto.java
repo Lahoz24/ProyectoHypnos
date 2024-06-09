@@ -10,17 +10,14 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
-@NoArgsConstructor(force = true) // Para que no me de error en el constructor de jackson
-@RequiredArgsConstructor // Para que me cree un constructor con los atributos finales
 @AllArgsConstructor
+@Builder
 public class PublicationResponseDto {
     private final Long id;
     private String title;
     private String text;
     private final User user;
-    private List<Category> categories;
-    private List<Comment> comments;
-    private List<User> likedByUsers;
+    private Category category;
     private final LocalDateTime createdAt;
 }
 

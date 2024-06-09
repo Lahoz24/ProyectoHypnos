@@ -31,27 +31,15 @@ public class Publication {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    @JsonBackReference // Usar @JsonBackReference en el lado hijo de la relación
     private User user;
 
-    @ManyToMany
-    @JoinTable(
-            name = "publication_category",
-            joinColumns = @JoinColumn(name = "publication_id"),
-            inverseJoinColumns = @JoinColumn(name = "category_id")
-    )
-    @JsonIgnore
-    private List<Category> categories;
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
 
-    @OneToMany(mappedBy = "publication")
-    @JsonManagedReference // Uso @JsonManagedReference en el lado padre de la relación
-    private List<Comment> comments;
-
-    @JsonIgnore
-    @ManyToMany(mappedBy = "likedPublications")
-    private List<User> likedByUsers;
 
     @CreatedDate
+    @Column(updatable = false)
     private LocalDateTime createdAt;
 }
 

@@ -2,32 +2,17 @@ package com.hypnos.Hypnos.controllers;
 
 import com.hypnos.Hypnos.dtos.publication.PublicationRequestDto;
 import com.hypnos.Hypnos.dtos.publication.PublicationResponseDto;
-import com.hypnos.Hypnos.dtos.publication.PublicationSimpleDto;
 import com.hypnos.Hypnos.mappers.PublicationMapper;
-import com.hypnos.Hypnos.models.Comment;
 import com.hypnos.Hypnos.models.Publication;
-import com.hypnos.Hypnos.models.User;
 import com.hypnos.Hypnos.services.publication.PublicationService;
-import com.hypnos.Hypnos.services.publication.PublicationServiceImpl;
 import com.hypnos.Hypnos.services.user.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.net.URI;
-import java.security.Principal;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/publications")
