@@ -12,7 +12,6 @@ public interface CategoryService {
 
     Category findById(Long id);
 
-
     Category save(Category category);
 
     List<Category> findCategoriesByName(String name);
@@ -21,7 +20,7 @@ public interface CategoryService {
 
     void deleteById(Long id);
 
-    Category update(Long id, Category model);
+    Category update(Long id, Category category);
 
     boolean existsByName(String name);
 }

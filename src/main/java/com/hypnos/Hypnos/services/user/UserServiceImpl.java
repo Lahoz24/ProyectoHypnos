@@ -21,13 +21,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@Slf4j
-@RequiredArgsConstructor
 @Primary
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserDetailsService {
 
     private final UserDetailsRepository userDetailsRepository;
-    private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
 
     @Override
@@ -61,63 +59,12 @@ public class UserServiceImpl implements UserDetailsService {
         return userDetailsRepository.save(user);
     }
 
-    public UserResponseDto followUser(Long userId, Long followId) {
-        User user = userDetailsRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
-        User userToFollow = userDetailsRepository.findById(followId)
-                .orElseThrow(() -> new IllegalArgumentException("User to follow not found"));
 
-        if (user.getFollowing().contains(userToFollow)) {
-            throw new IllegalArgumentException("Already following this user");
-        }
-
-        user.getFollowing().add(userToFollow);
-        userToFollow.getFollowers().add(user);
-        userDetailsRepository.save(user);
-        userDetailsRepository.save(userToFollow);
-
-        // Convert the updated user to UserResponseDto using UserMapper
-        return userMapper.toResponse(user);
-    }
-    public void unfollowUser(Long userId, Long userToUnfollowId) {
-        User user = userDetailsRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
-        User userToUnfollow = userDetailsRepository.findById(userToUnfollowId).orElseThrow(() -> new RuntimeException("User to unfollow not found"));
-
-        user.getFollowing().remove(userToUnfollow);
-        userDetailsRepository.save(user);
-    }
-
-
-    public List<User> getFollowing(Long userId) {
-        User user = userDetailsRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
-        return user.getFollowing();
-    }
-
-    public List<User> getFollowers(Long userId) {
-        User user = userDetailsRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
-        return user.getFollowers();
-    }
-
-    public List<User> findByFollowing_Id(Long userId) {
-        return userDetailsRepository.findByFollowing_Id(userId);
-    }
-
-    public List<User> findByFollowers_Id(Long userId) {
-        return userDetailsRepository.findByFollowers_Id(userId);
-    }
-
-    public Long countPublications(Long userId) {
-        return userDetailsRepository.countPublications(userId);
-    }
-
-    public User findByAliasContainsIgnoreCase(String alias) {
-        return userDetailsRepository.findByAliasContainsIgnoreCase(alias);
+    public List<User> findByAliasContainsIgnoreCase(String alias) {
+        return userDetailsRepository.findByAliasContainingIgnoreCase(alias);
     }
     public User findByAlias(String alias) {
         return userDetailsRepository.findByAlias(alias);
-    }
-    public User findByEmail(String email) {
-        return userDetailsRepository.findByAlias(email);
     }
     public void deleteByAlias(String alias) {
         userDetailsRepository.deleteByAlias(alias);

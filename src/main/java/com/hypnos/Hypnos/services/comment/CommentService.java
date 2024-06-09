@@ -16,6 +16,4 @@ public interface CommentService {
     Comment save(Comment comment);
     void deleteById(Long id);
     List<Comment> findAll();
-
-    List<Object[]> findCommentTextsAndUserIdsByPublicationId(@Param("publicationId") Long publicationId);
 }

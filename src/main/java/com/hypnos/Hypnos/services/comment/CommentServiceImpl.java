@@ -49,9 +49,5 @@ public class CommentServiceImpl implements CommentService {
         return commentRepository.findAll();
     }
 
-    @Override
-    public List<Object[]> findCommentTextsAndUserIdsByPublicationId(Long publicationId) {
-        return commentRepository.findCommentTextsAndUserIdsByPublicationId(publicationId);
-    }
 
 }

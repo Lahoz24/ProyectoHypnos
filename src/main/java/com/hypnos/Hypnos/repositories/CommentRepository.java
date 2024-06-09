@@ -14,9 +14,5 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
     List<Comment> findCommentByTextContainsIgnoreCase(String text);
     List<Comment> findCommentByUser_Id(Long userId);
     List<Comment> findCommentByPublication_Id(Long publicationId);
-    @Query("SELECT c.text, c.user.id FROM Comment c INNER JOIN c.publication p WHERE p.id = :publicationId")
-    List<Object[]> findCommentTextsAndUserIdsByPublicationId(@Param("publicationId") Long publicationId);
-
-
 
 }
