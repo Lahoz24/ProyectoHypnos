@@ -47,31 +47,8 @@ public class PublicationController {
         }
     }
 
-    @PutMapping("/update/{id}")
-    public ResponseEntity<PublicationResponseDto> updatePublication(
-            @PathVariable Long id,
-            @RequestBody PublicationRequestDto publicationRequestDto
-    ) {
-        try {
-            log.info("Updating publication with ID: {}", id);
-            Publication existingPublication = publicationService.findById(id);
-            if (existingPublication == null) {
-                return ResponseEntity.notFound().build();
-            }
-            existingPublication.setText(publicationRequestDto.getText());
-            Publication updatedPublication = publicationService.save(existingPublication);
-            PublicationResponseDto responseDto = publicationMapper.toResponse(updatedPublication);
-            return ResponseEntity.ok(responseDto);
-        } catch (Exception e) {
-            log.error("Error while updating publication with ID {}: {}", id, e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
-    }
-
     @PostMapping("/create")
-    public PublicationResponseDto createPublication(
-            @RequestBody PublicationRequestDto publicationRequestDto
-    ) {
+    public PublicationResponseDto createPublication(@RequestBody PublicationRequestDto publicationRequestDto) {
         try {
             log.info("Creating new publication");
             Publication publicationSaved = publicationMapper.toModel(publicationRequestDto);
@@ -80,12 +57,6 @@ public class PublicationController {
             log.error("Error while creating publication: {}", e.getMessage());
             throw new RuntimeException("Failed to create publication");
         }
-    }
-
-    @PatchMapping("/{id}/categories")
-    public ResponseEntity<Publication> updateCategories(@PathVariable Long id, @RequestBody List<Long> categoryIds, @RequestParam Long userId) {
-        Publication updatedPublication = publicationService.updateCategories(id, categoryIds, userId);
-        return ResponseEntity.ok(updatedPublication);
     }
 
     @GetMapping("/text/{text}")
@@ -107,34 +78,16 @@ public class PublicationController {
     }
 
     @GetMapping("/categories")
-    public ResponseEntity<List<Publication>> findPublicationsByCategoryIds(@RequestParam List<Long> categoryIds) {
-        List<Publication> publications = publicationService.findPublicationsByCategoryIds(categoryIds);
-        return ResponseEntity.ok(publications);
-    }
-
-    @GetMapping("/liked/{userId}")
-    public ResponseEntity<List<Publication>> findLikedPublicationsByUserId(@PathVariable Long userId) {
-        List<Publication> publications = publicationService.findLikedPublicationsByUserId(userId);
+    public ResponseEntity<List<Publication>> findPublicationsByCategoryIds(@RequestParam Long categoryIds) {
+        List<Publication> publications = publicationService.findPublicationByCategoryId(categoryIds);
         return ResponseEntity.ok(publications);
     }
 
     @GetMapping("/random")
-    public ResponseEntity<List<Object[]>> getRandomPublications() {
-        List<Object[]> publications = publicationService.findRandomPublications();
-        return ResponseEntity.ok(publications);
-    }
-
-    @GetMapping("/followed/{userId}")
-    public ResponseEntity<List<Publication>> getPublicationsFromFollowedUsersOrderByCreatedAtDesc(@PathVariable Long userId) {
-        List<Publication> publications = publicationService.getPublicationsFromFollowedUsersOrderByCreatedAtDesc(userId);
+    public ResponseEntity<List<Publication>> getRandomPublications() {
+        List<Publication> publications = publicationService.findRandomPublications();
         return ResponseEntity.ok(publications);
     }
 
 
-    @GetMapping("/category/{categoryId}")
-    public ResponseEntity<List<PublicationSimpleDto>> getPublicationsByCategoryId(@PathVariable Long categoryId) {
-        List<Publication> publications = publicationService.getPublicationsByCategoryId(categoryId);
-        List<PublicationSimpleDto> publicationSimpleDtos = publicationMapper.toSimpleDtoList(publications);
-        return ResponseEntity.ok(publicationSimpleDtos);
-    }
 }

@@ -14,25 +14,13 @@ import java.util.Optional;
 public interface PublicationRepository extends JpaRepository<Publication, Long> {
     Optional<Publication> findPublicationById(Long id);
     List<Publication> findPublicationByTextContainsIgnoreCase(String text);
-    List<Publication> findPublicationByUser_Id(Long id);
+    List<Publication> findPublicationByUser_Id(Long userId);
     List<Publication> findPublicationByUser_Alias(String alias);
-
-    // Custom query to find publications by category IDs
-    @Query("SELECT DISTINCT p FROM Publication p JOIN p.categories c WHERE c.id IN :categoryIds")
-    List<Publication> findPublicationsByCategoryIds(@Param("categoryIds") List<Long> categoryIds);
-
-    // Custom query to find liked publications by user ID
-    @Query("SELECT p FROM Publication p JOIN p.likedByUsers u WHERE u.id = :userId")
-    List<Publication> findLikedPublicationsByUserId(@Param("userId") Long userId);
-
-    // Consulta para obtener un conjunto de IDs al azar
-    @Query("SELECT id FROM Publication ORDER BY RAND() LIMIT 1")
-    List<Long> findRandomPublicationIds(int limit);
-
-    List<Publication> findByUserInOrderByCreatedAtDesc(List<User> followedUsers);
+    List<Publication> findPublicationByCategory_Id(Long categoryId);
     @Query(value = "SELECT * FROM publication ORDER BY RAND() LIMIT 10", nativeQuery = true)
-    List<Object[]> findRandomPublications();
+    List<Publication> findRandomPublications();
 
-    @Query("SELECT p FROM Publication p JOIN p.categories c WHERE c.id = :categoryId")
-    List<Object[]> findByCategoryId(@Param("categoryId") Long categoryId);
+/*    @Query(value = "SELECT * FROM publication ORDER BY RAND() LIMIT 10", nativeQuery = true)
+    List<Object[]> findRandomPublications();*/
+
 }

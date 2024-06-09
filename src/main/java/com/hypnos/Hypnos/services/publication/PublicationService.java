@@ -13,19 +13,13 @@ public interface PublicationService {
     List<Publication> findAll();
     Publication findById(Long id);
     List<Publication> findPublicationByText(String text);
-    List<Publication> findPublicationByUserId(Long id);
+    List<Publication> findPublicationByUserId(Long userId);
     List<Publication> findPublicationByUserAlias(String alias);
-    List<Publication> findPublicationsByCategoryIds(List<Long> categoryIds);
-    List<Publication> findLikedPublicationsByUserId(Long userId);
+    List<Publication> findPublicationByCategoryId(Long categoryId);
     void deleteById(Long id);
     Publication save(Publication publication);
+    List<Publication> findRandomPublications();
 
 
-    List<Publication> findByUserInOrderByCreatedAtDesc(List<User> followedUsers);
-    List<Publication> getPublicationsFromFollowedUsersOrderByCreatedAtDesc(Long userId);
-    Publication updateCategories(Long publicationId, List<Long> categoryIds, Long userId);
-    List<Object[]> findRandomPublications();
-
-    List<Publication> getPublicationsByCategoryId(Long categoryId);
 
 }

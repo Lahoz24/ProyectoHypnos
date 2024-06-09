@@ -25,11 +25,12 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class PublicationServiceImpl implements PublicationService {
     private final PublicationRepository publicationRepository;
-    private final CategoryRepository categoryRepository;
-    private final UserDetailsRepository userDetailsRepository;
 
     @Override
-    public List<Publication> findAll(){ return publicationRepository.findAll();}
+    public List<Publication> findAll() {
+        return publicationRepository.findAll();
+    }
+
     @Override
     public Publication findById(Long id) {
         return publicationRepository.findById(id).orElseThrow();
@@ -41,8 +42,8 @@ public class PublicationServiceImpl implements PublicationService {
     }
 
     @Override
-    public List<Publication> findPublicationByUserId(Long id) {
-        return publicationRepository.findPublicationByUser_Id(id);
+    public List<Publication> findPublicationByUserId(Long userId) {
+        return publicationRepository.findPublicationByUser_Id(userId);
     }
 
     @Override
@@ -51,20 +52,13 @@ public class PublicationServiceImpl implements PublicationService {
     }
 
     @Override
-    public List<Publication> findPublicationsByCategoryIds(List<Long> categoryIds) {
-        return publicationRepository.findPublicationsByCategoryIds(categoryIds);
-    }
-
-    @Override
-    public List<Publication> findLikedPublicationsByUserId(Long userId) {
-        return publicationRepository.findLikedPublicationsByUserId(userId);
+    public List<Publication> findPublicationByCategoryId(Long categoryId) {
+        return publicationRepository.findPublicationByCategory_Id(categoryId);
     }
 
     @Override
     public void deleteById(Long id) {
-        Publication publication = publicationRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Publication not found"));
-        publicationRepository.delete(publication);
+        publicationRepository.deleteById(id);
     }
 
     @Override
@@ -72,44 +66,10 @@ public class PublicationServiceImpl implements PublicationService {
         return publicationRepository.save(publication);
     }
 
-    public List<Publication> getPublicationsByCategoryId(Long categoryId) {
-        List<Object[]> publications = publicationRepository.findByCategoryId(categoryId);
-        // Mapear los resultados a una lista de Publication
-        return publications.stream()
-                .map(objects -> (Publication) objects[0])
-                .collect(Collectors.toList());
-    }
     @Override
-    public List<Object[]> findRandomPublications() {
+    public List<Publication> findRandomPublications() {
         return publicationRepository.findRandomPublications();
     }
 
-    @Override
-    public List<Publication> findByUserInOrderByCreatedAtDesc(List<User> followedUsers) {
-        return publicationRepository.findByUserInOrderByCreatedAtDesc(followedUsers);
-    }
 
-    @Override
-    public List<Publication> getPublicationsFromFollowedUsersOrderByCreatedAtDesc(Long userId) {
-        // Obtenemos al usuario
-        User user = userDetailsRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found"));
-
-        // Obtenemos las publicaciones de los usuarios que sigue el usuario
-        List<User> followedUsers = user.getFollowing();
-        return publicationRepository.findByUserInOrderByCreatedAtDesc(followedUsers);
-    }
-
-    @Override
-    public Publication updateCategories(Long publicationId, List<Long> categoryIds, Long userId) {
-        Publication publication = publicationRepository.findById(publicationId)
-                .orElseThrow(() -> new IllegalArgumentException("Publication not found"));
-        if (!publication.getUser().getId().equals(userId)) {
-            throw new IllegalStateException("User is not the owner of the publication");
-        }
-
-        List<Category> categories = categoryRepository.findAllById(categoryIds);
-        publication.setCategories(categories);
-        return publicationRepository.save(publication);
-    }
 }
