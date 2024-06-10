@@ -8,6 +8,7 @@ import com.hypnos.Hypnos.services.publication.PublicationService;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import net.datafaker.Faker;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -20,6 +21,7 @@ public class InitialDataCreationService {
     private final CategoryService categoryService;
     private final PublicationService publicationService;
     private final CommentService commentService;
+
     private final Faker faker = new Faker(new Locale("en-US"));
 
     @PostConstruct
@@ -52,34 +54,42 @@ public class InitialDataCreationService {
     public void createDefaultAdminUser() {
         String defaultAliasAl = "alvaro_lahoz";
         String defaultAliasAn = "ana_batres";
-        if (!userDetailsRepository.existsByAlias(defaultAliasAl) && !userDetailsRepository.existsByAlias(defaultAliasAn) ) {
-            User user = User.builder()
+        String defaultPassword = "password123";
+
+        if (!userDetailsRepository.existsByAlias(defaultAliasAl) && !userDetailsRepository.existsByAlias(defaultAliasAn)) {
+            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+            String encodedPassword = passwordEncoder.encode(defaultPassword);
+
+
+            User user1 = User.builder()
                     .firstname("Alvaro")
                     .lastname("Lahoz")
                     .email("alvarolahozmontero@gmail.com")
                     .alias(defaultAliasAl)
-                    .password("$2a$12$K4tojeaYWMK55KzWzDWtLOuuUjRTkycWhSGHYWA2LXMZqmZUtuXPL") // Esto es "password" codificado con bcrypt)
+                    .password(encodedPassword)
                     .role(Role.ADMIN)
                     .build();
 
-            userDetailsRepository.save(user);
+            userDetailsRepository.save(user1);
+
 
             User user2 = User.builder()
                     .firstname("Ana")
                     .lastname("Batres")
                     .email("anabatrescuellar@gmail.com")
                     .alias(defaultAliasAn)
-                    .password("$2a$12$K4tojeaYWMK55KzWzDWtLOuuUjRTkycWhSGHYWA2LXMZqmZUtuXPA") // Esto es "password" codificado con bcrypt)
+                    .password(encodedPassword)
                     .role(Role.ADMIN)
                     .build();
 
             userDetailsRepository.save(user2);
         }
-
-
     }
 
     public void createFakeUser(int number) {
+        String defaultPassword = "password123";
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String encodedPassword = passwordEncoder.encode(defaultPassword);
         if (number <= 0) return;
         for (int i = 0; i < number; i++) {
             User user = User.builder()
@@ -87,7 +97,7 @@ public class InitialDataCreationService {
                     .lastname(faker.name().lastName())
                     .email(faker.internet().emailAddress())
                     .alias(faker.internet().username())
-                    .password("$2a$12$K4tojeaYWMK55KzWzDWtLOuuUjRTkycWhSGHYWA2LXMZqmZUtuXPL") // Esto es "password" codificado con bcrypt
+                    .password(encodedPassword)
                     .role(Role.USER)
                     .build();
 
