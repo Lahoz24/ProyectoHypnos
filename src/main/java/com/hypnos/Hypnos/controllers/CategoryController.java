@@ -1,12 +1,17 @@
 package com.hypnos.Hypnos.controllers;
 
+import com.hypnos.Hypnos.dtos.category.CategoryResponseDto;
+import com.hypnos.Hypnos.mappers.CategoryMapper;
 import com.hypnos.Hypnos.models.Category;
+import com.hypnos.Hypnos.services.category.CategoryService;
 import com.hypnos.Hypnos.services.category.CategoryServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.access.prepost.PreAuthorize;
+
 
 import java.util.List;
 
@@ -18,11 +23,16 @@ import java.util.List;
 public class CategoryController {
 
     private final CategoryServiceImpl categoryServiceImpl;
+    private final CategoryMapper categoryMapper;
 
-    @GetMapping
-    public ResponseEntity<List<Category>> getAllCategories() {
-        List<Category> categories = categoryServiceImpl.findAll();
-        return ResponseEntity.ok(categories);
+    @GetMapping("")
+    public ResponseEntity<List<CategoryResponseDto>> getAllCategories(
+    ) {
+        log.info("getAllCategories");
+
+        return ResponseEntity.ok(
+                categoryMapper.toResponse(categoryServiceImpl.findAll())
+        );
     }
 
     @GetMapping("/{id}")

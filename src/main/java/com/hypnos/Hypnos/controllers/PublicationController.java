@@ -2,6 +2,7 @@ package com.hypnos.Hypnos.controllers;
 
 import com.hypnos.Hypnos.dtos.publication.PublicationRequestDto;
 import com.hypnos.Hypnos.dtos.publication.PublicationResponseDto;
+import com.hypnos.Hypnos.dtos.user.UserResponseDto;
 import com.hypnos.Hypnos.mappers.PublicationMapper;
 import com.hypnos.Hypnos.models.Publication;
 import com.hypnos.Hypnos.services.publication.PublicationService;
@@ -24,8 +25,19 @@ public class PublicationController {
     private final PublicationService publicationService;
     private final PublicationMapper publicationMapper;
 
+    @GetMapping("")
+    public ResponseEntity<List<PublicationResponseDto>> getAllPublications(
+    ) {
+        log.info("getAllPublications");
+
+        return ResponseEntity.ok(
+                publicationMapper.toResponse(publicationService.findAll())
+        );
+    }
+
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletePublication(@PathVariable Long id) {
+    public ResponseEntity<PublicationResponseDto> deletePublication(@PathVariable Long id) {
+        log.info("deletePublication");
         publicationService.deleteById(id);
         return ResponseEntity.noContent().build();
     }

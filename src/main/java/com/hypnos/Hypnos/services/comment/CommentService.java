@@ -1,5 +1,6 @@
 package com.hypnos.Hypnos.services.comment;
 
+import com.hypnos.Hypnos.dtos.comment.CommentRequestDto;
 import com.hypnos.Hypnos.models.Category;
 import com.hypnos.Hypnos.models.Comment;
 import org.springframework.data.jpa.repository.Query;
@@ -14,6 +15,7 @@ public interface CommentService {
     List<Comment> findCommentByUserId(Long userId);
     List<Comment> findCommentByPublicationId(Long publicationId);
     Comment save(Comment comment);
+    Comment create(CommentRequestDto commentRequestDto);
     void deleteById(Long id);
     List<Comment> findAll();
 }

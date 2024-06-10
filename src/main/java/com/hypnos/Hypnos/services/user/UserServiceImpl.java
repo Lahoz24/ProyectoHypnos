@@ -38,7 +38,7 @@ public class UserServiceImpl implements UserDetailsService {
     }
 
 
-    public List<User> getAll() {
+    public List<User> findAll() {
         return userDetailsRepository.findAll();
     }
 

@@ -43,6 +43,7 @@ public class Publication {
             joinColumns = @JoinColumn(name = "publication_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id")
     )
+
     private List<Category> categories = new ArrayList<>();
 
 

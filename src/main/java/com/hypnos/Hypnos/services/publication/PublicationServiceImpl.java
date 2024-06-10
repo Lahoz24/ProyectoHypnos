@@ -2,6 +2,7 @@ package com.hypnos.Hypnos.services.publication;
 
 import com.hypnos.Hypnos.dtos.publication.PublicationRequestDto;
 import com.hypnos.Hypnos.models.Publication;
+import com.hypnos.Hypnos.repositories.CommentRepository;
 import com.hypnos.Hypnos.repositories.PublicationRepository;
 import com.hypnos.Hypnos.mappers.PublicationMapper;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +18,8 @@ public class PublicationServiceImpl implements PublicationService {
 
     private final PublicationRepository publicationRepository;
     private final PublicationMapper publicationMapper;
+    private final CommentRepository commentRepository;
+
 
     @Override
     public List<Publication> findAll() {
@@ -50,6 +53,10 @@ public class PublicationServiceImpl implements PublicationService {
 
     @Override
     public void deleteById(Long id) {
+        // Primero, elimina los comentarios asociados a la publicación
+        commentRepository.deleteByPublicationId(id);
+
+        // Luego, elimina la publicación
         publicationRepository.deleteById(id);
     }
     @Override

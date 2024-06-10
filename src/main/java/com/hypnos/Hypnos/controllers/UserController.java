@@ -1,6 +1,7 @@
 package com.hypnos.Hypnos.controllers;
 
 import com.hypnos.Hypnos.auth.SignupRequest;
+import com.hypnos.Hypnos.dtos.category.CategoryResponseDto;
 import com.hypnos.Hypnos.dtos.user.UserRequestDto;
 import com.hypnos.Hypnos.dtos.user.UserResponseDto;
 import com.hypnos.Hypnos.mappers.UserMapper;
@@ -22,6 +23,16 @@ public class UserController {
 
     private final UserServiceImpl userServiceImpl;
     private final UserMapper userMapper;
+
+    @GetMapping("")
+    public ResponseEntity<List<UserResponseDto>> getAllUsers(
+    ) {
+        log.info("getAllUsers");
+
+        return ResponseEntity.ok(
+                userMapper.toResponse(userServiceImpl.findAll())
+        );
+    }
 
     @GetMapping("/id/{id}")
     public ResponseEntity<UserResponseDto> getUserById(@PathVariable Long id) {

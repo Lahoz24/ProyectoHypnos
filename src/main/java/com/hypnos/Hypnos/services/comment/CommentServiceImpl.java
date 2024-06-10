@@ -1,5 +1,7 @@
 package com.hypnos.Hypnos.services.comment;
 
+import com.hypnos.Hypnos.dtos.comment.CommentRequestDto;
+import com.hypnos.Hypnos.mappers.CommentMapper;
 import com.hypnos.Hypnos.models.Comment;
 import com.hypnos.Hypnos.repositories.CommentRepository;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CommentServiceImpl implements CommentService {
     private final CommentRepository commentRepository;
+    private final CommentMapper commentMapper;
 
     @Override
     public Comment findById(Long id) {
@@ -36,6 +39,11 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public Comment save(Comment comment) {
+        return commentRepository.save(comment);
+    }
+    @Override
+    public Comment create(CommentRequestDto commentRequestDto) {
+        Comment comment = commentMapper.toModel(commentRequestDto);
         return commentRepository.save(comment);
     }
 

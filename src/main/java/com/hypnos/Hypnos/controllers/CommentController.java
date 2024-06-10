@@ -1,5 +1,9 @@
 package com.hypnos.Hypnos.controllers;
 
+import com.hypnos.Hypnos.dtos.category.CategoryResponseDto;
+import com.hypnos.Hypnos.dtos.comment.CommentRequestDto;
+import com.hypnos.Hypnos.dtos.comment.CommentResponseDto;
+import com.hypnos.Hypnos.mappers.CommentMapper;
 import com.hypnos.Hypnos.models.Comment;
 import com.hypnos.Hypnos.services.comment.CommentServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +22,17 @@ import java.util.List;
 public class CommentController {
 
     private final CommentServiceImpl commentServiceImpl;
+    private final CommentMapper commentMapper;
+
+    @GetMapping("")
+    public ResponseEntity<List<CommentResponseDto>> getAllComments(
+    ) {
+        log.info("getAllComments");
+
+        return ResponseEntity.ok(
+                commentMapper.toResponse(commentServiceImpl.findAll())
+        );
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<Comment> getCommentById(@PathVariable Long id) {
@@ -44,9 +59,15 @@ public class CommentController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Comment> createComment(@RequestBody Comment comment) {
-        Comment createdComment = commentServiceImpl.save(comment);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdComment);
+    public ResponseEntity<CommentResponseDto> createComment(@RequestBody CommentRequestDto CommentRequestDto) {
+        try{
+            Comment createdComment = commentServiceImpl.create(CommentRequestDto);
+            return ResponseEntity.status(HttpStatus.CREATED).body(commentMapper.toResponse(createdComment));
+        }catch (Exception e) {
+            log.error("Error while creating comment: {}", e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+
     }
 
     @DeleteMapping("/{id}")
