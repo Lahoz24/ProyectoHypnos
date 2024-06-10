@@ -20,7 +20,8 @@ public interface PublicationRepository extends JpaRepository<Publication, Long> 
     List<Publication> findPublicationsByCategories_IdIn(List<Long> categoryIds);
     @Query(value = "SELECT * FROM publication ORDER BY RAND() LIMIT 10", nativeQuery = true)
     List<Publication> findRandomPublications();
-
+    @Query("SELECT COUNT(lp) FROM LikePublication lp WHERE lp.publication.id = :publicationId")
+    long countLikesByPublicationId(@Param("publicationId") Long publicationId);
 
 /*    @Query(value = "SELECT * FROM publication ORDER BY RAND() LIMIT 10", nativeQuery = true)
     List<Object[]> findRandomPublications();*/

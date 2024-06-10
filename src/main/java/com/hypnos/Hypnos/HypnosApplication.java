@@ -1,6 +1,6 @@
 package com.hypnos.Hypnos;
 
-//import com.hypnos.Hypnos.services.faker.InitialDataCreationService;
+import com.hypnos.Hypnos.services.faker.InitialDataCreationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -11,8 +11,8 @@ import org.springframework.context.annotation.Profile;
 @SpringBootApplication
 public class HypnosApplication {
 
-//	@Autowired
-//	private InitialDataCreationService initialDataCreationService;
+	@Autowired
+	private InitialDataCreationService initialDataCreationService;
 
 	public static void main(String[] args) {
 		System.out.println("LOADING...");
@@ -32,10 +32,12 @@ public class HypnosApplication {
 		System.out.println("Abre Postman en http://localhost:8080/api/auth/login para loguearte");
 	}
 
-//	@Bean
-//	public CommandLineRunner init() {
-//		return args -> {
-//			initialDataCreationService.init();
-//		};
-//	}
+	@Bean
+	public CommandLineRunner init() {
+		return args -> {
+			initialDataCreationService.init();
+		};
+	}
+
+
 }

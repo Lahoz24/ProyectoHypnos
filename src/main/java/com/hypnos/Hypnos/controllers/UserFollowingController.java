@@ -10,6 +10,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/follow")
+@CrossOrigin(origins = "*")
+
 public class UserFollowingController {
 
     @Autowired

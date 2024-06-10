@@ -22,8 +22,7 @@ public interface PublicationService {
     Publication create(PublicationRequestDto PublicationRequestDto);
 
     Publication save(Publication Publication);
-
-
+    long getLikesCount(Long publicationId);
     List<Publication> findRandomPublications();
 
 

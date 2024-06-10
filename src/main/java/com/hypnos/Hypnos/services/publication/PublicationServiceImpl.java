@@ -67,6 +67,9 @@ public class PublicationServiceImpl implements PublicationService {
         return publicationRepository.findRandomPublications();
     }
 
+    public long getLikesCount(Long publicationId) {
+        return publicationRepository.countLikesByPublicationId(publicationId);
+    }
 
 
 }

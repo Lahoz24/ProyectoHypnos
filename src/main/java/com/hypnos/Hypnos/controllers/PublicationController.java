@@ -102,4 +102,15 @@ public class PublicationController {
                 .collect(Collectors.toList());
         return ResponseEntity.ok(responseDtos);
     }
+
+    @GetMapping("/{id}/likes")
+    public ResponseEntity<Long> getLikesCount(@PathVariable Long id) {
+        try {
+            long likesCount = publicationService.getLikesCount(id);
+            return ResponseEntity.ok(likesCount);
+        } catch (Exception e) {
+            log.error("Error while fetching likes count for publication ID {}: {}", id, e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
 }
