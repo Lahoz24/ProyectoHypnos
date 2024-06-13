@@ -1,13 +1,17 @@
 package com.hypnos.Hypnos.services.publication;
 
 import com.hypnos.Hypnos.dtos.publication.PublicationRequestDto;
+import com.hypnos.Hypnos.models.LikePublication;
 import com.hypnos.Hypnos.models.Publication;
+import com.hypnos.Hypnos.models.User;
 import com.hypnos.Hypnos.repositories.CommentRepository;
+import com.hypnos.Hypnos.repositories.LikedPublicationRepository;
 import com.hypnos.Hypnos.repositories.PublicationRepository;
 import com.hypnos.Hypnos.mappers.PublicationMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -19,6 +23,8 @@ public class PublicationServiceImpl implements PublicationService {
     private final PublicationRepository publicationRepository;
     private final PublicationMapper publicationMapper;
     private final CommentRepository commentRepository;
+    private final LikedPublicationRepository likedPublicationRepository;
+
 
 
     @Override
@@ -74,6 +80,21 @@ public class PublicationServiceImpl implements PublicationService {
         return publicationRepository.findRandomPublications();
     }
 
+    @Override
+    @Transactional
+    public void likePublication(Long userId, Long publicationId) {
+        if (!likedPublicationRepository.existsByUserIdAndPublicationId(userId, publicationId)) {
+            likedPublicationRepository.save(LikePublication.builder().user(User.builder().id(userId).build()).publication(Publication.builder().id(publicationId).build()).build());
+        }
+    }
+    @Override
+    @Transactional
+    public void dislikePublication(Long userId, Long publicationId) {
+        if (likedPublicationRepository.existsByUserIdAndPublicationId(userId, publicationId)) {
+            likedPublicationRepository.deleteByUserIdAndPublicationId(userId, publicationId);
+        }
+    }
+    @Override
     public long getLikesCount(Long publicationId) {
         return publicationRepository.countLikesByPublicationId(publicationId);
     }

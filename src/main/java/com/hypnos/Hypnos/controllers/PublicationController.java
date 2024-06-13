@@ -1,5 +1,6 @@
 package com.hypnos.Hypnos.controllers;
 
+import com.hypnos.Hypnos.dtos.like.LikeRequestDto;
 import com.hypnos.Hypnos.dtos.publication.PublicationRequestDto;
 import com.hypnos.Hypnos.dtos.publication.PublicationResponseDto;
 import com.hypnos.Hypnos.dtos.user.UserResponseDto;
@@ -113,6 +114,16 @@ public class PublicationController {
                 .map(publicationMapper::toResponse)
                 .collect(Collectors.toList());
         return ResponseEntity.ok(responseDtos);
+    }
+
+    @PatchMapping("/{id}/like")
+    public ResponseEntity<Void> likeOrDislikePublication(@PathVariable Long id, @RequestBody LikeRequestDto likeRequestDto) {
+        if (likeRequestDto.isLike()) {
+            publicationService.likePublication(likeRequestDto.getUserId(), id);
+        } else {
+            publicationService.dislikePublication(likeRequestDto.getUserId(), id);
+        }
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/{id}/likes")

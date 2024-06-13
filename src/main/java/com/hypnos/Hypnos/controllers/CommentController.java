@@ -3,6 +3,7 @@ package com.hypnos.Hypnos.controllers;
 import com.hypnos.Hypnos.dtos.category.CategoryResponseDto;
 import com.hypnos.Hypnos.dtos.comment.CommentRequestDto;
 import com.hypnos.Hypnos.dtos.comment.CommentResponseDto;
+import com.hypnos.Hypnos.dtos.like.LikeRequestDto;
 import com.hypnos.Hypnos.mappers.CommentMapper;
 import com.hypnos.Hypnos.models.Comment;
 import com.hypnos.Hypnos.services.comment.CommentServiceImpl;
@@ -74,5 +75,25 @@ public class CommentController {
     public ResponseEntity<Void> deleteCommentById(@PathVariable Long id) {
         commentServiceImpl.deleteById(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping("/{id}/like")
+    public ResponseEntity<Void> likeOrDislikeComment(@PathVariable Long id, @RequestBody LikeRequestDto likeRequestDto) {
+        if (likeRequestDto.isLike()) {
+            commentServiceImpl.likeComment(likeRequestDto.getUserId(), id);
+        } else {
+            commentServiceImpl.dislikeComment(likeRequestDto.getUserId(), id);
+        }
+        return ResponseEntity.ok().build();
+    }
+    @GetMapping("/{id}/likes")
+    public ResponseEntity<Long> getLikesCount(@PathVariable Long id) {
+        try {
+            long likesCount = commentServiceImpl.getLikesCount(id);
+            return ResponseEntity.ok(likesCount);
+        } catch (Exception e) {
+            log.error("Error while fetching likes count for comment ID {}: {}", id, e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 }

@@ -18,4 +18,8 @@ public interface CommentService {
     Comment create(CommentRequestDto commentRequestDto);
     void deleteById(Long id);
     List<Comment> findAll();
+    void likeComment(Long userId, Long commentId);
+    void dislikeComment(Long userId, Long commentId);
+    long getLikesCount(Long commentId);
+
 }
