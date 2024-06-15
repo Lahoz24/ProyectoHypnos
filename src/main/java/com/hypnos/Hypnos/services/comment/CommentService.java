@@ -14,6 +14,8 @@ public interface CommentService {
     Comment create(CommentRequestDto commentRequestDto);
     void deleteById(Long id);
     void deleteCommentsByPublicationId(Long publicationId);
+    void deleteCommentsByUserId(Long userId);
+    void deleteCommentsByIds(List<Long> commentIds);
     List<Comment> findAll();
     void likeComment(Long userId, Long commentId);
     void dislikeComment(Long userId, Long commentId);

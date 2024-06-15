@@ -42,6 +42,11 @@ public class PublicationController {
         publicationService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
+    @DeleteMapping("/delete")
+    public ResponseEntity<Void> deletePublications(@RequestBody List<Long> publicationIds) {
+        publicationService.deletePublicationsByIds(publicationIds);
+        return ResponseEntity.noContent().build();
+    }
 
     @GetMapping("/id/{id}")
     public ResponseEntity<PublicationResponseDto> getPublicationById(@PathVariable Long id) {
@@ -144,5 +149,7 @@ public class PublicationController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+
+
 
 }

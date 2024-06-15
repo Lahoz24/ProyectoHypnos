@@ -67,6 +67,18 @@ public class PublicationServiceImpl implements PublicationService {
         publicationRepository.deleteById(id);
     }
     @Override
+    @Transactional
+    public void deletePublicationsByIds(List<Long> publicationIds) {
+        for (Long id : publicationIds) {
+            commentService.deleteCommentsByPublicationId(id);
+            likedPublicationRepository.deleteByPublicationId(id);
+        }
+        List<Publication> publications = publicationRepository.findAllById(publicationIds);
+        if (!publications.isEmpty()) {
+            publicationRepository.deleteAll(publications);
+        }
+    }
+    @Override
     public Publication create(PublicationRequestDto publicationRequestDto) {
         Publication publication = publicationMapper.toModel(publicationRequestDto);
         return publicationRepository.save(publication);

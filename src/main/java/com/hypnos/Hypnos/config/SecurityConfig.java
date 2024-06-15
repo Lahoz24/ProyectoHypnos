@@ -4,6 +4,9 @@ import com.hypnos.Hypnos.auth.JwtAuthenticationFilter;
 import com.hypnos.Hypnos.auth.JwtService;
 import com.hypnos.Hypnos.mappers.UserMapper;
 import com.hypnos.Hypnos.repositories.UserDetailsRepository;
+import com.hypnos.Hypnos.repositories.UserFollowingRepository;
+import com.hypnos.Hypnos.services.comment.CommentService;
+import com.hypnos.Hypnos.services.publication.PublicationService;
 import com.hypnos.Hypnos.services.user.UserServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,10 +32,20 @@ import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 public class SecurityConfig {
 
     private final UserDetailsRepository userDetailsRepository;
+    private final PublicationService publicationService;
+    private final CommentService commentService;
+    private final UserFollowingRepository userFollowingRepository;
     private final JwtService jwtService;
 
-    public SecurityConfig(UserDetailsRepository userDetailsRepository, JwtService jwtService) {
+    public SecurityConfig(UserDetailsRepository userDetailsRepository,
+                          PublicationService publicationService,
+                          CommentService commentService,
+                          UserFollowingRepository userFollowingRepository,
+                          JwtService jwtService) {
         this.userDetailsRepository = userDetailsRepository;
+        this.publicationService = publicationService;
+        this.commentService = commentService;
+        this.userFollowingRepository = userFollowingRepository;
         this.jwtService = jwtService;
     }
 
@@ -69,7 +82,7 @@ public class SecurityConfig {
 
     @Bean
     public UserDetailsService userDetailsService() {
-        return new UserServiceImpl(userDetailsRepository, passwordEncoder());
+        return new UserServiceImpl(userDetailsRepository, publicationService, commentService, userFollowingRepository, passwordEncoder());
     }
 
     @Bean

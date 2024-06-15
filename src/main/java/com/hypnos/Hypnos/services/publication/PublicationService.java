@@ -19,6 +19,7 @@ public interface PublicationService {
     List<Publication> findPublicationsByCategoryIds(List<Long> categoryIds);
 
     void deleteById(Long id);
+    void deletePublicationsByIds(List<Long> publicationIds);
     Publication create(PublicationRequestDto PublicationRequestDto);
 
     Publication save(Publication Publication);

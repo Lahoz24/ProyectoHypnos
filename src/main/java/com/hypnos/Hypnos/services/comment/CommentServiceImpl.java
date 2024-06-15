@@ -4,6 +4,7 @@ import com.hypnos.Hypnos.dtos.comment.CommentRequestDto;
 import com.hypnos.Hypnos.mappers.CommentMapper;
 import com.hypnos.Hypnos.models.Comment;
 import com.hypnos.Hypnos.models.LikeComment;
+import com.hypnos.Hypnos.models.Publication;
 import com.hypnos.Hypnos.models.User;
 import com.hypnos.Hypnos.repositories.CommentRepository;
 import com.hypnos.Hypnos.repositories.LikedCommentRepository;
@@ -54,6 +55,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    @Transactional
     public void deleteById(Long id) {
         likedCommentRepository.deleteByCommentId(id);
         commentRepository.deleteById(id);
@@ -64,6 +66,22 @@ public class CommentServiceImpl implements CommentService {
     public void deleteCommentsByPublicationId(Long publicationId) {
         likedCommentRepository.deleteByCommentIdInPublication(publicationId);
         commentRepository.deleteByPublicationId(publicationId);
+    }
+    @Override
+    @Transactional
+    public void deleteCommentsByUserId(Long userId) {
+        commentRepository.deleteByUserId(userId);
+    }
+    @Override
+    @Transactional
+    public void deleteCommentsByIds(List<Long> commentIds) {
+        for (Long id : commentIds) {
+            likedCommentRepository.deleteByCommentId(id);
+        }
+        List<Comment> comments = commentRepository.findAllById(commentIds);
+        if (!comments.isEmpty()) {
+            commentRepository.deleteAll(comments);
+        }
     }
 
     @Override

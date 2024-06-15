@@ -17,17 +17,26 @@ public class HypnosApplication {
 	public static void main(String[] args) {
 		System.out.println("LOADING...");
 		SpringApplication.run(HypnosApplication.class, args);
-		System.out.println("*******************************************************************************************************************************************************************************************");
-		System.out.println("*                                                                                                                                                      			                          *");
-		System.out.println("*                                                                                                                                                      			       			          *");
-		System.out.println("*                                                                                                                                                                           		      *");
-		System.out.println("*                                                                                   ¡BIENVENIDO                                                                            		          *");
-		System.out.println("*                                                                                    A HYPNOS!                                                                          		          *");
-		System.out.println("*                                                                                                                                                                           		      *");
-		System.out.println("*                                                                                                                                                      			            		      *");
-		System.out.println("*                                                                                                                                                                          			      *");
-		System.out.println("*******************************************************************************************************************************************************************************************");
-
+		System.out.println("                                 ");
+		System.out.println("                             (``'``''´´'``'´')");
+		System.out.println("                           (                  )");
+		System.out.println("                          (   PROYECTO HYPNOS  )");
+		System.out.println("                           (                  )");
+		System.out.println("                             (.,.,.,.,,..,,.)");
+		System.out.println("                          ()");
+		System.out.println("                      ()");
+		System.out.println("           .-\"''-.  _");
+		System.out.println("         .'       `( \\");
+		System.out.println("       @/            ')   ,--,__,-\"");
+		System.out.println("       /        /      \\ /     /   _/");
+		System.out.println("     __|           ,   |/         /");
+		System.out.println("   .~  `\\   / \\ ,  |   /");
+		System.out.println(" .~      `\\    `  /  _/   _/");
+		System.out.println(".~         `\\  ~~`__/    /");
+		System.out.println(" ~           `--'/");
+		System.out.println("            /   /    /");
+		System.out.println("           /  /'    /");
+		System.out.println("                     ");
 		System.out.println("Abre Postman en http://localhost:8080/api/auth/signup para registrarte");
 		System.out.println("Abre Postman en http://localhost:8080/api/auth/login para loguearte");
 	}

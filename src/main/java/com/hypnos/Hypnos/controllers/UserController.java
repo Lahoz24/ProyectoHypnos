@@ -54,6 +54,12 @@ public class UserController {
         userServiceImpl.deleteByAlias(alias);
         return ResponseEntity.noContent().build();
     }
+    @DeleteMapping("/delete")
+    public ResponseEntity<Void> deleteUsersByAliases(@RequestBody List<String> aliases) {
+        log.info("deleteUsersByAliases");
+        userServiceImpl.deleteUsersByAliases(aliases);
+        return ResponseEntity.noContent().build();
+    }
     @GetMapping("/{alias}")
     public ResponseEntity<UserResponseDto> getByAlias(@PathVariable String alias) {
         log.info("getByAlias");

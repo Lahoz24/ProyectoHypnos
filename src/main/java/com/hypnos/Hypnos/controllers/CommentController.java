@@ -76,6 +76,11 @@ public class CommentController {
         commentServiceImpl.deleteById(id);
         return ResponseEntity.noContent().build();
     }
+    @DeleteMapping("/delete")
+    public ResponseEntity<Void> deleteComments(@RequestBody List<Long> commentsIds) {
+        commentServiceImpl.deleteCommentsByIds(commentsIds);
+        return ResponseEntity.noContent().build();
+    }
 
     @PatchMapping("/{id}/like")
     public ResponseEntity<Void> likeOrDislikeComment(@PathVariable Long id, @RequestBody LikeRequestDto likeRequestDto) {
