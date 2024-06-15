@@ -27,9 +27,5 @@ public interface PublicationService {
     void likePublication(Long userId, Long publicationId);
     void dislikePublication(Long userId, Long publicationId);
     long getLikesCount(Long publicationId);
-
-
-
-
-
+    List<Publication> getLikedPublicationsByUserId(Long userId);
 }

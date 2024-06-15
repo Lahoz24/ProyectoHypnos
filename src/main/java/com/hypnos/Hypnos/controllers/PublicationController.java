@@ -115,6 +115,14 @@ public class PublicationController {
                 .collect(Collectors.toList());
         return ResponseEntity.ok(responseDtos);
     }
+    @GetMapping("/liked/{userId}")
+    public ResponseEntity<List<PublicationResponseDto>> getLikedPublications(@PathVariable Long userId) {
+        List<Publication> publications = publicationService.getLikedPublicationsByUserId(userId);
+        List<PublicationResponseDto> responseDtos = publications.stream()
+                .map(publicationMapper::toResponse)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(responseDtos);
+    }
 
     @PatchMapping("/{id}/like")
     public ResponseEntity<Void> likeOrDislikePublication(@PathVariable Long id, @RequestBody LikeRequestDto likeRequestDto) {
@@ -136,4 +144,5 @@ public class PublicationController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+
 }

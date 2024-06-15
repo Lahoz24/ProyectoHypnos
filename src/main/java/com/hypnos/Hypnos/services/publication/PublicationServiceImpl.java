@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -23,7 +24,6 @@ public class PublicationServiceImpl implements PublicationService {
 
     private final PublicationRepository publicationRepository;
     private final PublicationMapper publicationMapper;
-    private final CommentRepository commentRepository;
     private final CommentService commentService;
     private final LikedPublicationRepository likedPublicationRepository;
 
@@ -99,6 +99,12 @@ public class PublicationServiceImpl implements PublicationService {
     public long getLikesCount(Long publicationId) {
         return publicationRepository.countLikesByPublicationId(publicationId);
     }
-
+    @Override
+    public List<Publication> getLikedPublicationsByUserId(Long userId) {
+        List<LikePublication> likedPublications = likedPublicationRepository.findByUserId(userId);
+        return likedPublications.stream()
+                .map(LikePublication::getPublication)
+                .collect(Collectors.toList());
+    }
 
 }
