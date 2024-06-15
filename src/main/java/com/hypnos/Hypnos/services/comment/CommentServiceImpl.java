@@ -55,7 +55,15 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public void deleteById(Long id) {
+        likedCommentRepository.deleteByCommentId(id);
         commentRepository.deleteById(id);
+    }
+
+    @Override
+    @Transactional
+    public void deleteCommentsByPublicationId(Long publicationId) {
+        likedCommentRepository.deleteByCommentIdInPublication(publicationId);
+        commentRepository.deleteByPublicationId(publicationId);
     }
 
     @Override

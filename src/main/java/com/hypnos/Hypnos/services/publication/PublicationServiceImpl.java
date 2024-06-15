@@ -8,6 +8,7 @@ import com.hypnos.Hypnos.repositories.CommentRepository;
 import com.hypnos.Hypnos.repositories.LikedPublicationRepository;
 import com.hypnos.Hypnos.repositories.PublicationRepository;
 import com.hypnos.Hypnos.mappers.PublicationMapper;
+import com.hypnos.Hypnos.services.comment.CommentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,7 @@ public class PublicationServiceImpl implements PublicationService {
     private final PublicationRepository publicationRepository;
     private final PublicationMapper publicationMapper;
     private final CommentRepository commentRepository;
+    private final CommentService commentService;
     private final LikedPublicationRepository likedPublicationRepository;
 
 
@@ -58,11 +60,10 @@ public class PublicationServiceImpl implements PublicationService {
     }
 
     @Override
+    @Transactional
     public void deleteById(Long id) {
-        // Primero, elimina los comentarios asociados a la publicación
-        commentRepository.deleteByPublicationId(id);
-
-        // Luego, elimina la publicación
+        commentService.deleteCommentsByPublicationId(id);
+        likedPublicationRepository.deleteByPublicationId(id);
         publicationRepository.deleteById(id);
     }
     @Override

@@ -6,5 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface LikedPublicationRepository extends JpaRepository<LikePublication, Long> {
     boolean existsByUserIdAndPublicationId(Long userId, Long publicationId);
     void deleteByUserIdAndPublicationId(Long userId, Long publicationId);
+    void deleteByPublicationId(Long publicationId);
 }
 

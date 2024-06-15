@@ -59,4 +59,6 @@ public class CategoryServiceImpl implements CategoryService {
     public boolean existsByName(String name) {
         return categoryRepository.existsByName(name);
     }
+
+
 }

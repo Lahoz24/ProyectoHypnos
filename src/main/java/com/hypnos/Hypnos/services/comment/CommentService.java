@@ -1,12 +1,8 @@
 package com.hypnos.Hypnos.services.comment;
 
 import com.hypnos.Hypnos.dtos.comment.CommentRequestDto;
-import com.hypnos.Hypnos.models.Category;
 import com.hypnos.Hypnos.models.Comment;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 
-import java.util.Collection;
 import java.util.List;
 
 public interface CommentService {
@@ -17,9 +13,11 @@ public interface CommentService {
     Comment save(Comment comment);
     Comment create(CommentRequestDto commentRequestDto);
     void deleteById(Long id);
+    void deleteCommentsByPublicationId(Long publicationId);
     List<Comment> findAll();
     void likeComment(Long userId, Long commentId);
     void dislikeComment(Long userId, Long commentId);
     long getLikesCount(Long commentId);
+
 
 }
