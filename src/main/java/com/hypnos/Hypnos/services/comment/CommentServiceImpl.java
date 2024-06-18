@@ -107,7 +107,10 @@ public class CommentServiceImpl implements CommentService {
         return commentRepository.countLikesByCommentId(commentId);
     }
 
-
+    @Override
+    public long countCommentsByPublicationId(Long publicationId) {
+        return commentRepository.countByPublicationId(publicationId);
+    }
 
 
 }

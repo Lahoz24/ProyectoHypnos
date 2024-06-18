@@ -101,4 +101,9 @@ public class CommentController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+    @GetMapping("/publication/{publicationId}/count")
+    public ResponseEntity<Long> countCommentsByPublicationId(@PathVariable Long publicationId) {
+        long count = commentServiceImpl.countCommentsByPublicationId(publicationId);
+        return ResponseEntity.ok(count);
+    }
 }

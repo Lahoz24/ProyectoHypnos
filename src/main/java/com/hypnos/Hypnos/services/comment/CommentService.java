@@ -20,6 +20,7 @@ public interface CommentService {
     void likeComment(Long userId, Long commentId);
     void dislikeComment(Long userId, Long commentId);
     long getLikesCount(Long commentId);
+    long countCommentsByPublicationId(Long publicationId);
 
 
 }
